@@ -1,4 +1,4 @@
-﻿namespace SmartHome.Data.Enums
+﻿namespace SmartHome.Common.Enums
 {
     /// <summary>
     /// Вид сравнения

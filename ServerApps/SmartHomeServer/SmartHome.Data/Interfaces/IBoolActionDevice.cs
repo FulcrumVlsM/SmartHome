@@ -1,13 +1,13 @@
-﻿using System;
+﻿using SmartHome.Common.Enums;
+using System;
 using System.Collections.Generic;
-using SmartHome.Data.Enums;
 
 namespace SmartHome.Data.Interfaces
 {
     /// <summary>
     /// Интерфейс исполнительного устройства логического типа
     /// </summary>
-    public interface IBoolDevice
+    public interface IBoolActionDevice
     {
         /// <summary>
         /// Идентификатор
@@ -43,6 +43,11 @@ namespace SmartHome.Data.Interfaces
         /// <summary>
         /// Сваязанные с устройством правила
         /// </summary>
-        List<IDeviceRule> Rules { get; set; }
+        List<IRule> Rules { get; set; }
+
+        /// <summary>
+        /// Связанные с устройством событийные действия
+        /// </summary>
+        List<IBoolDeviceEventAction> EventActions { get; set; }
     }
 }

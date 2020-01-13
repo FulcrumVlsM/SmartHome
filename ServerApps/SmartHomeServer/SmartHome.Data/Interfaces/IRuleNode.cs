@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace SmartHome.Data.Interfaces
 {
@@ -10,8 +8,24 @@ namespace SmartHome.Data.Interfaces
     /// </summary>
     public interface IRuleNode
     {
-        int RuleID { get; set; }
+        /// <summary>
+        /// Правило, к которому относится узел
+        /// </summary>
+        IRule Rule { get; set; }
 
-        //TODO: здесь будут списки различных типов условий, но я их еще не описал
+        /// <summary>
+        /// Условия для логических датчиков
+        /// </summary>
+        List<IBoolSensorCondition> BoolSensorConditions { get; set; }
+
+        /// <summary>
+        /// Условия для числовых датчиков
+        /// </summary>
+        List<INumericSensorCondition> NumericSensorConditions { get; set; }
+
+        /// <summary>
+        /// Условия времени суток
+        /// </summary>
+        List<ITimeCondition> TimeConditions { get; set; }
     }
 }

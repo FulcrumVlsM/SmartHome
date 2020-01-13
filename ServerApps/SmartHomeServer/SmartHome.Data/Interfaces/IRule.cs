@@ -7,7 +7,7 @@ namespace SmartHome.Data.Interfaces
     /// <summary>
     /// Интерфейс описания правил для исполнительных устройств
     /// </summary>
-    public interface IDeviceRule
+    public interface IRule
     {
         /// <summary>
         /// Идентификатор
@@ -28,7 +28,12 @@ namespace SmartHome.Data.Interfaces
         /// <summary>
         /// Связанные исполнительные устройства
         /// </summary>
-        List<IBoolDevice> Devices { get; set; }
+        List<IBoolActionDevice> Devices { get; set; }
+
+        /// <summary>
+        /// Связанные событийные устройства
+        /// </summary>
+        List<IEventDevice> EventDevices { get; set; }
 
         /// <summary>
         /// Элементы условий. Каждый узел хранит условия, между которыми выполняется логическое И. 

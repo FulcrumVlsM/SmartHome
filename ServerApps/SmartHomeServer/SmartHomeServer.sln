@@ -13,6 +13,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartHome.DeviceEmulator", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartHome.Data", "SmartHome.Data\SmartHome.Data.csproj", "{51358091-DCCD-482C-9AD7-CE7469308938}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartHome.Common", "SmartHome.Common\SmartHome.Common.csproj", "{888DE2AA-1DBF-4762-BFAE-A72C8E430A82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartHome.Store", "SmartHome.Store\SmartHome.Store.csproj", "{2C04D28D-FF23-4B60-BAEF-B5E64146F2FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartHome.Store.EF", "SmartHome.Store.EF\SmartHome.Store.EF.csproj", "{16C8BABB-A572-4EE8-B41F-50B6BF93938E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +45,18 @@ Global
 		{51358091-DCCD-482C-9AD7-CE7469308938}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51358091-DCCD-482C-9AD7-CE7469308938}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51358091-DCCD-482C-9AD7-CE7469308938}.Release|Any CPU.Build.0 = Release|Any CPU
+		{888DE2AA-1DBF-4762-BFAE-A72C8E430A82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{888DE2AA-1DBF-4762-BFAE-A72C8E430A82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{888DE2AA-1DBF-4762-BFAE-A72C8E430A82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{888DE2AA-1DBF-4762-BFAE-A72C8E430A82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C04D28D-FF23-4B60-BAEF-B5E64146F2FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C04D28D-FF23-4B60-BAEF-B5E64146F2FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C04D28D-FF23-4B60-BAEF-B5E64146F2FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C04D28D-FF23-4B60-BAEF-B5E64146F2FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16C8BABB-A572-4EE8-B41F-50B6BF93938E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16C8BABB-A572-4EE8-B41F-50B6BF93938E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16C8BABB-A572-4EE8-B41F-50B6BF93938E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16C8BABB-A572-4EE8-B41F-50B6BF93938E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

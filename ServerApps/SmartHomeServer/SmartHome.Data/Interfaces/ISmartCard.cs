@@ -13,11 +13,6 @@ namespace SmartHome.Data.Interfaces
         string Key { get; set; }
 
         /// <summary>
-        /// Идентифкатор привязанного пользователя
-        /// </summary>
-        Guid UserID { get; set; }
-
-        /// <summary>
         /// Имя карты
         /// </summary>
         string Name { get; set; }
