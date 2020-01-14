@@ -1,9 +1,8 @@
 ﻿using SmartHome.Common.Enums;
-using System;
 
-namespace SmartHome.Data.Interfaces
+namespace SmartHome.Data.Models
 {
-    public interface ITimeCondition
+    public interface INumericSensorCondition
     {
         /// <summary>
         /// Связанный узел правила
@@ -11,9 +10,14 @@ namespace SmartHome.Data.Interfaces
         IRuleNode Node { get; set; }
 
         /// <summary>
+        /// Связанный датчик
+        /// </summary>
+        INumericSensor Sensor { get; set; }
+
+        /// <summary>
         /// Опорное значение
         /// </summary>
-        TimeSpan Value { get; set; }
+        float Value { get; set; }
 
         /// <summary>
         /// Режим сравнения

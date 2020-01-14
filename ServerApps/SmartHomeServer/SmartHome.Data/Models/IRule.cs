@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SmartHome.Data.Interfaces
+namespace SmartHome.Data.Models
 {
     /// <summary>
-    /// Интерфейс описания правил для исполнительных устройств
+    /// Интерфейс описания правил для конфигурации устройств
     /// </summary>
     public interface IRule
     {

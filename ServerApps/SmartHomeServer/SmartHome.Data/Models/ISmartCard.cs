@@ -1,12 +1,17 @@
 ﻿using System;
 
-namespace SmartHome.Data.Interfaces
+namespace SmartHome.Data.Models
 {
     /// <summary>
     /// Интерфейс, описывающий объект смарт-карты, которая используется для входа в дом
     /// </summary>
     public interface ISmartCard
     {
+        /// <summary>
+        /// Идентификатор
+        /// </summary>
+        int ID { get; set; }
+
         /// <summary>
         /// Ключ смарт-карты
         /// </summary>

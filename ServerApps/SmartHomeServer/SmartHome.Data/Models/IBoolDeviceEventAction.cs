@@ -1,6 +1,6 @@
 ﻿using SmartHome.Common.Enums;
 
-namespace SmartHome.Data.Interfaces
+namespace SmartHome.Data.Models
 {
     /// <summary>
     /// Интерфейс действия-реакции на событие

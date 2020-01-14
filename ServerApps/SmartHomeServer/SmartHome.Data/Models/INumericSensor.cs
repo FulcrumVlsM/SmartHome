@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace SmartHome.Data.Interfaces
+namespace SmartHome.Data.Models
 {
     /// <summary>
-    /// Интерфейс логического датчика
+    /// Интерфейс числового датчика
     /// </summary>
-    public interface IBoolSensor
+    public interface INumericSensor
     {
         /// <summary>
         /// Идентификатор
@@ -33,14 +33,14 @@ namespace SmartHome.Data.Interfaces
         DateTime LastActivity { get; set; }
 
         /// <summary>
-        /// Режим работы датчика
+        /// Состояние активности датчика
         /// </summary>
         bool ActivityMode { get; set; }
 
         /// <summary>
         /// Текущее значение
         /// </summary>
-        bool Value { get; set; }
+        float Value { get; set; }
 
         //TODO: еще не добавлен тип датчика
     }

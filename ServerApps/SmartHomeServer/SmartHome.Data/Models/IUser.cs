@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SmartHome.Data.Interfaces
+namespace SmartHome.Data.Models
 {
     /// <summary>
     /// Интерфейс описывающий пользователя (жильца дома)
@@ -11,7 +11,7 @@ namespace SmartHome.Data.Interfaces
         /// <summary>
         /// Идентификатор
         /// </summary>
-        Guid ID { get; set; }
+        int ID { get; set; }
 
         /// <summary>
         /// Имя пользователя
