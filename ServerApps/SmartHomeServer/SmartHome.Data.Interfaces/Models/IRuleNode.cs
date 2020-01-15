@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SmartHome.Data.Models
+namespace SmartHome.Data.Interfaces.Models
 {
     /// <summary>
     /// Интерфейс элемента условия правила для исполнительных устройств. 

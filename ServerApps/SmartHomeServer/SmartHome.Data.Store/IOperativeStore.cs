@@ -1,12 +1,8 @@
-﻿using SmartHome.Data;
-using SmartHome.Data.Models;
+﻿using SmartHome.Data.Interfaces.Models;
 
-namespace SmartHome.Store
+namespace SmartHome.Data.Store
 {
-    /// <summary>
-    /// Интерфейс хранилища конфигурации
-    /// </summary>
-    public interface IConfigurationManagementStore
+    public interface IOperativeStore
     {
         /// <summary>
         /// Репозиторий исполнительных устройств
@@ -29,8 +25,18 @@ namespace SmartHome.Store
         IRepository<INumericSensor> NumericSensors { get; }
 
         /// <summary>
+        /// Репозиторий пользователей
+        /// </summary>
+        IRepository<IUser> Users { get; set; }
+
+        /// <summary>
+        /// Репозиторий смарт-карт пользователей
+        /// </summary>
+        IReadOnlyRepository<ISmartCard> SmartCards { get; set; }
+
+        /// <summary>
         /// Репозиторий правил конфигурации
         /// </summary>
-        IRepository<IRule> Rules { get; }
+        IReadOnlyRepository<IRule> Rules { get; }
     }
 }

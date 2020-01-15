@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SmartHome.Data.Models
+namespace SmartHome.Data.Interfaces.Models
 {
     /// <summary>
     /// Интерфейс описания правил для конфигурации устройств

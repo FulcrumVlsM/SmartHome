@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SmartHome.Data.Models
+namespace SmartHome.Data.Interfaces.Models
 {
     /// <summary>
     /// Интерфейс исполнительного устройства логического типа

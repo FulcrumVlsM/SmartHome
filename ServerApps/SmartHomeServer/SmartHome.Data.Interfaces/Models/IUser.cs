@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SmartHome.Data.Models
+namespace SmartHome.Data.Interfaces.Models
 {
     /// <summary>
     /// Интерфейс описывающий пользователя (жильца дома)

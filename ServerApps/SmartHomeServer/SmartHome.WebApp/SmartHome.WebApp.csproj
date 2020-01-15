@@ -7,7 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SmartHome.Configuration\SmartHome.Configuration.csproj" />
     <ProjectReference Include="..\SmartHome.Controller\SmartHome.Controller.csproj" />
-    <ProjectReference Include="..\SmartHome.Store\SmartHome.Store.csproj" />
+    <ProjectReference Include="..\SmartHome.Data.Store\SmartHome.Data.Store.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace SmartHome.Data.Models
+﻿namespace SmartHome.Data.Interfaces.Models
 {
     /// <summary>
     /// Интерфейс, описывающий условие соответствия для логического датчика

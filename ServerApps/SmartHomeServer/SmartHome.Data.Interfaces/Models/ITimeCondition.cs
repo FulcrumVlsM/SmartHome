@@ -1,7 +1,7 @@
 ﻿using SmartHome.Common.Enums;
 using System;
 
-namespace SmartHome.Data.Models
+namespace SmartHome.Data.Interfaces.Models
 {
     public interface ITimeCondition
     {

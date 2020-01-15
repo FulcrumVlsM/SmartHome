@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SmartHome.Data.Models
+namespace SmartHome.Data.Interfaces.Models
 {
     interface IUserCondition
     {
