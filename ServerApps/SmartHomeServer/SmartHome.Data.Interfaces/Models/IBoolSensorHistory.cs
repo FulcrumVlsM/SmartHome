@@ -4,7 +4,7 @@ namespace SmartHome.Data.Interfaces.Models
 {
     public interface IBoolSensorHistory
     {
-        int ID { get; set; }
+        long ID { get; set; }
 
         bool Value { get; set; }
 

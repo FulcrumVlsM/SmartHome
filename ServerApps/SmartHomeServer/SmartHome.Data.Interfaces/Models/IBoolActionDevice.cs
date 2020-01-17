@@ -37,7 +37,7 @@ namespace SmartHome.Data.Interfaces.Models
         /// <summary>
         /// Дата и время последней активности компонента
         /// </summary>
-        DateTime LastActivity { get; set; }
+        DateTime LastActivityDate { get; set; }
 
 
         /// <summary>

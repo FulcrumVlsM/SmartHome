@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SmartHome.Data.Interfaces.Models
+﻿namespace SmartHome.Data.Interfaces.Models
 {
     public interface IUserActionHistory
     {
-        int ID { get; set; }
+        long ID { get; set; }
 
         bool Value { get; set; }
 

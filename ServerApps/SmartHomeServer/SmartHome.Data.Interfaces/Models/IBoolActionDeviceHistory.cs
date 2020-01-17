@@ -10,7 +10,7 @@ namespace SmartHome.Data.Interfaces.Models
         /// <summary>
         /// Идентификатор
         /// </summary>
-        public int ID { get; set; }
+        long ID { get; set; }
 
         /// <summary>
         /// Значение

@@ -4,7 +4,7 @@ namespace SmartHome.Data.Interfaces.Models
 {
     public interface INumericSensorHistory
     {
-        int ID { get; set; }
+        long ID { get; set; }
 
         float Value { get; set; }
 

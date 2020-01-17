@@ -28,7 +28,7 @@ namespace SmartHome.Data.Interfaces.Models
         /// <summary>
         /// Связанные исполнительные устройства
         /// </summary>
-        List<IBoolActionDevice> Devices { get; set; }
+        List<IBoolActionDevice> BoolActionDevices { get; set; }
 
         /// <summary>
         /// Связанные событийные устройства
