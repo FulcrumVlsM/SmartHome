@@ -8,6 +8,9 @@ namespace SmartHome.Data.Interfaces.Models
 
         DateTime CreateDate { get; set; }
 
-        IEventDevice Device { get; set; }
+        /// <summary>
+        /// Системное имя датчика, от которого пришло значение
+        /// </summary>
+        string SysName { get; set; }
     }
 }

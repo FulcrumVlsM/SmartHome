@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SmartHome.Data.Interfaces.Models
 {
@@ -41,6 +42,9 @@ namespace SmartHome.Data.Interfaces.Models
         /// Текущее значение
         /// </summary>
         float Value { get; set; }
+
+
+        List<INumericSensorCondition> Conditions { get; set; }
 
         //TODO: еще не добавлен тип датчика
     }

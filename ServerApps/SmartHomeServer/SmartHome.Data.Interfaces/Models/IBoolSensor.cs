@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SmartHome.Data.Interfaces.Models
 {
@@ -41,6 +42,11 @@ namespace SmartHome.Data.Interfaces.Models
         /// Текущее значение
         /// </summary>
         bool Value { get; set; }
+
+        /// <summary>
+        /// Условия, связанные с датчиком
+        /// </summary>
+        List<IBoolSensorCondition> Conditions { get; }
 
         //TODO: еще не добавлен тип датчика
     }

@@ -28,5 +28,10 @@ namespace SmartHome.Data.Interfaces.Models
         /// Смарт-карты, привязанные к пользователю
         /// </summary>
         List<ISmartCard> SmartCards { get; set; }
+
+        /// <summary>
+        /// Условия связанные с пользователем
+        /// </summary>
+        List<IUserCondition> Conditions { get; set; }
     }
 }

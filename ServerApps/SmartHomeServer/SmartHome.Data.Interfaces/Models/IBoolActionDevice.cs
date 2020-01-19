@@ -43,11 +43,11 @@ namespace SmartHome.Data.Interfaces.Models
         /// <summary>
         /// Сваязанные с устройством правила
         /// </summary>
-        List<IRule> Rules { get; set; }
+        List<IRule> Rules { get; }
 
         /// <summary>
         /// Связанные с устройством событийные действия
         /// </summary>
-        List<IBoolDeviceEventAction> EventActions { get; set; }
+        List<IBoolDeviceEventAction> EventActions { get; }
     }
 }

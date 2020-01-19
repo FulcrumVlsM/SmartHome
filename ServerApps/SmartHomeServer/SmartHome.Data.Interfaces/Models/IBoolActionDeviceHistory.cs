@@ -23,8 +23,8 @@ namespace SmartHome.Data.Interfaces.Models
         DateTime CreateDate { get; set; }
 
         /// <summary>
-        /// Исполнительное устройство
+        /// Системное имя датчика, от которого пришло значение
         /// </summary>
-        IBoolActionDevice Device { get; set; }
+        string SysName { get; set; }
     }
 }

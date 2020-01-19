@@ -2,7 +2,7 @@
 
 namespace SmartHome.Data.Interfaces.Models
 {
-    interface IUserCondition
+    public interface IUserCondition
     {
         /// <summary>
         /// Связанный узел правила
