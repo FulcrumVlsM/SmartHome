@@ -17,8 +17,13 @@ namespace SmartHome.Data.EF.Models
         public bool InHome { get; set; }
         
 
-        public List<ISmartCard> SmartCards { get; set; }
+        public List<SmartCard> SmartCards { get; set; }
 
-        public List<IUserCondition> Conditions { get; set; }
+        public List<UserCondition> Conditions { get; set; }
+
+
+        List<ISmartCard> IUser.SmartCards => SmartCards.ConvertAll<ISmartCard>(x => x);
+
+        List<IUserCondition> IUser.Conditions => Conditions.ConvertAll<IUserCondition>(x => x);
     }
 }

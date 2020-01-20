@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using SmartHome.Common.Enums;
 using SmartHome.Data.Interfaces.Models;
 
 namespace SmartHome.Data.EF.Models
@@ -22,10 +23,14 @@ namespace SmartHome.Data.EF.Models
         public DateTime LastActivity { get; set; }
         
         public bool ActivityMode { get; set; }
-        
+
+        public DeviceCategory Category { get; set; }
+
         public float Value { get; set; }
 
 
-        public List<INumericSensorCondition> Conditions { get; set; }
+        List<INumericSensorCondition> INumericSensor.Conditions => Conditions.ConvertAll<INumericSensorCondition>(x => x);
+
+        public List<NumericSensorCondition> Conditions { get; set; }
     }
 }

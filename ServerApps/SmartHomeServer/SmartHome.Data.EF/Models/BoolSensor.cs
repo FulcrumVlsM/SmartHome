@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using SmartHome.Common.Enums;
 using SmartHome.Data.Interfaces.Models;
 
 namespace SmartHome.Data.EF.Models
@@ -9,28 +10,30 @@ namespace SmartHome.Data.EF.Models
     internal class BoolSensor : IBoolSensor
     {
         [Key]
-        int IBoolSensor.ID { get; set; }
+        public int ID { get; set; }
 
         [Required]
         [MaxLength(1024)]
-        string IBoolSensor.SysName { get; set; }
+        public string SysName { get; set; }
 
         [Required]
-        string IBoolSensor.Name { get; set; }
+        public string Name { get; set; }
 
-        DateTime IBoolSensor.CreateDate { get; set; }
+        public DateTime CreateDate { get; set; }
 
-        DateTime IBoolSensor.LastActivity { get; set; }
+        public DateTime LastActivity { get; set; }
 
-        bool IBoolSensor.ActivityMode { get; set; }
+        public bool ActivityMode { get; set; }
 
-        bool IBoolSensor.Value { get; set; }
+        public DeviceCategory Category { get; set; }
+
+        public bool Value { get; set; }
 
 
         [NotMapped]
         List<IBoolSensorCondition> IBoolSensor.Conditions => Conditions.ConvertAll<IBoolSensorCondition>(x => x);
 
 
-        internal List<BoolSensorCondition> Conditions { get; set; }
+        public List<BoolSensorCondition> Conditions { get; set; }
     }
 }

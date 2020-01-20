@@ -28,17 +28,17 @@ namespace SmartHome.Data.Interfaces.Models
         /// <summary>
         /// Связанные исполнительные устройства
         /// </summary>
-        List<IBoolActionDevice> BoolActionDevices { get; set; }
+        List<IBoolActionDevice> BoolActionDevices { get; }
 
         /// <summary>
         /// Связанные событийные устройства
         /// </summary>
-        List<IEventDevice> EventDevices { get; set; }
+        List<IEventDevice> EventDevices { get; }
 
         /// <summary>
         /// Элементы условий. Каждый узел хранит условия, между которыми выполняется логическое И. 
         /// Между самими узлами действует логическое ИЛИ.
         /// </summary>
-        List<IRuleNode> Nodes { get; set; }
+        List<IRuleNode> Nodes { get; }
     }
 }

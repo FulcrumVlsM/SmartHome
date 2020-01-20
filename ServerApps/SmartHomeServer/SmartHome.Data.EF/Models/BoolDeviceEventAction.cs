@@ -7,11 +7,11 @@ namespace SmartHome.Data.EF.Models
 {
     internal class BoolDeviceEventAction : IBoolDeviceEventAction
     {
-        internal EventDevice EventDevice { get; set; }
+        public EventDevice EventDevice { get; set; }
 
-        internal BoolActionDevice Device { get; set; }
+        public BoolActionDevice Device { get; set; }
 
-        DeviceStateMode IBoolDeviceEventAction.TargetStateMode { get; set; }
+        public DeviceStateMode TargetStateMode { get; set; }
 
 
         [NotMapped]

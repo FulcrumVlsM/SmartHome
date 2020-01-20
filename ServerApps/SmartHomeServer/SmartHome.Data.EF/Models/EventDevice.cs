@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using SmartHome.Common.Enums;
 using SmartHome.Data.Interfaces.Models;
 
 namespace SmartHome.Data.EF.Models
@@ -24,9 +25,16 @@ namespace SmartHome.Data.EF.Models
         
         public DateTime LastEventDate { get; set; }
 
-        
-        public List<IRule> Conditions { get; set; }
-        
-        public List<IBoolDeviceEventAction> Actions { get; set; }
+        public DeviceCategory Category { get; set; }
+
+
+        List<IRule> IEventDevice.Conditions => Conditions.ConvertAll<IRule>(x => x);
+
+        List<IBoolDeviceEventAction> IEventDevice.Actions => Actions.ConvertAll<IBoolDeviceEventAction>(x => x);
+
+
+        public List<Rule> Conditions { get; set; }
+
+        public List<BoolDeviceEventAction> Actions { get; set; }
     }
 }

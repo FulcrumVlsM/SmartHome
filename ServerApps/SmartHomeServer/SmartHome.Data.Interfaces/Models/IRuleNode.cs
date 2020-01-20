@@ -16,16 +16,16 @@ namespace SmartHome.Data.Interfaces.Models
         /// <summary>
         /// Условия для логических датчиков
         /// </summary>
-        List<IBoolSensorCondition> BoolSensorConditions { get; set; }
+        List<IBoolSensorCondition> BoolSensorConditions { get; }
 
         /// <summary>
         /// Условия для числовых датчиков
         /// </summary>
-        List<INumericSensorCondition> NumericSensorConditions { get; set; }
+        List<INumericSensorCondition> NumericSensorConditions { get; }
 
         /// <summary>
         /// Условия времени суток
         /// </summary>
-        List<ITimeCondition> TimeConditions { get; set; }
+        List<ITimeCondition> TimeConditions { get; }
     }
 }

@@ -7,8 +7,15 @@ namespace SmartHome.Data.EF.Models
 {
     internal class UserCondition : IUserCondition
     {
-        public IRuleNode Node { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IUser User { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public bool Value { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public RuleNode Node { get; set; }
+
+        public User User { get; set; }
+
+        public bool Value { get; set; }
+
+
+        IRuleNode IUserCondition.Node { get => Node; set => throw new NotImplementedException(); }
+        
+        IUser IUserCondition.User { get => User; set => throw new NotImplementedException(); }
     }
 }

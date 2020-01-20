@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SmartHome.Common.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -39,15 +40,20 @@ namespace SmartHome.Data.Interfaces.Models
         /// </summary>
         DateTime LastEventDate { get; set; }
 
+        /// <summary>
+        /// Категория устройства
+        /// </summary>
+        DeviceCategory Category { get; set; }
+
 
         /// <summary>
         /// Условия для наступления действий при событии
         /// </summary>
-        List<IRule> Conditions { get; set; }
+        List<IRule> Conditions { get; }
 
         /// <summary>
         /// Действия в ответ на событие
         /// </summary>
-        List<IBoolDeviceEventAction> Actions { get; set; }
+        List<IBoolDeviceEventAction> Actions { get; }
     }
 }

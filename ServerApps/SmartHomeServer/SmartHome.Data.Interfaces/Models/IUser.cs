@@ -27,11 +27,11 @@ namespace SmartHome.Data.Interfaces.Models
         /// <summary>
         /// Смарт-карты, привязанные к пользователю
         /// </summary>
-        List<ISmartCard> SmartCards { get; set; }
+        List<ISmartCard> SmartCards { get; }
 
         /// <summary>
         /// Условия связанные с пользователем
         /// </summary>
-        List<IUserCondition> Conditions { get; set; }
+        List<IUserCondition> Conditions { get; }
     }
 }

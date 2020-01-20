@@ -1,15 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.ComponentModel.DataAnnotations;
 using SmartHome.Data.Interfaces.Models;
 
 namespace SmartHome.Data.EF.Models
 {
     internal class NumericSensorHistory : INumericSensorHistory
     {
-        public long ID { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public float Value { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public DateTime CreateDate { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string SysName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        [Key]
+        public long ID { get; set; }
+        
+        [Required]
+        public float Value { get; set; }
+        
+        public DateTime CreateDate { get; set; }
+        
+        [Required]
+        public string SysName { get; set; }
     }
 }

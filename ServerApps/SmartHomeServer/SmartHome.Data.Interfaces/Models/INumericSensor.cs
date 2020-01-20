@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SmartHome.Common.Enums;
+using System;
 using System.Collections.Generic;
 
 namespace SmartHome.Data.Interfaces.Models
@@ -39,13 +40,16 @@ namespace SmartHome.Data.Interfaces.Models
         bool ActivityMode { get; set; }
 
         /// <summary>
+        /// Категория устройства
+        /// </summary>
+        DeviceCategory Category { get; set; }
+
+        /// <summary>
         /// Текущее значение
         /// </summary>
         float Value { get; set; }
 
 
-        List<INumericSensorCondition> Conditions { get; set; }
-
-        //TODO: еще не добавлен тип датчика
+        List<INumericSensorCondition> Conditions { get; }
     }
 }

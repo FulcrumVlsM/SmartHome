@@ -39,6 +39,11 @@ namespace SmartHome.Data.Interfaces.Models
         /// </summary>
         DateTime LastActivityDate { get; set; }
 
+        /// <summary>
+        /// Категория устройства
+        /// </summary>
+        DeviceCategory Category { get; set; }
+
 
         /// <summary>
         /// Сваязанные с устройством правила

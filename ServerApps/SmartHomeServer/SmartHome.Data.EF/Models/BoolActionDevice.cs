@@ -10,31 +10,31 @@ namespace SmartHome.Data.EF.Models
     internal class BoolActionDevice : IBoolActionDevice
     {
         [Key]
-        int IBoolActionDevice.ID { get; set; }
+        public int ID { get; set; }
         
         [Required]
         [MaxLength(1024)]
-        string IBoolActionDevice.SysName { get; set; }
+        public string SysName { get; set; }
         
         [Required]
-        string IBoolActionDevice.Name { get; set; }
+        public string Name { get; set; }
         
-        DeviceStateMode IBoolActionDevice.ActivityMode { get; set; }
+        public DeviceStateMode ActivityMode { get; set; }
         
-        DateTime IBoolActionDevice.CreateDate { get; set; }
+        public DateTime CreateDate { get; set; }
         
-        DateTime IBoolActionDevice.LastActivityDate { get; set; }
+        public DateTime LastActivityDate { get; set; }
 
-        
-        [NotMapped]
+        public DeviceCategory Category { get; set; }
+
+
         List<IRule> IBoolActionDevice.Rules => Rules.ConvertAll<IRule>(x => x);
 
-        [NotMapped]
         List<IBoolDeviceEventAction> IBoolActionDevice.EventActions => EventActions.ConvertAll<IBoolDeviceEventAction>(x => x);
 
 
-        internal List<Rule> Rules { get; set; }
+        public List<Rule> Rules { get; set; }
 
-        internal List<BoolDeviceEventAction> EventActions { get; set; }
+        public List<BoolDeviceEventAction> EventActions { get; set; }
     }
 }

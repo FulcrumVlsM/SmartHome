@@ -14,11 +14,19 @@ namespace SmartHome.Data.EF.Models
         public string Name { get; set; }
         
         public DateTime CreateDate { get; set; }
-        
-        public List<IBoolActionDevice> BoolActionDevices { get; set; }
-        
-        public List<IEventDevice> EventDevices { get; set; }
-        
-        public List<IRuleNode> Nodes { get; set; }
+
+
+        List<IBoolActionDevice> IRule.BoolActionDevices => BoolActionDevices.ConvertAll<IBoolActionDevice>(x => x);
+
+        List<IEventDevice> IRule.EventDevices => EventDevices.ConvertAll<IEventDevice>(x => x);
+
+        List<IRuleNode> IRule.Nodes => Nodes.ConvertAll<IRuleNode>(x => x);
+
+
+        public List<BoolActionDevice> BoolActionDevices { get; set; }
+
+        public List<EventDevice> EventDevices { get; set; }
+
+        public List<RuleNode> Nodes { get; set; }
     }
 }
