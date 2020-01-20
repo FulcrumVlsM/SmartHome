@@ -8,17 +8,19 @@ namespace SmartHome.Data.EF.Models
 {
     internal class NumericSensorCondition : INumericSensorCondition
     {
-        IRuleNode INumericSensorCondition.Node { get => Node; set => throw new NotImplementedException(); }
-        
-        INumericSensor INumericSensorCondition.Sensor { get => Sensor; set => throw new NotImplementedException(); }
-        
+        public int RuleNodeID { get; set; }
+        public RuleNode Node { get; set; }
+
+        public int NumericSensorID { get; set; }
+        public NumericSensor Sensor { get; set; }
+
         public float Value { get; set; }
         
         public ComparisonMode ComparisonMode { get; set; }
 
 
-        public RuleNode Node { get; set; }
+        IRuleNode INumericSensorCondition.Node { get => Node; set => throw new NotImplementedException(); }
 
-        public NumericSensor Sensor { get; set; }
+        INumericSensor INumericSensorCondition.Sensor { get => Sensor; set => throw new NotImplementedException(); }
     }
 }

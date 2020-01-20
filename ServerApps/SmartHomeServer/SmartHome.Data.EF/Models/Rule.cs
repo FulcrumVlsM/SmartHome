@@ -16,16 +16,18 @@ namespace SmartHome.Data.EF.Models
         public DateTime CreateDate { get; set; }
 
 
-        List<IBoolActionDevice> IRule.BoolActionDevices => BoolActionDevices.ConvertAll<IBoolActionDevice>(x => x);
+        List<IRule2BoolActionDevice> IRule.Rule2BoolActionDevices => Rule2BoolActionDevices
+            .ConvertAll<IRule2BoolActionDevice>(x => x);
 
-        List<IEventDevice> IRule.EventDevices => EventDevices.ConvertAll<IEventDevice>(x => x);
+        List<IRule2EventDevice> IRule.Rule2EventDevices => Rule2EventDevices
+            .ConvertAll<IRule2EventDevice>(x => x);
 
         List<IRuleNode> IRule.Nodes => Nodes.ConvertAll<IRuleNode>(x => x);
 
 
-        public List<BoolActionDevice> BoolActionDevices { get; set; }
+        public List<Rule2BoolActionDevice> Rule2BoolActionDevices { get; set; }
 
-        public List<EventDevice> EventDevices { get; set; }
+        public List<Rule2EventDevice> Rule2EventDevices { get; set; }
 
         public List<RuleNode> Nodes { get; set; }
     }

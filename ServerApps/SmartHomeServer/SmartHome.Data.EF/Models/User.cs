@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 using SmartHome.Data.Interfaces.Models;
 
 namespace SmartHome.Data.EF.Models
 {
     internal class User : IUser
     {
-        [Key]
         public int ID { get; set; }
         
-        [Required]
-        [MaxLength(1024)]
         public string Name { get; set; }
         
         public bool InHome { get; set; }

@@ -6,6 +6,7 @@ namespace SmartHome.Data.EF.Models
 {
     internal class TimeCondition : ITimeCondition
     {
+        public int RuleNodeID { get; set; }
         public RuleNode Node { get; set; }
         
         public TimeSpan Value { get; set; }

@@ -49,7 +49,7 @@ namespace SmartHome.Data.Interfaces.Models
         /// <summary>
         /// Условия для наступления действий при событии
         /// </summary>
-        List<IRule> Conditions { get; }
+        List<IRule2EventDevice> Rule2EventDevices { get; }
 
         /// <summary>
         /// Действия в ответ на событие

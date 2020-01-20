@@ -48,7 +48,7 @@ namespace SmartHome.Data.Interfaces.Models
         /// <summary>
         /// Сваязанные с устройством правила
         /// </summary>
-        List<IRule> Rules { get; }
+        List<IRule2BoolActionDevice> Rule2BoolActionDevices { get; }
 
         /// <summary>
         /// Связанные с устройством событийные действия

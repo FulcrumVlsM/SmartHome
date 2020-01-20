@@ -6,6 +6,7 @@ namespace SmartHome.Data.EF.Models
 {
     internal class RuleNode : IRuleNode
     {
+        public int RuleID { get; set; }
         public Rule Rule { get; set; }
 
         public List<BoolSensorCondition> BoolSensorConditions { get; set; }

@@ -1,20 +1,19 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using SmartHome.Data.Interfaces.Models;
 
 namespace SmartHome.Data.EF.Models
 {
     internal class UserActionHistory : IUserActionHistory
     {
-        [Key]
         public long ID { get; set; }
-        
-        [Required]
-        public bool Value { get; set; }
-        
 
+        public bool Value { get; set; }
+
+
+        public int UserID { get; set; }
         public User User { get; set; }
 
+        public int SmartCardID { get; set; }
         public SmartCard SmartCard { get; set; }
 
 

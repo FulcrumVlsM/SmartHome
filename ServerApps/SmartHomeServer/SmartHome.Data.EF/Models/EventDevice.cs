@@ -9,14 +9,10 @@ namespace SmartHome.Data.EF.Models
 {
     internal class EventDevice : IEventDevice
     {
-        [Key]
         public int ID { get; set; }
 
-        [Required]
         public string Name { get; set; }
         
-        [Required]
-        [MaxLength(1024)]
         public string SysName { get; set; }
 
         public bool Enable { get; set; }
@@ -28,13 +24,14 @@ namespace SmartHome.Data.EF.Models
         public DeviceCategory Category { get; set; }
 
 
-        List<IRule> IEventDevice.Conditions => Conditions.ConvertAll<IRule>(x => x);
-
-        List<IBoolDeviceEventAction> IEventDevice.Actions => Actions.ConvertAll<IBoolDeviceEventAction>(x => x);
-
-
-        public List<Rule> Conditions { get; set; }
+        public List<Rule2EventDevice> Rule2EventDevices { get; set; }
 
         public List<BoolDeviceEventAction> Actions { get; set; }
+
+
+        List<IRule2EventDevice> IEventDevice.Rule2EventDevices => Rule2EventDevices
+            .ConvertAll<IRule2EventDevice>(x => x);
+
+        List<IBoolDeviceEventAction> IEventDevice.Actions => Actions.ConvertAll<IBoolDeviceEventAction>(x => x);
     }
 }

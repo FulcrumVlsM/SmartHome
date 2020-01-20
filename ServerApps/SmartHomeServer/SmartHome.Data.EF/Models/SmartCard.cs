@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using SmartHome.Data.Interfaces.Models;
 
 namespace SmartHome.Data.EF.Models
