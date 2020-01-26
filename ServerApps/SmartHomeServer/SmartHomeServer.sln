@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartHome.Controller", "Sma
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartHome.DeviceEmulator", "SmartHome.DeviceEmulator\SmartHome.DeviceEmulator.csproj", "{8174DD50-5963-497F-BAF8-B79275EEB927}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartHome.Data.Interfaces", "SmartHome.Data.Interfaces\SmartHome.Data.Interfaces.csproj", "{51358091-DCCD-482C-9AD7-CE7469308938}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartHome.Data", "SmartHome.Data\SmartHome.Data.csproj", "{51358091-DCCD-482C-9AD7-CE7469308938}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartHome.Common", "SmartHome.Common\SmartHome.Common.csproj", "{888DE2AA-1DBF-4762-BFAE-A72C8E430A82}"
 EndProject

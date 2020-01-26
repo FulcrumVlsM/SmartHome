@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SmartHome.Data.EF.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using SmartHome.Data.EF.Configurations;
+using SmartHome.Data.Models;
 
 namespace SmartHome.Data.EF
 {
@@ -47,6 +47,10 @@ namespace SmartHome.Data.EF
         {
             modelBuilder.ApplyConfiguration(new BoolActionDeviceConfiguration());
             modelBuilder.ApplyConfiguration(new BoolActionDeviceHistoryConfiguration());
+            modelBuilder.ApplyConfiguration(new BoolDeviceEventActionConfiguration());
+            modelBuilder.ApplyConfiguration(new BoolSensorConfiguration());
+            modelBuilder.ApplyConfiguration(new BoolSensorConditionConfiguration());
+            modelBuilder.ApplyConfiguration(new BoolSensorHistoryConfiguration());
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
-using SmartHome.Data.Interfaces.Models;
-using SmartHome.Data.Store;
+using SmartHome.Data.Models;
 
 namespace SmartHome.Controller.Entities
 {
@@ -14,7 +13,7 @@ namespace SmartHome.Controller.Entities
         
         private bool _enabled;
 
-        internal BoolActionDeviceEntity(IBoolActionDevice device) => Device = device;
+        internal BoolActionDeviceEntity(BoolActionDevice device) => Device = device;
 
 
         /// <summary>
@@ -43,6 +42,6 @@ namespace SmartHome.Controller.Entities
         /// <summary>
         /// Оригинальный объект устройства
         /// </summary>
-        internal IBoolActionDevice Device { get; }
+        internal BoolActionDevice Device { get; }
     }
 }

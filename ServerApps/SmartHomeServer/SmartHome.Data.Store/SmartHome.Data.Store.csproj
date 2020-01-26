@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SmartHome.Data.Interfaces\SmartHome.Data.Interfaces.csproj" />
     <ProjectReference Include="..\SmartHome.Data.EF\SmartHome.Data.EF.csproj" />
+    <ProjectReference Include="..\SmartHome.Data\SmartHome.Data.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,13 +1,13 @@
-﻿using SmartHome.Data.Interfaces.Models;
+﻿using SmartHome.Data.Models;
 
 namespace SmartHome.Controller.Entities
 {
     public class EventDeviceEntity
     {
-        private readonly IEventDevice _device;
+        private readonly EventDevice _device;
         private readonly IDeviceController _controller;
 
-        internal EventDeviceEntity(IEventDevice device, IDeviceController controller)
+        internal EventDeviceEntity(EventDevice device, IDeviceController controller)
         {
             _device = device;
             _controller = controller;

@@ -1,4 +1,4 @@
-﻿using SmartHome.Data.Interfaces.Models;
+﻿using SmartHome.Data.Models;
 
 namespace SmartHome.Controller.Entities
 {
@@ -9,7 +9,7 @@ namespace SmartHome.Controller.Entities
     {
         private readonly IDeviceController _controller;
 
-        internal BoolSensorEntity(IBoolSensor sensor, IDeviceController controller)
+        internal BoolSensorEntity(BoolSensor sensor, IDeviceController controller)
         {
             Sensor = sensor;
             _controller = controller;
@@ -29,6 +29,6 @@ namespace SmartHome.Controller.Entities
         /// <summary>
         /// Оригинальное устройство
         /// </summary>
-        internal IBoolSensor Sensor { get; }
+        internal BoolSensor Sensor { get; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SmartHome.Data.EF.Models;
+using SmartHome.Data.Models;
 
 namespace SmartHome.Data.EF.Configurations
 {
@@ -10,7 +10,8 @@ namespace SmartHome.Data.EF.Configurations
         {
             builder.HasKey(bad => bad.ID);
             builder.Property(bad => bad.SysName).IsRequired().HasMaxLength(1024);
-            builder.Property(bad => bad.Name).IsRequired();
+            builder.Property(bad => bad.Name).IsRequired().HasMaxLength(2048);
+            builder.Property(bad => bad.CreateDate).HasDefaultValueSql("GETDATE()");
 
             builder.HasIndex(bad => bad.SysName);
         }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using SmartHome.Data.Interfaces.Models;
+using SmartHome.Data.Models;
 using SmartHome.Data.Store;
 
 namespace SmartHome.Controller.Entities
@@ -12,7 +12,7 @@ namespace SmartHome.Controller.Entities
     {
         private readonly IDeviceController _controller;
         
-        internal NumericSensorEntity(INumericSensor sensor, IDeviceController controller)
+        internal NumericSensorEntity(NumericSensor sensor, IDeviceController controller)
         {
             Sensor = sensor;
             _controller = controller;
@@ -32,6 +32,6 @@ namespace SmartHome.Controller.Entities
         /// <summary>
         /// Оригинальное устройство
         /// </summary>
-        internal INumericSensor Sensor { get; }
+        internal NumericSensor Sensor { get; }
     }
 }
