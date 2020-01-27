@@ -11,7 +11,8 @@ namespace SmartHome.Data.EF.Configurations
             builder.HasKey(bsh => bsh.ID);
             builder.Property(bsh => bsh.SysName).IsRequired().HasMaxLength(1024);
             builder.Property(bsh => bsh.CreateDate).HasDefaultValueSql("GETDATE()");
-            builder.Property(bsh => bsh.Value).HasDefaultValueSql("0");
+            builder.HasIndex(bsh => bsh.SysName);
+            builder.HasIndex(bsh => new { bsh.SysName, bsh.CreateDate });
         }
     }
 }

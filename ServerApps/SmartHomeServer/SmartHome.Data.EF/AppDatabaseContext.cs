@@ -51,6 +51,13 @@ namespace SmartHome.Data.EF
             modelBuilder.ApplyConfiguration(new BoolSensorConfiguration());
             modelBuilder.ApplyConfiguration(new BoolSensorConditionConfiguration());
             modelBuilder.ApplyConfiguration(new BoolSensorHistoryConfiguration());
+            modelBuilder.ApplyConfiguration(new EventDeviceConfiguration());
+            modelBuilder.ApplyConfiguration(new EventDeviceHistoryConfiguration());
+            modelBuilder.ApplyConfiguration(new NumericSensorConfiguration());
+            modelBuilder.ApplyConfiguration(new NumericSensorConditionConfiguration());
+            modelBuilder.ApplyConfiguration(new NumericSensorHistoryConfiguration());
+            modelBuilder.ApplyConfiguration(new RuleConfiguration());
+            modelBuilder.ApplyConfiguration(new Rule2BoolActionDeviceConfiguration());
         }
     }
 }
