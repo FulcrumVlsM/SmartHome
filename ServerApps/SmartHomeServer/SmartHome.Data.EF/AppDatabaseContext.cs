@@ -58,6 +58,13 @@ namespace SmartHome.Data.EF
             modelBuilder.ApplyConfiguration(new NumericSensorHistoryConfiguration());
             modelBuilder.ApplyConfiguration(new RuleConfiguration());
             modelBuilder.ApplyConfiguration(new Rule2BoolActionDeviceConfiguration());
+            modelBuilder.ApplyConfiguration(new Rule2EventDeviceConfiguration());
+            modelBuilder.ApplyConfiguration(new RuleNodeConfiguration());
+            modelBuilder.ApplyConfiguration(new SmartCardConfiguration());
+            modelBuilder.ApplyConfiguration(new TimeConditionConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new UserActionHistoryConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConditionConfiguration());
         }
     }
 }

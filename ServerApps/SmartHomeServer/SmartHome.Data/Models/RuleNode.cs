@@ -4,6 +4,8 @@ namespace SmartHome.Data.Models
 {
     public class RuleNode
     {
+        public int ID { get; set; }
+
         public int RuleID { get; set; }
         public Rule Rule { get; set; }
 

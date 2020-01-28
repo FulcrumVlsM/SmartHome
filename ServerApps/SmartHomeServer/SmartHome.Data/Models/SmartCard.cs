@@ -10,6 +10,7 @@ namespace SmartHome.Data.Models
         
         public string Name { get; set; }
         
+        public int UserID { get; set; }
 
         public User User { get; set; }
     }
