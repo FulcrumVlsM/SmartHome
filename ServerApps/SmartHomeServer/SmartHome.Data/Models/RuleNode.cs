@@ -14,5 +14,7 @@ namespace SmartHome.Data.Models
         public List<NumericSensorCondition> NumericSensorConditions { get; set; }
 
         public List<TimeCondition> TimeConditions { get; set; }
+
+        public ICollection<UserCondition> UserConditions { get; set; }
     }
 }

@@ -8,7 +8,15 @@ namespace SmartHome.Data.EF.Configurations
     {
         public void Configure(EntityTypeBuilder<UserCondition> builder)
         {
-            builder.HasKey(uc => new { uc.RuleNodeID, uc.UserID });
+            builder.HasKey(uc => new { uc.RuleNodeID, uc.UserID }).IsClustered();
+
+            builder.HasOne(uc => uc.Node)
+                .WithMany(rn => rn.UserConditions)
+                .HasForeignKey(uc => uc.RuleNodeID);
+
+            builder.HasOne(uc => uc.User)
+                .WithMany(u => u.Conditions)
+                .HasForeignKey(uc => uc.UserID);
         }
     }
 }

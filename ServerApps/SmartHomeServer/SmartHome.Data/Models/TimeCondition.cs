@@ -5,6 +5,8 @@ namespace SmartHome.Data.Models
 {
     public class TimeCondition
     {
+        public int ID { get; set; }
+        
         public int RuleNodeID { get; set; }
         public RuleNode Node { get; set; }
         

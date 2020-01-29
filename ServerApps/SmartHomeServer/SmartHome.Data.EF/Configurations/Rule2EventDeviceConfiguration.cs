@@ -8,7 +8,15 @@ namespace SmartHome.Data.EF.Configurations
     {
         public void Configure(EntityTypeBuilder<Rule2EventDevice> builder)
         {
-            builder.HasKey(r2ed => new { r2ed.EventDeviceID, r2ed.RuleID });
+            builder.HasKey(r2ed => new { r2ed.EventDeviceID, r2ed.RuleID }).IsClustered();
+
+            builder.HasOne(r2ed => r2ed.Rule)
+                .WithMany(r => r.Rule2EventDevices)
+                .HasForeignKey(r2ed => r2ed.RuleID);
+
+            builder.HasOne(r2ed => r2ed.Device)
+                .WithMany(ed => ed.Rule2EventDevices)
+                .HasForeignKey(r2ed => r2ed.EventDeviceID);
         }
     }
 }

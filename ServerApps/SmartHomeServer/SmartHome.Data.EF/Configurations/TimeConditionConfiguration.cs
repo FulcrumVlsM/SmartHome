@@ -8,8 +8,11 @@ namespace SmartHome.Data.EF.Configurations
     {
         public void Configure(EntityTypeBuilder<TimeCondition> builder)
         {
-            builder.HasKey(tc => tc.RuleNodeID);
-            builder.HasIndex(tc => new { tc.RuleNodeID, tc.Value, tc.ComparisonMode }).IsUnique();
+            builder.HasKey(tc => tc.ID).IsClustered();
+
+            builder.HasOne(tc => tc.Node)
+                .WithMany(rn => rn.TimeConditions)
+                .HasForeignKey(tc => tc.RuleNodeID);
         }
     }
 }

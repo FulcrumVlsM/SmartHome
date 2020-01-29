@@ -21,5 +21,8 @@ namespace SmartHome.Data.Models
         public DeviceCategory Category { get; set; }
 
         public bool Value { get; set; }
+
+
+        public ICollection<BoolSensorCondition> Conditions { get; set; }
     }
 }

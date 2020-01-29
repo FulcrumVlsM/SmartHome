@@ -17,7 +17,7 @@ namespace SmartHome.Data.EF.Configurations
             builder.Property(history => history.CreateDate).HasDefaultValueSql("GETDATE()");
 
             builder.HasIndex(history => history.SysName);
-            builder.HasIndex(history => new { history.SysName, history.CreateDate });
+            builder.HasIndex(history => history.CreateDate);
         }
     }
 }
