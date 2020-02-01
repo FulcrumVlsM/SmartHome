@@ -1,5 +1,5 @@
 ﻿using SmartHome.Data;
-using SmartHome.Data.Interfaces.Models;
+using SmartHome.Data.Models;
 
 namespace SmartHome.Store
 {
@@ -11,31 +11,31 @@ namespace SmartHome.Store
         /// <summary>
         /// Репозиторий исполнительных устройств
         /// </summary>
-        IRepository<IBoolActionDevice> BoolActionDevices { get; }
+        IRepository<BoolActionDevice> BoolActionDevices { get; }
 
         /// <summary>
         /// Репозиторий логических датчиков
         /// </summary>
-        IRepository<IBoolSensor> BoolSensors { get; }
+        IRepository<BoolSensor> BoolSensors { get; }
 
         /// <summary>
         /// Репозиторий событийных устройств
         /// </summary>
-        IRepository<IEventDevice> EventDevices { get; }
+        IRepository<EventDevice> EventDevices { get; }
 
         /// <summary>
         /// Репозиторий измерительных датчиков
         /// </summary>
-        IRepository<INumericSensor> NumericSensors { get; }
+        IRepository<NumericSensor> NumericSensors { get; }
 
         /// <summary>
         /// Репозиторий пользователей
         /// </summary>
-        IRepository<IUser> Users { get; set; }
+        IRepository<User> Users { get; set; }
 
         /// <summary>
         /// Репозиторий правил конфигурации
         /// </summary>
-        IRepository<IRule> Rules { get; }
+        IRepository<Rule> Rules { get; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using SmartHome.Data.Interfaces.Models;
+﻿using SmartHome.Data.Models;
 
 namespace SmartHome.Data.Store
 {
@@ -10,26 +10,26 @@ namespace SmartHome.Data.Store
         /// <summary>
         /// Репозиторий логов логических исполнительных устройств
         /// </summary>
-        IRepository<IBoolActionDeviceHistory> BoolActionDeviceHistory { get; }
+        IRepository<BoolActionDeviceHistory> BoolActionDeviceHistory { get; }
 
         /// <summary>
         /// Репозиторий логов логических датчиков
         /// </summary>
-        IRepository<IBoolSensorHistory> BoolSensorHistory { get; }
+        IRepository<BoolSensorHistory> BoolSensorHistory { get; }
 
         /// <summary>
         /// Репозиторий логов событийных устройств
         /// </summary>
-        IRepository<IEventDeviceHistory> EventDeviceHistory { get; }
+        IRepository<EventDeviceHistory> EventDeviceHistory { get; }
 
         /// <summary>
         /// Репозиторий логов измерительных датчиков
         /// </summary>
-        IRepository<INumericSensorHistory> NumericSensorHistory { get; }
+        IRepository<NumericSensorHistory> NumericSensorHistory { get; }
 
         /// <summary>
         /// Репозиторий логов активности пользователей
         /// </summary>
-        IRepository<IUserActionHistory> UserActionHistory { get; }
+        IRepository<UserActionHistory> UserActionHistory { get; }
     }
 }
