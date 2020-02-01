@@ -12,10 +12,10 @@ namespace SmartHome.Data.Models
         public DateTime CreateDate { get; set; }
 
 
-        public List<Rule2BoolActionDevice> Rule2BoolActionDevices { get; set; }
+        public ICollection<Rule2BoolActionDevice> Rule2BoolActionDevices { get; set; }
 
-        public List<Rule2EventDevice> Rule2EventDevices { get; set; }
+        public ICollection<Rule2EventDevice> Rule2EventDevices { get; set; }
 
-        public List<RuleNode> Nodes { get; set; }
+        public ICollection<RuleNode> Nodes { get; set; }
     }
 }

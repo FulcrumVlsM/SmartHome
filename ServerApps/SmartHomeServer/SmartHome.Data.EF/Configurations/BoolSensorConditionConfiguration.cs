@@ -8,8 +8,7 @@ namespace SmartHome.Data.EF.Configurations
     {
         public void Configure(EntityTypeBuilder<BoolSensorCondition> builder)
         {
-            builder.HasKey(bsc => new { bsc.BoolSensorID, bsc.RuleNodeID });
-            builder.Property(bsc => bsc.RequiredValue);
+            builder.HasKey(bsc => new { bsc.BoolSensorID, bsc.RuleNodeID }).IsClustered();
 
             builder.HasOne(bsc => bsc.Sensor)
                 .WithMany(bs => bs.Conditions)

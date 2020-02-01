@@ -8,11 +8,12 @@ namespace SmartHome.Data.EF.Configurations
     {
         public void Configure(EntityTypeBuilder<NumericSensorHistory> builder)
         {
-            builder.HasKey(nsh => nsh.ID);
+            builder.HasKey(nsh => nsh.ID).IsClustered();
             builder.Property(nsh => nsh.SysName).IsRequired().HasMaxLength(1024);
             builder.Property(nsh => nsh.CreateDate).HasDefaultValueSql("GETDATE()");
-            builder.HasIndex(nsh => nsh.SysName);
-            builder.HasIndex(nsh => new { nsh.CreateDate, nsh.SysName });
+
+            builder.HasIndex(nsh => nsh.SysName).IncludeProperties(nsh => nsh.CreateDate)
+                .HasName("IX_NumericSensorHistory_SysName_CreateDate");
         }
     }
 }

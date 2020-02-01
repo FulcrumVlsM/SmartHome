@@ -8,8 +8,9 @@ namespace SmartHome.Data.EF.Configurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.HasKey(u => u.ID);
+            builder.HasKey(u => u.ID).IsClustered();
             builder.Property(u => u.Name).IsRequired().HasMaxLength(512);
+            builder.Property(u => u.Enable).HasDefaultValue(true);
         }
     }
 }

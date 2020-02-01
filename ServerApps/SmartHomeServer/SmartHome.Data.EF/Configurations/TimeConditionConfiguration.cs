@@ -9,6 +9,7 @@ namespace SmartHome.Data.EF.Configurations
         public void Configure(EntityTypeBuilder<TimeCondition> builder)
         {
             builder.HasKey(tc => tc.ID).IsClustered();
+            builder.HasIndex(tc => tc.RuleNodeID).HasName("IX_TimeCondition_RuleNodeID");
 
             builder.HasOne(tc => tc.Node)
                 .WithMany(rn => rn.TimeConditions)

@@ -40,7 +40,7 @@ namespace SmartHome.Data.EF
 
         public AppDatabaseContext()
         {
-            //Database.EnsureCreated();
+            Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

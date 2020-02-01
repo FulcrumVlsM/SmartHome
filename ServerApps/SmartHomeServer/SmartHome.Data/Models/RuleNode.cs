@@ -9,11 +9,11 @@ namespace SmartHome.Data.Models
         public int RuleID { get; set; }
         public Rule Rule { get; set; }
 
-        public List<BoolSensorCondition> BoolSensorConditions { get; set; }
+        public ICollection<BoolSensorCondition> BoolSensorConditions { get; set; }
 
-        public List<NumericSensorCondition> NumericSensorConditions { get; set; }
+        public ICollection<NumericSensorCondition> NumericSensorConditions { get; set; }
 
-        public List<TimeCondition> TimeConditions { get; set; }
+        public ICollection<TimeCondition> TimeConditions { get; set; }
 
         public ICollection<UserCondition> UserConditions { get; set; }
     }

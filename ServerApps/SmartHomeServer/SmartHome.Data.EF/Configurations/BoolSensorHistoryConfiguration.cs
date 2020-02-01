@@ -8,11 +8,12 @@ namespace SmartHome.Data.EF.Configurations
     {
         public void Configure(EntityTypeBuilder<BoolSensorHistory> builder)
         {
-            builder.HasKey(bsh => bsh.ID);
+            builder.HasKey(bsh => bsh.ID).IsClustered();
             builder.Property(bsh => bsh.SysName).IsRequired().HasMaxLength(1024);
             builder.Property(bsh => bsh.CreateDate).HasDefaultValueSql("GETDATE()");
-            builder.HasIndex(bsh => bsh.SysName);
-            builder.HasIndex(bsh => new { bsh.SysName, bsh.CreateDate });
+
+            builder.HasIndex(bsh => bsh.SysName).IncludeProperties(bsh => bsh.CreateDate)
+                .HasName("IX_BoolSensorHistory_SysName_CreateDate");
         }
     }
 }

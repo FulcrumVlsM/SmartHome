@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SmartHome.Data.Models
 {
@@ -13,5 +14,8 @@ namespace SmartHome.Data.Models
         public int UserID { get; set; }
 
         public User User { get; set; }
+
+
+        public ICollection<UserActionHistory> History { get; set; }
     }
 }

@@ -8,11 +8,13 @@ namespace SmartHome.Data.EF.Configurations
     {
         public void Configure(EntityTypeBuilder<NumericSensor> builder)
         {
-            builder.HasKey(ns => ns.ID);
+            builder.HasKey(ns => ns.ID).IsClustered();
             builder.Property(ns => ns.SysName).IsRequired().HasMaxLength(1024);
             builder.Property(ns => ns.Name).IsRequired().HasMaxLength(2048);
             builder.Property(ns => ns.CreateDate).HasDefaultValueSql("GETDATE()");
             builder.Property(ns => ns.LastActivity).HasDefaultValueSql("GETDATE()");
+
+            builder.HasIndex(ns => ns.SysName).IsUnique().HasName("UX_NumericSensor_SysName");
         }
     }
 }

@@ -23,6 +23,6 @@ namespace SmartHome.Data.Models
         public float Value { get; set; }
 
 
-        public List<NumericSensorCondition> Conditions { get; set; }
+        public ICollection<NumericSensorCondition> Conditions { get; set; }
     }
 }

@@ -21,8 +21,8 @@ namespace SmartHome.Data.Models
         public DeviceCategory Category { get; set; }
 
 
-        public List<Rule2BoolActionDevice> Rule2BoolActionDevices { get; set; }
+        public ICollection<Rule2BoolActionDevice> Rule2BoolActionDevices { get; set; }
 
-        public List<BoolDeviceEventAction> EventActions { get; set; }
+        public ICollection<BoolDeviceEventAction> EventActions { get; set; }
     }
 }

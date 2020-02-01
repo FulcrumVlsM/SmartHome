@@ -8,9 +8,15 @@ namespace SmartHome.Data.EF.Configurations
     {
         public void Configure(EntityTypeBuilder<UserActionHistory> builder)
         {
-            builder.HasKey(uah => uah.ID);
-            builder.HasIndex(uah => uah.SmartCardID);
-            builder.HasIndex(uah => uah.UserID);
+            builder.HasKey(uah => uah.ID).IsClustered();
+            builder.HasIndex(uah => uah.SmartCardID).HasName("IX_UserActionHistory_SmartCardID");
+            builder.HasIndex(uah => uah.UserID).HasName("IX_UserActionHistory_UserID");
+
+            builder.HasOne(uah => uah.User).WithMany(u => u.History)
+                .HasForeignKey(uah => uah.UserID);
+
+            builder.HasOne(uah => uah.SmartCard).WithMany(sc => sc.History)
+                .HasForeignKey(uah => uah.SmartCardID);
         }
     }
 }

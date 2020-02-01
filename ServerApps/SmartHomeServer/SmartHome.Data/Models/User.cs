@@ -9,10 +9,14 @@ namespace SmartHome.Data.Models
         public string Name { get; set; }
         
         public bool InHome { get; set; }
+
+        public bool Enable { get; set; }
         
 
-        public List<SmartCard> SmartCards { get; set; }
+        public ICollection<SmartCard> SmartCards { get; set; }
 
-        public List<UserCondition> Conditions { get; set; }
+        public ICollection<UserCondition> Conditions { get; set; }
+
+        public ICollection<UserActionHistory> History { get; set; }
     }
 }
