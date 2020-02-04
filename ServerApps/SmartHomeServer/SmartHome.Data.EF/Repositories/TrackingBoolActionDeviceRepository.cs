@@ -2,35 +2,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Microsoft.EntityFrameworkCore;
 using SmartHome.Data.Models;
 
 namespace SmartHome.Data.EF.Repositories
 {
-    class BoolActionDeviceRepository : IRepository<BoolActionDevice>
+    public class TrackingBoolActionDeviceRepository : IRepository<BoolActionDevice>
     {
-        private readonly AppDatabaseContext _context;
+        protected readonly AppDatabaseContext _context;
 
-        public BoolActionDeviceRepository(AppDatabaseContext context) => _context = context;
+        public TrackingBoolActionDeviceRepository(AppDatabaseContext context) => _context = context;
 
         
-        public BoolActionDevice this[int id] => _context.BoolActionDevices.FirstOrDefault(bad => bad.ID == id);
+        public virtual BoolActionDevice this[int id] => _context.BoolActionDevices.FirstOrDefault(bad => bad.ID == id);
 
-        public BoolActionDevice this[string sysName] => _context.BoolActionDevices
-            .FirstOrDefault(bad => bad.SysName == sysName);
+        public virtual BoolActionDevice this[string sysName] =>
+            _context.BoolActionDevices.FirstOrDefault(bad => bad.SysName == sysName);
 
         public void Add(BoolActionDevice item) => _context.BoolActionDevices.Add(item);
 
         public bool Delete(int id)
         {
             var device = _context.BoolActionDevices.FirstOrDefault(bad => bad.ID == id);
-            if(_context.Entry(device).State == EntityState.Unchanged)
-            {
-                _context.BoolActionDevices.Remove(device);
-                return true;
-            }
-            else return false;
+            return Delete(device);
         }
 
         public bool Delete(BoolActionDevice item)
@@ -51,11 +45,6 @@ namespace SmartHome.Data.EF.Repositories
             else return false;
         }
 
-        IEnumerator IEnumerable.GetEnumerator() => _context.BoolActionDevices.ToList().GetEnumerator();
-
-        public IEnumerator<BoolActionDevice> GetEnumerator() => _context.BoolActionDevices.ToList().GetEnumerator();
-
-
         public void Save() => _context.SaveChanges();
 
         public bool Update(BoolActionDevice item)
@@ -75,5 +64,12 @@ namespace SmartHome.Data.EF.Repositories
             }
             else return false;
         }
+
+
+
+        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)_context.BoolActionDevices).GetEnumerator();
+
+        public virtual IEnumerator<BoolActionDevice> GetEnumerator() => 
+            ((IEnumerable<BoolActionDevice>)_context.BoolActionDevices).GetEnumerator();
     }
 }
