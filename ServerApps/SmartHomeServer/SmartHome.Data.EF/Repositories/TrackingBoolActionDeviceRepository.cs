@@ -11,20 +11,28 @@ namespace SmartHome.Data.EF.Repositories
     {
         protected readonly AppDatabaseContext _context;
 
+        protected virtual IQueryable<BoolActionDevice> BoolActionDevices =>
+            _context.BoolActionDevices.Include(bad => bad.Rule2BoolActionDevices).ThenInclude(r2bad => r2bad.Rule)
+            .Include(bad => bad.EventActions).ThenInclude(bdea => bdea.EventDevice);
+
         public TrackingBoolActionDeviceRepository(AppDatabaseContext context) => _context = context;
 
         
-        public virtual BoolActionDevice this[int id] => _context.BoolActionDevices.FirstOrDefault(bad => bad.ID == id);
+        public virtual BoolActionDevice this[int id] => 
+            BoolActionDevices.FirstOrDefault(bad => bad.ID == id);
 
         public virtual BoolActionDevice this[string sysName] =>
-            _context.BoolActionDevices.FirstOrDefault(bad => bad.SysName == sysName);
+            BoolActionDevices.FirstOrDefault(bad => bad.SysName == sysName);
+
+        public virtual BoolActionDevice this[BoolActionDevice item] => this[item.ID];
 
         public void Add(BoolActionDevice item) => _context.BoolActionDevices.Add(item);
 
         public bool Delete(int id)
         {
             var device = _context.BoolActionDevices.FirstOrDefault(bad => bad.ID == id);
-            return Delete(device);
+            if (device != null) return Delete(device);
+            else return false;
         }
 
         public bool Delete(BoolActionDevice item)
@@ -67,9 +75,8 @@ namespace SmartHome.Data.EF.Repositories
 
 
 
-        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)_context.BoolActionDevices).GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)BoolActionDevices).GetEnumerator();
 
-        public virtual IEnumerator<BoolActionDevice> GetEnumerator() => 
-            ((IEnumerable<BoolActionDevice>)_context.BoolActionDevices).GetEnumerator();
+        public virtual IEnumerator<BoolActionDevice> GetEnumerator() => BoolActionDevices.GetEnumerator();
     }
 }

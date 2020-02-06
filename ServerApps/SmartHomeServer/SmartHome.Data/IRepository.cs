@@ -7,6 +7,8 @@ namespace SmartHome.Data
         T this[int id] { get; }
 
         T this[string sysName] { get; }
+
+        T this[T item] { get; }
         
         void Add(T item);
 
