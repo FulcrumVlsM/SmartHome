@@ -30,7 +30,7 @@ namespace SmartHome.Data.EF.Repositories
 
         public bool Delete(int id)
         {
-            var device = _context.BoolActionDevices.FirstOrDefault(bad => bad.ID == id);
+            var device = this[id];
             if (device != null) return Delete(device);
             else return false;
         }
