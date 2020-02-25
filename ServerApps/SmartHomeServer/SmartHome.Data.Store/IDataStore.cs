@@ -1,4 +1,5 @@
 ﻿using SmartHome.Data.Models;
+using System;
 
 namespace SmartHome.Data.Store
 {

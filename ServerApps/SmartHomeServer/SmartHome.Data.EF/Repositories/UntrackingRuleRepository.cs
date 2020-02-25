@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartHome.Data.Models;
+using System;
 using System.Linq;
 
 namespace SmartHome.Data.EF.Repositories
 {
-    class UntrackingRuleRepository : TrackingRuleRepository
+    public class UntrackingRuleRepository : TrackingRuleRepository, IDisposable
     {
         public UntrackingRuleRepository(AppDatabaseContext context) : base(context) { }
 
@@ -15,5 +16,7 @@ namespace SmartHome.Data.EF.Repositories
             .Include(r => r.Nodes).ThenInclude(rn => rn.UserConditions)
             .Include(r => r.Rule2BoolActionDevices).ThenInclude(r2bad => r2bad.Device)
             .Include(r => r.Rule2EventDevices).ThenInclude(r2ed => r2ed.Device);
+
+        public void Dispose() => _context.Dispose();
     }
 }

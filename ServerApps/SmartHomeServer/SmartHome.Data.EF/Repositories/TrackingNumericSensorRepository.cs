@@ -7,7 +7,7 @@ using SmartHome.Data.Models;
 
 namespace SmartHome.Data.EF.Repositories
 {
-    public class TrackingNumericSensorRepository : IRepository<NumericSensor>
+    public class TrackingNumericSensorRepository : IRepository<NumericSensor>, IDisposable
     {
         protected readonly AppDatabaseContext _context;
 
@@ -73,5 +73,7 @@ namespace SmartHome.Data.EF.Repositories
         IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)NumericSensors).GetEnumerator();
 
         public IEnumerator<NumericSensor> GetEnumerator() => NumericSensors.GetEnumerator();
+
+        public void Dispose() => _context.Dispose();
     }
 }

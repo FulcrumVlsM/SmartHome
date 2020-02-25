@@ -7,7 +7,7 @@ using SmartHome.Data.Models;
 
 namespace SmartHome.Data.EF.Repositories
 {
-    class TrackingEventDeviceRepository : IRepository<EventDevice>
+    public class TrackingEventDeviceRepository : IRepository<EventDevice>, IDisposable
     {
         protected readonly AppDatabaseContext _context;
 
@@ -74,5 +74,7 @@ namespace SmartHome.Data.EF.Repositories
         IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)EventDevices).GetEnumerator();
 
         public virtual IEnumerator<EventDevice> GetEnumerator() => EventDevices.GetEnumerator();
+
+        public void Dispose() => _context.Dispose();
     }
 }

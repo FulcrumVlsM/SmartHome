@@ -8,7 +8,7 @@ using SmartHome.Data.Models;
 
 namespace SmartHome.Data.EF.Repositories
 {
-    public class UntrackingUserRepository : IRepository<User>
+    public class UntrackingUserRepository : IRepository<User>, IDisposable
     {
         protected readonly AppDatabaseContext _context;
 
@@ -75,5 +75,7 @@ namespace SmartHome.Data.EF.Repositories
         IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)Users).GetEnumerator();
 
         public IEnumerator<User> GetEnumerator() => Users.GetEnumerator();
+
+        public void Dispose() => _context.Dispose();
     }
 }

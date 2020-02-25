@@ -2,13 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Microsoft.EntityFrameworkCore;
 using SmartHome.Data.Models;
 
 namespace SmartHome.Data.EF.Repositories
 {
-    public class TrackingSmartCardRepository : IRepository<SmartCard>
+    public class TrackingSmartCardRepository : IRepository<SmartCard>, IDisposable
     {
         protected readonly AppDatabaseContext _context;
 
@@ -74,5 +73,7 @@ namespace SmartHome.Data.EF.Repositories
         IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)SmartCards).GetEnumerator();
 
         public IEnumerator<SmartCard> GetEnumerator() => SmartCards.GetEnumerator();
+
+        public void Dispose() => _context.Dispose();
     }
 }

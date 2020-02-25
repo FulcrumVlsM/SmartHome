@@ -8,7 +8,7 @@ using SmartHome.Data.Models;
 
 namespace SmartHome.Data.EF.Repositories
 {
-    public class EventDeviceHistoryRepository : IHistoryRepository<EventDeviceHistory>
+    public class EventDeviceHistoryRepository : IHistoryRepository<EventDeviceHistory>, IDisposable
     {
         private readonly AppDatabaseContext _context;
 
@@ -30,5 +30,7 @@ namespace SmartHome.Data.EF.Repositories
         IEnumerator IEnumerable.GetEnumerator() => History.GetEnumerator();
 
         public IEnumerator<EventDeviceHistory> GetEnumerator() => History.GetEnumerator();
+
+        public void Dispose() => _context.Dispose();
     }
 }

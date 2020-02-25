@@ -7,7 +7,7 @@ using SmartHome.Data.Models;
 
 namespace SmartHome.Data.EF.Repositories
 {
-    public class TrackingBoolActionDeviceRepository : IRepository<BoolActionDevice>
+    public class TrackingBoolActionDeviceRepository : IRepository<BoolActionDevice>, IDisposable
     {
         protected readonly AppDatabaseContext _context;
 
@@ -78,5 +78,7 @@ namespace SmartHome.Data.EF.Repositories
         IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)BoolActionDevices).GetEnumerator();
 
         public virtual IEnumerator<BoolActionDevice> GetEnumerator() => BoolActionDevices.GetEnumerator();
+
+        public void Dispose() => _context.Dispose();
     }
 }
