@@ -7,7 +7,7 @@ using SmartHome.Data.Models;
 
 namespace SmartHome.Data.EF
 {
-    internal class AppDatabaseContext : DbContext
+    public class AppDatabaseContext : DbContext
     {
         //Устройства
         public DbSet<BoolActionDevice> BoolActionDevices { get; set; }

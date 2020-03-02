@@ -2,14 +2,22 @@
 
 namespace SmartHome.Data
 {
-    public interface IRepository<T> : IReadOnlyRepository<T>
+    public interface IRepository<T> : IEnumerable<T>
     {
-        bool Add(T item);
+        T this[int id] { get; }
 
-        bool Add(IEnumerable<T> items);
+        T this[string sysName] { get; }
 
-        void Update(T item);
+        T this[T item] { get; }
+        
+        void Add(T item);
 
-        void Delete(T item);
+        bool Update(T item);
+
+        bool Delete(int id);
+
+        bool Delete(T item);
+
+        void Save();
     }
 }
