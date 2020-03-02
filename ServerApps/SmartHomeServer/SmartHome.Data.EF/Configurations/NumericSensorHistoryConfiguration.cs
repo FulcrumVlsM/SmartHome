@@ -4,10 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace SmartHome.Data.EF.Configurations
 {
-    class NumericSensorHistoryConfiguration : IEntityTypeConfiguration<NumericSensorHistory>
+    class NumericSensorHistoryConfiguration : IEntityTypeConfiguration<NumericSensorHistoryItem>
     {
-        public void Configure(EntityTypeBuilder<NumericSensorHistory> builder)
+        public void Configure(EntityTypeBuilder<NumericSensorHistoryItem> builder)
         {
+            builder.ToTable("NumericSensorHistory");
             builder.HasKey(nsh => nsh.ID).IsClustered();
             builder.Property(nsh => nsh.SysName).IsRequired().HasMaxLength(1024);
             builder.Property(nsh => nsh.CreateDate).HasDefaultValueSql("GETDATE()");

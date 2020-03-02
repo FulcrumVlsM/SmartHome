@@ -26,16 +26,16 @@ namespace SmartHome.Data.EF
         public DbSet<RuleNode> RuleNodes { get; set; }
 
         //Логи работы устройств
-        public DbSet<BoolActionDeviceHistory> BoolActionDeviceHistory { get; set; }
-        public DbSet<BoolSensorHistory> BoolSensorHistory { get; set; }
-        public DbSet<EventDeviceHistory> EventDeviceHistory { get; set; }
-        public DbSet<NumericSensorHistory> NumericSensorHistory { get; set; }
+        public DbSet<BoolActionDeviceHistoryItem> BoolActionDeviceHistory { get; set; }
+        public DbSet<BoolSensorHistoryItem> BoolSensorHistory { get; set; }
+        public DbSet<EventDeviceHistoryItem> EventDeviceHistory { get; set; }
+        public DbSet<NumericSensorHistoryItem> NumericSensorHistory { get; set; }
 
         //Пользователи и СКУД
         public DbSet<User> Users { get; set; }
         public DbSet<SmartCard> SmartCards { get; set; }
         public DbSet<UserCondition> UserConditions { get; set; }
-        public DbSet<UserActionHistory> UserActionHistory { get; set; }
+        public DbSet<UserActionHistoryItem> UserActionHistory { get; set; }
 
 
         public AppDatabaseContext()

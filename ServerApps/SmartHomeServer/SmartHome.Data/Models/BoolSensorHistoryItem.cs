@@ -2,7 +2,7 @@
 
 namespace SmartHome.Data.Models
 {
-    public class BoolSensorHistory
+    public class BoolSensorHistoryItem
     {
         public long ID { get; set; }
         

@@ -2,11 +2,11 @@
 
 namespace SmartHome.Data.Models
 {
-    public class BoolActionDeviceHistory
+    public class NumericSensorHistoryItem
     {
         public long ID { get; set; }
-        
-        public bool Value { get; set; }
+
+        public float Value { get; set; }
         
         public DateTime CreateDate { get; set; }
         

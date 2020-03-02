@@ -8,14 +8,14 @@ using SmartHome.Data.Models;
 
 namespace SmartHome.Data.EF.Repositories
 {
-    public class NumericSensorHistoryRepository : IHistoryRepository<NumericSensorHistory>, IDisposable
+    public class NumericSensorHistoryRepository : IHistoryRepository<NumericSensorHistoryItem>, IDisposable
     {
         private readonly AppDatabaseContext _context;
 
         public NumericSensorHistoryRepository(AppDatabaseContext context) => _context = context;
 
 
-        private IQueryable<NumericSensorHistory> History => _context.NumericSensorHistory.AsNoTracking();
+        private IQueryable<NumericSensorHistoryItem> History => _context.NumericSensorHistory.AsNoTracking();
 
         public Type ElementType => History.ElementType;
 
@@ -23,13 +23,13 @@ namespace SmartHome.Data.EF.Repositories
 
         public IQueryProvider Provider => History.Provider;
 
-        public void Add(NumericSensorHistory item) => _context.NumericSensorHistory.Add(item);
+        public void Add(NumericSensorHistoryItem item) => _context.NumericSensorHistory.Add(item);
 
         public void Save() => _context.SaveChanges();
 
         IEnumerator IEnumerable.GetEnumerator() => History.GetEnumerator();
 
-        public IEnumerator<NumericSensorHistory> GetEnumerator() => History.GetEnumerator();
+        public IEnumerator<NumericSensorHistoryItem> GetEnumerator() => History.GetEnumerator();
 
         public void Dispose() => _context.Dispose();
     }

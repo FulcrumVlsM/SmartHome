@@ -2,11 +2,9 @@
 
 namespace SmartHome.Data.Models
 {
-    public class NumericSensorHistory
+    public class EventDeviceHistoryItem
     {
         public long ID { get; set; }
-
-        public float Value { get; set; }
         
         public DateTime CreateDate { get; set; }
         

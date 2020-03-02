@@ -6,19 +6,19 @@ namespace SmartHome.Data.Store.Stores
 {
     internal class EFHistoryStore : IHistoryStore
     {
-        public IHistoryRepository<BoolActionDeviceHistory> BoolActionDeviceHistory =>
+        public IHistoryRepository<BoolActionDeviceHistoryItem> BoolActionDeviceHistory =>
             new BoolActionDeviceHistoryRepository(new AppDatabaseContext());
 
-        public IHistoryRepository<BoolSensorHistory> BoolSensorHistory =>
+        public IHistoryRepository<BoolSensorHistoryItem> BoolSensorHistory =>
             new BoolSensorHistoryRepository(new AppDatabaseContext());
 
-        public IHistoryRepository<EventDeviceHistory> EventDeviceHistory =>
+        public IHistoryRepository<EventDeviceHistoryItem> EventDeviceHistory =>
             new EventDeviceHistoryRepository(new AppDatabaseContext());
 
-        public IHistoryRepository<NumericSensorHistory> NumericSensorHistory =>
+        public IHistoryRepository<NumericSensorHistoryItem> NumericSensorHistory =>
             new NumericSensorHistoryRepository(new AppDatabaseContext());
 
-        public IHistoryRepository<UserActionHistory> UserActionHistory =>
+        public IHistoryRepository<UserActionHistoryItem> UserActionHistory =>
             new UserActionHistoryRepository(new AppDatabaseContext());
     }
 }

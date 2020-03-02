@@ -4,10 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace SmartHome.Data.EF.Configurations
 {
-    class BoolSensorHistoryConfiguration : IEntityTypeConfiguration<BoolSensorHistory>
+    class BoolSensorHistoryConfiguration : IEntityTypeConfiguration<BoolSensorHistoryItem>
     {
-        public void Configure(EntityTypeBuilder<BoolSensorHistory> builder)
+        public void Configure(EntityTypeBuilder<BoolSensorHistoryItem> builder)
         {
+            builder.ToTable("BoolSensorHistory");
             builder.HasKey(bsh => bsh.ID).IsClustered();
             builder.Property(bsh => bsh.SysName).IsRequired().HasMaxLength(1024);
             builder.Property(bsh => bsh.CreateDate).HasDefaultValueSql("GETDATE()");

@@ -4,14 +4,14 @@ namespace SmartHome.Data.Store
 {
     public interface IHistoryStore
     {
-        IHistoryRepository<BoolActionDeviceHistory> BoolActionDeviceHistory { get; }
+        IHistoryRepository<BoolActionDeviceHistoryItem> BoolActionDeviceHistory { get; }
 
-        IHistoryRepository<BoolSensorHistory> BoolSensorHistory { get; }
+        IHistoryRepository<BoolSensorHistoryItem> BoolSensorHistory { get; }
 
-        IHistoryRepository<EventDeviceHistory> EventDeviceHistory { get; }
+        IHistoryRepository<EventDeviceHistoryItem> EventDeviceHistory { get; }
 
-        IHistoryRepository<NumericSensorHistory> NumericSensorHistory { get; }
+        IHistoryRepository<NumericSensorHistoryItem> NumericSensorHistory { get; }
 
-        IHistoryRepository<UserActionHistory> UserActionHistory { get; }
+        IHistoryRepository<UserActionHistoryItem> UserActionHistory { get; }
     }
 }

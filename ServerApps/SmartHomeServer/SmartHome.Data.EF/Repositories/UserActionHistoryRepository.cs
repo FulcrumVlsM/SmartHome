@@ -8,14 +8,14 @@ using SmartHome.Data.Models;
 
 namespace SmartHome.Data.EF.Repositories
 {
-    public class UserActionHistoryRepository : IHistoryRepository<UserActionHistory>, IDisposable
+    public class UserActionHistoryRepository : IHistoryRepository<UserActionHistoryItem>, IDisposable
     {
         private readonly AppDatabaseContext _context;
 
         public UserActionHistoryRepository(AppDatabaseContext context) => _context = context;
 
 
-        private IQueryable<UserActionHistory> History => _context.UserActionHistory.AsNoTracking()
+        private IQueryable<UserActionHistoryItem> History => _context.UserActionHistory.AsNoTracking()
             .Include(uah => uah.SmartCard).Include(uah => uah.User);
 
         public Type ElementType => History.ElementType;
@@ -24,13 +24,13 @@ namespace SmartHome.Data.EF.Repositories
 
         public IQueryProvider Provider => History.Provider;
 
-        public void Add(UserActionHistory item) => _context.UserActionHistory.Add(item);
+        public void Add(UserActionHistoryItem item) => _context.UserActionHistory.Add(item);
 
         public void Save() => _context.SaveChanges();
 
         IEnumerator IEnumerable.GetEnumerator() => History.GetEnumerator();
 
-        public IEnumerator<UserActionHistory> GetEnumerator() => History.GetEnumerator();
+        public IEnumerator<UserActionHistoryItem> GetEnumerator() => History.GetEnumerator();
 
         public void Dispose() => _context.Dispose();
     }

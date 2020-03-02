@@ -1,6 +1,6 @@
 ﻿namespace SmartHome.Data.Models
 {
-    public class UserActionHistory
+    public class UserActionHistoryItem
     {
         public long ID { get; set; }
 
