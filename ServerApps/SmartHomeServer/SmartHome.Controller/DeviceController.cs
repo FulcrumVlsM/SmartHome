@@ -5,6 +5,7 @@ using System.Text;
 using SmartHome.Controller.Values;
 using SmartHome.Data.Models;
 using SmartHome.Data.Store;
+using SmartHome.Controller.Comparators;
 
 namespace SmartHome.Controller
 {
@@ -49,6 +50,21 @@ namespace SmartHome.Controller
         private IEnumerable<BoolActionDevice> GetAffectedBoolDevices(string sensorName)
         {
             return new List<BoolActionDevice>();
+        }
+
+        private void Refresh(IEnumerable<BoolActionDevice> affectedDevices)
+        {
+            foreach(var affectedDevice in affectedDevices)
+            {
+                //найти правила
+                IEnumerable<int> rulesIDList = affectedDevice.Rule2BoolActionDevices.Select(x => x.RuleID);
+                var rules = _dataStore.Rules.Where(rule => rulesIDList.Contains(rule.ID));
+
+                //выяснить требуемое значение
+                bool requiredValue = rules.Any(rule => rule.Nodes.All(node => node.NumericSensorConditions.All(condition => new NumericSensorConditionComparator(condition).IsRight())));
+
+                //если не совпадает, обновить и сгенерить событие
+            }
         }
     }
 }
