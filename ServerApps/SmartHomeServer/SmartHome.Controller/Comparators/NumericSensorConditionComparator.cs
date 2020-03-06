@@ -8,11 +8,7 @@ namespace SmartHome.Controller.Comparators
     {
         private readonly NumericSensorCondition _condition;
 
-        public NumericSensorConditionComparator(NumericSensorCondition condition)
-        {
-            if (condition == null) throw new ArgumentNullException(nameof(condition));
-            _condition = condition;
-        }
+        public NumericSensorConditionComparator(NumericSensorCondition condition) => _condition = condition ?? throw new ArgumentNullException(nameof(condition));
 
 
         public bool IsRight() => _condition.ComparisonMode.GetComparator(_condition).IsRight();

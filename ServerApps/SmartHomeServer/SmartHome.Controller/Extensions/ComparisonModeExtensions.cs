@@ -20,5 +20,20 @@ namespace SmartHome.Controller.Extensions
                 default: throw new InvalidOperationException($"Недопустимое значение перечислителя ComparisonMode: {(int)comparisonMode}");
             }
         }
+
+
+        internal static IComparator GetComparator(this ComparisonMode comparisonMode, TimeCondition condition)
+        {
+            switch (comparisonMode)
+            {
+                case ComparisonMode.NotEqual: return new TimeNotEqualComparator(condition);
+                case ComparisonMode.Equal: return new TimeEqualComparator(condition);
+                case ComparisonMode.LessThanOrEqual: return new TimeLessThanOrEqualComparator(condition);
+                case ComparisonMode.MoreOrEqual: return new TimeMoreOrEqualComparator(condition);
+                case ComparisonMode.More: return new TimeMoreCondition(condition);
+                case ComparisonMode.LessThan: return new TimeLessThanComparator(condition);
+                default: throw new InvalidOperationException($"Недопустимое значение перечислителя ComparisonMode: {(int)comparisonMode}");
+            }
+        }
     }
 }

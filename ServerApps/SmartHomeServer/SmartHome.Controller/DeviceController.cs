@@ -6,6 +6,7 @@ using SmartHome.Controller.Values;
 using SmartHome.Data.Models;
 using SmartHome.Data.Store;
 using SmartHome.Controller.Comparators;
+using SmartHome.Common.Enums;
 
 namespace SmartHome.Controller
 {
@@ -54,16 +55,28 @@ namespace SmartHome.Controller
 
         private void Refresh(IEnumerable<BoolActionDevice> affectedDevices)
         {
-            foreach(var affectedDevice in affectedDevices)
+            foreach (var affectedDevice in affectedDevices)
             {
                 //найти правила
                 IEnumerable<int> rulesIDList = affectedDevice.Rule2BoolActionDevices.Select(x => x.RuleID);
                 var rules = _dataStore.Rules.Where(rule => rulesIDList.Contains(rule.ID));
 
                 //выяснить требуемое значение
-                bool requiredValue = rules.Any(rule => rule.Nodes.All(node => node.NumericSensorConditions.All(condition => new NumericSensorConditionComparator(condition).IsRight())));
+                bool requiredValue = rules
+                    .Any(rule => rule.Nodes
+                        .All(node =>
+                        {
+                            return node.BoolSensorConditions.All(condition => new BoolSensorConditionComparator(condition).IsRight())
+                                    && node.NumericSensorConditions.All(condition => new NumericSensorConditionComparator(condition).IsRight())
+                                    && node.TimeConditions.All(condition => new TimeConditionComparator(condition).IsRight())
+                                    && node.UserConditions.All(condition => new UserConditionComparator(condition).IsRight());
+                        }));
 
                 //если не совпадает, обновить и сгенерить событие
+                if(affectedDevice.ActivityMode == DeviceStateMode.Auto)
+                {
+                    //
+                }
             }
         }
     }
