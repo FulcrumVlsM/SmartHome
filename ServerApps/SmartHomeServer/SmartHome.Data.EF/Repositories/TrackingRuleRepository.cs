@@ -15,10 +15,10 @@ namespace SmartHome.Data.EF.Repositories
 
 
         protected virtual IQueryable<Rule> Rules =>
-            _context.Rules.Include(r => r.Nodes).ThenInclude(rn => rn.BoolSensorConditions)
-            .Include(r => r.Nodes).ThenInclude(rn => rn.NumericSensorConditions)
+            _context.Rules.Include(r => r.Nodes).ThenInclude(rn => rn.BoolSensorConditions).ThenInclude(condition => condition.Sensor)
+            .Include(r => r.Nodes).ThenInclude(rn => rn.NumericSensorConditions).ThenInclude(condition => condition.Sensor)
             .Include(r => r.Nodes).ThenInclude(rn => rn.TimeConditions)
-            .Include(r => r.Nodes).ThenInclude(rn => rn.UserConditions)
+            .Include(r => r.Nodes).ThenInclude(rn => rn.UserConditions).ThenInclude(condition => condition.User)
             .Include(r => r.Rule2BoolActionDevices).ThenInclude(r2bad => r2bad.Device)
             .Include(r => r.Rule2EventDevices).ThenInclude(r2ed => r2ed.Device);
 

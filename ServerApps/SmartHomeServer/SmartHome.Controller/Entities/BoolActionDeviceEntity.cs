@@ -1,27 +1,49 @@
 ﻿using SmartHome.Common.Enums;
+using SmartHome.Data.Models;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SmartHome.Controller.Entities
 {
     public class BoolActionDeviceEntity
     {
-        private BoolActionDeviceEntity() { }
-
+        private readonly BoolActionDevice _device;
         
-        public string SysName { get; set; }
+        public BoolActionDeviceEntity(BoolActionDevice device, bool value)
+        {
+            _device = device;
+            _value = value;
+        }
 
-        public DeviceStateMode DeviceStateMode { get; set; }
 
-        public DateTime LastActivityDate { get; set; }
+        public string SysName => _device.SysName;
 
-        public string Value { get; set; }
+        public DeviceStateMode DeviceStateMode => _device.ActivityMode;
+
+
+        private bool _value;
+        public bool Value
+        {
+            get => _value;
+            internal set
+            {
+                _value = value;
+                OnStateChanged?.Invoke(value);
+            }
+        }
 
         
         public event Action<bool> OnStateChanged;
 
 
-        //добавить фабричный метод
+        /// <summary>
+        /// Возможность по внешнему сигналу изменить текущее состояние устройства. 
+        /// Необходимо устройствам, которые после получения сигнала выполняют действие и возвращаются в исходное состояние
+        /// </summary>
+        /// <param name="value"></param>
+        public void SelfAssign(bool value)
+        {
+            Value = value;
+            //TODO: самоизменение значения должно логгироваться
+        }
     }
 }
