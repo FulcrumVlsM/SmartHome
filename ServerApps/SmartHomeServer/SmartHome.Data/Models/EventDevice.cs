@@ -21,8 +21,13 @@ namespace SmartHome.Data.Models
         public DeviceCategory Category { get; set; }
 
 
+        public int UserEventActionID { get; set; }
+
+        public UserEventAction UserEventAction { get; set; }
+
+
         public ICollection<Rule2EventDevice> Rule2EventDevices { get; set; }
 
-        public ICollection<BoolDeviceEventAction> Actions { get; set; }
+        public ICollection<BoolDeviceEventAction> BoolDeviceActions { get; set; }
     }
 }

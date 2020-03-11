@@ -11,7 +11,7 @@ namespace SmartHome.Data.EF.Repositories
 
         protected override IQueryable<EventDevice> EventDevices =>
             _context.EventDevices.AsNoTracking().Include(ed => ed.Rule2EventDevices).ThenInclude(r2ed => r2ed.Rule)
-            .Include(ed => ed.Actions).ThenInclude(bdea => bdea.Device);
+            .Include(ed => ed.BoolDeviceActions).ThenInclude(bdea => bdea.Device);
 
         public void Dispose() => _context.Dispose();
     }

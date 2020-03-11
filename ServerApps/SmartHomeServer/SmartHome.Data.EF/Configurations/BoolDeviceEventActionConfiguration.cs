@@ -11,7 +11,7 @@ namespace SmartHome.Data.EF.Configurations
             builder.HasKey(bdea => new { bdea.BoolActionDeviceID, bdea.EventDeviceID }).IsClustered();
 
             builder.HasOne(bdea => bdea.EventDevice)
-                .WithMany(ed => ed.Actions)
+                .WithMany(ed => ed.BoolDeviceActions)
                 .HasForeignKey(bdea => bdea.EventDeviceID);
 
             builder.HasOne(bdea => bdea.Device)

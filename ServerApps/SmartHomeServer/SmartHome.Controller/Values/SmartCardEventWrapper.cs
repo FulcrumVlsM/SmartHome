@@ -6,7 +6,7 @@ namespace SmartHome.Controller.Values
 {
     public class SmartCardEventWrapper
     {
-        public string SensorName { get; set; }
+        public string EventDeviceName { get; set; }
 
         public string CardKey { get; set; }
     }

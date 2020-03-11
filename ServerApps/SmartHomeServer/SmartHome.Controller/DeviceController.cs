@@ -53,16 +53,16 @@ namespace SmartHome.Controller
             var eventDevice = eventRepository.FirstOrDefault(device => device.SysName == eventDeviceName);
             if (eventDevice != null)
             {
-                //найти все связанные устройства, установить значения
                 var rules = ruleRepository.Where(rule => rule.Rule2EventDevices.Any(r2ed => r2ed.Device.SysName == eventDeviceName));
-                var boolActionDevices = eventDevice.Actions.Select(bdea => new { bdea.Device, bdea.TargetStateMode });
+                var boolActionDevices = eventDevice.BoolDeviceActions.Select(bdea => new { bdea.Device, bdea.TargetStateMode });
 
                 if (CheckRules(rules))
                 {
                     foreach(var device in boolActionDevices)
                     {
-                        //TODO
+                        device.Device.ActivityMode = device.TargetStateMode;
                     }
+                    eventRepository.Save();
                 }
                 
                 //записать в историю
@@ -71,6 +71,7 @@ namespace SmartHome.Controller
                     CreateDate = DateTime.Now,
                     SysName = eventDeviceName
                 });
+                historyRepository.Save();
                 return true;
             }
             else return false;
@@ -78,7 +79,26 @@ namespace SmartHome.Controller
 
         public bool ThrowSmartCardEvent(SmartCardEventWrapper smartCardEventWrapper)
         {
-            throw new NotImplementedException();
+            var smartKeyRepository = _dataStore.SmartCards;
+            var eventDeviceRepository = _dataStore.EventDevices;
+            var userHistoryRepository = _historyStore.UserActionHistory;
+
+            var eventDevice = eventDeviceRepository.FirstOrDefault(device => device.SysName == smartCardEventWrapper.EventDeviceName);
+            var smartCard = smartKeyRepository.FirstOrDefault(key => key.Key == smartCardEventWrapper.CardKey);
+            var user = smartCard?.User;
+            if (eventDevice != null && user != null)
+            {
+                user.InHome = eventDevice.UserEventAction?.AssignedValue ?? user.InHome;
+                smartKeyRepository.Save();
+                userHistoryRepository.Add(new UserActionHistoryItem()
+                {
+                    SmartCard = smartCard,
+                    User = user,
+                    Value = user.InHome
+                });
+                return true;
+            }
+            else return false;
         }
 
         public bool SetNumericSensorValue(NumericSensorValue value)

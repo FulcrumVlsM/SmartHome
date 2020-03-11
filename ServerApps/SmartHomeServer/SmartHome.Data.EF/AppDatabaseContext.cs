@@ -17,6 +17,7 @@ namespace SmartHome.Data.EF
 
         //Условия
         public DbSet<BoolDeviceEventAction> BoolDeviceEventActions { get; set; }
+        public DbSet<UserEventAction> UserEventActions { get; set; }
         public DbSet<BoolSensorCondition> BoolSensorConditions { get; set; }
         public DbSet<NumericSensorCondition> NumericSensorConditions { get; set; }
         public DbSet<TimeCondition> TimeConditions { get; set; }
@@ -65,6 +66,7 @@ namespace SmartHome.Data.EF
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new UserActionHistoryConfiguration());
             modelBuilder.ApplyConfiguration(new UserConditionConfiguration());
+            modelBuilder.ApplyConfiguration(new UserEventActionConfiguration());
         }
     }
 }
