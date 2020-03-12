@@ -33,17 +33,5 @@ namespace SmartHome.Controller.Entities
 
         
         public event Action<bool> OnStateChanged;
-
-
-        /// <summary>
-        /// Возможность по внешнему сигналу изменить текущее состояние устройства. 
-        /// Необходимо устройствам, которые после получения сигнала выполняют действие и возвращаются в исходное состояние
-        /// </summary>
-        /// <param name="value"></param>
-        public void SelfAssign(bool value)
-        {
-            Value = value;
-            //TODO: самоизменение значения должно логгироваться
-        }
     }
 }
