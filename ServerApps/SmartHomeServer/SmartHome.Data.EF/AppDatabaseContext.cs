@@ -30,6 +30,7 @@ namespace SmartHome.Data.EF
 
         //Логи работы устройств
         public DbSet<BoolActionDeviceHistoryItem> BoolActionDeviceHistory { get; set; }
+        public DbSet<EventActionDeviceHistoryItem> EventActionDeviceHistory { get; set; }
         public DbSet<BoolSensorHistoryItem> BoolSensorHistory { get; set; }
         public DbSet<EventDeviceHistoryItem> EventDeviceHistory { get; set; }
         public DbSet<NumericSensorHistoryItem> NumericSensorHistory { get; set; }
@@ -71,6 +72,7 @@ namespace SmartHome.Data.EF
             modelBuilder.ApplyConfiguration(new UserEventActionConfiguration());
             modelBuilder.ApplyConfiguration(new EventActionDeviceConfiguration());
             modelBuilder.ApplyConfiguration(new EventDevice2EventActionDeviceConfiguration());
+            modelBuilder.ApplyConfiguration(new EventActionDeviceHistoryConfiguration());
         }
     }
 }
