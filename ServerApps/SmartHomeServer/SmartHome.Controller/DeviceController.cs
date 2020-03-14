@@ -18,36 +18,36 @@ namespace SmartHome.Controller
 
         private readonly IRepository<BoolActionDevice> _boolActionDeviceRepository;
         private readonly IRepository<BoolSensor> _boolSensorRepository;
+        private readonly IRepository<NumericSensor> _numericSensorRepository;
         private readonly IRepository<EventDevice> _eventDeviceRepository;
         private readonly IRepository<Rule> _ruleRepository;
-        private readonly IRepository<SmartCard> _smartCardRepository;
 
         private readonly IHistoryRepository<BoolActionDeviceHistoryItem> _boolActionDevicesHistoryRepository;
         private readonly IHistoryRepository<BoolSensorHistoryItem> _boolSensorHistoryRepository;
+        private readonly IHistoryRepository<NumericSensorHistoryItem> _numericSensorHistoryRepository;
         private readonly IHistoryRepository<EventDeviceHistoryItem> _eventDeviceHistoryRepository;
-        private readonly IHistoryRepository<UserActionHistoryItem> _userActionHistory;
 
 
         public DeviceController(IDataStore dataStore, IHistoryStore historyStore)
         {
             _boolActionDeviceRepository = dataStore.BoolActionDevices;
             _boolSensorRepository = dataStore.BoolSensors;
+            _numericSensorRepository = dataStore.NumericSensors;
             _eventDeviceRepository = dataStore.EventDevices;
             _ruleRepository = dataStore.Rules;
-            _smartCardRepository = dataStore.SmartCards;
 
             _boolActionDevicesHistoryRepository = historyStore.BoolActionDeviceHistory;
             _boolSensorHistoryRepository = historyStore.BoolSensorHistory;
+            _numericSensorHistoryRepository = historyStore.NumericSensorHistory;
             _eventDeviceHistoryRepository = historyStore.EventDeviceHistory;
 
             _boolActionDeviceEntities = new Dictionary<string, BoolActionDeviceEntity>();
-            //TODO: добавить логгер
         }
 
 
-        public bool SetBoolSensorValue(BoolSensorValue value)
+        public bool PassValue(BoolSensorValue value)
         {
-            var sensor = _boolSensorRepository.FirstOrDefault(sensor => sensor.SysName == value.SensorName);
+            var sensor = _boolSensorRepository[value.SensorName];
             if (sensor != null)
             {
                 sensor.Value = value.Value;
@@ -64,12 +64,32 @@ namespace SmartHome.Controller
             else return false;
         }
 
-        public bool ThrowEvent(string eventDeviceName)
+        public bool PassValue(NumericSensorValue value)
         {
-            var eventDevice = _eventDeviceRepository.FirstOrDefault(device => device.SysName == eventDeviceName);
+            var sensor = _numericSensorRepository[value.SensorName];
+            if (sensor != null)
+            {
+                sensor.Value = value.Value;
+                _numericSensorRepository.Save();
+
+                _numericSensorHistoryRepository.Add(new NumericSensorHistoryItem()
+                {
+                    SysName = sensor.SysName,
+                    CreateDate = DateTime.Now,
+                    Value = value.Value
+                });
+                _numericSensorHistoryRepository.Save();
+                return true;
+            }
+            else return false;
+        }
+
+        public bool ThrowEvent(DeviceEventWrapper deviceEvent)
+        {
+            var eventDevice = _eventDeviceRepository.FirstOrDefault(device => device.SysName == deviceEvent.SensorName);
             if (eventDevice != null)
             {
-                var rules = _ruleRepository.Where(rule => rule.Rule2EventDevices.Any(r2ed => r2ed.Device.SysName == eventDeviceName));
+                var rules = _ruleRepository.Where(rule => rule.Rule2EventDevices.Any(r2ed => r2ed.Device.SysName == deviceEvent.SensorName));
                 var boolActionDevices = eventDevice.BoolDeviceActions.Select(bdea => new { bdea.Device, bdea.TargetStateMode });
 
                 if (CheckRules(rules))
@@ -85,39 +105,12 @@ namespace SmartHome.Controller
                 _eventDeviceHistoryRepository.Add(new EventDeviceHistoryItem()
                 {
                     CreateDate = DateTime.Now,
-                    SysName = eventDeviceName
+                    SysName = deviceEvent.SensorName
                 });
                 _eventDeviceHistoryRepository.Save();
                 return true;
             }
             else return false;
-        }
-
-        public bool ThrowSmartCardEvent(SmartCardEventWrapper smartCardEventWrapper)
-        {
-
-            var eventDevice = _eventDeviceRepository.FirstOrDefault(device => device.SysName == smartCardEventWrapper.EventDeviceName);
-            var smartCard = _smartCardRepository.FirstOrDefault(key => key.Key == smartCardEventWrapper.CardKey);
-            var user = smartCard?.User;
-            if (eventDevice != null && user != null)
-            {
-                user.InHome = eventDevice.UserEventAction?.AssignedValue ?? user.InHome;
-                _smartCardRepository.Save();
-                _userActionHistory.Add(new UserActionHistoryItem()
-                {
-                    SmartCard = smartCard,
-                    User = user,
-                    Value = user.InHome
-                });
-                _userActionHistory.Save();
-                return true;
-            }
-            else return false;
-        }
-
-        public bool SetNumericSensorValue(NumericSensorValue value)
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -145,7 +138,7 @@ namespace SmartHome.Controller
             return true;
         }
 
-        private void Refresh()
+        public void Refresh()
         {
             foreach (var device in _boolActionDeviceRepository)
             {
@@ -171,7 +164,5 @@ namespace SmartHome.Controller
                                     && node.UserConditions.All(condition => new UserConditionComparator(condition).IsRight());
                         }));
         }
-
-        void IDeviceController.Refresh() => Refresh();
     }
 }
