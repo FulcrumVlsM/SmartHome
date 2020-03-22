@@ -1,8 +1,9 @@
 ﻿using SmartHome.Data.Models;
+using System;
 
 namespace SmartHome.Data.Store
 {
-    public interface IHistoryStore
+    public interface IHistoryStore : IDisposable
     {
         IHistoryRepository<BoolActionDeviceHistoryItem> BoolActionDeviceHistory { get; }
 

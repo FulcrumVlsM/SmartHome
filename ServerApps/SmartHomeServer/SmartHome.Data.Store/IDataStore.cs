@@ -3,7 +3,7 @@ using System;
 
 namespace SmartHome.Data.Store
 {
-    public interface IDataStore
+    public interface IDataStore : IDisposable
     {
         IRepository<BoolActionDevice> BoolActionDevices { get; }
 
