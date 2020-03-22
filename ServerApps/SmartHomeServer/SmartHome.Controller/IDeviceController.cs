@@ -1,24 +1,19 @@
-﻿using SmartHome.Controller.Entities;
+﻿using SmartHome.Controller.Values;
+using System;
 
 namespace SmartHome.Controller
 {
-    /// <summary>
-    /// Интерфейс контроллера умного дома
-    /// </summary>
     public interface IDeviceController
     {
-        BoolSensorEntity GetBoolSensor(string sysName);
+        bool PassValue(BoolSensorValue value);
 
-        NumericSensorEntity GetNumericSensor(string sysName);
+        bool PassValue(NumericSensorValue value);
 
-        BoolActionDeviceEntity GetBoolActionDevice(string sysName);
+        bool ThrowEvent(DeviceEventWrapper deviceEvent);
 
-        EventDeviceEntity GetEventDevice(string sysName);
+        bool RegistryBoolActionDeviceHandler(string sysName, Action<bool> eventHadler);
 
-        void SetNewValue(BoolSensorEntity boolSensor, bool value);
 
-        void SetNewValue(NumericSensorEntity numericSensor, float value);
-
-        void HandleEvent(EventDeviceEntity eventDevice);
+        void Refresh();
     }
 }

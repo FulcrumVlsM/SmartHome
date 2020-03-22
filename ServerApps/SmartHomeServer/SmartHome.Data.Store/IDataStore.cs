@@ -11,6 +11,8 @@ namespace SmartHome.Data.Store
 
         IRepository<EventDevice> EventDevices { get; }
 
+        IRepository<EventActionDevice> EventActionDevices { get; }
+
         IRepository<NumericSensor> NumericSensors { get; }
 
         IRepository<Rule> Rules { get; }

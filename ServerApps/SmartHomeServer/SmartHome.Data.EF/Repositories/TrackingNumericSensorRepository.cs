@@ -14,7 +14,7 @@ namespace SmartHome.Data.EF.Repositories
         public TrackingNumericSensorRepository(AppDatabaseContext context) => _context = context;
 
         protected virtual IQueryable<NumericSensor> NumericSensors =>
-            _context.NumericSensors.Include(ns => ns.Conditions).ThenInclude(nsc => nsc.Node);
+            _context.NumericSensors.Include(ns => ns.Conditions).ThenInclude(nsc => nsc.Node).ThenInclude(rn => rn.Rule);
 
         
         public NumericSensor this[int id] => NumericSensors.FirstOrDefault(ns => ns.ID == id);

@@ -32,5 +32,8 @@ namespace SmartHome.Data.Store.Stores
 
         public IRepository<User> Users =>
             new UntrackingUserRepository(new AppDatabaseContext());
+
+        public IRepository<EventActionDevice> EventActionDevices => 
+            new TrackingEventActionDeviceRepository(new AppDatabaseContext());
     }
 }

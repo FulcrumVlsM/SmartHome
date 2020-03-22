@@ -15,7 +15,7 @@ namespace SmartHome.Data.EF.Repositories
 
 
         protected virtual IQueryable<BoolSensor> BoolSensors => _context.BoolSensors
-            .Include(bs => bs.Conditions).ThenInclude(bsc => bsc.Node);
+            .Include(bs => bs.Conditions).ThenInclude(bsc => bsc.Node).ThenInclude(rn => rn.Rule);
         
         public virtual BoolSensor this[int id] => BoolSensors.FirstOrDefault(bs => bs.ID == id);
 

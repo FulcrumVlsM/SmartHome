@@ -8,6 +8,6 @@
         public int UserID { get; set; }
         public User User { get; set; }
 
-        public bool Value { get; set; }
+        public bool Value { get; set; }//TODO: Переименовать на RequiredInHomeValue
     }
 }

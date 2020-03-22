@@ -1,47 +1,40 @@
-﻿using System;
-using System.Linq;
+﻿using SmartHome.Common.Enums;
+using SmartHome.Controller.Extensions;
 using SmartHome.Data.Models;
+using System;
 
 namespace SmartHome.Controller.Entities
 {
-    /// <summary>
-    /// Логическое исполнительное устройство
-    /// </summary>
     public class BoolActionDeviceEntity
     {
-        public delegate void DeviceEventHandler(bool value);
+        private readonly BoolActionDevice _device;
         
-        private bool _enabled;
-
-        internal BoolActionDeviceEntity(BoolActionDevice device) => Device = device;
-
-
-        /// <summary>
-        /// Событие, возникающее при изменении состояния устройства
-        /// </summary>
-        public event DeviceEventHandler OnStateChanged;
-
-        /// <summary>
-        /// Системное имя устройства
-        /// </summary>
-        public string SysName => Device.SysName;
-
-        /// <summary>
-        /// Текущее требуемое состояние устройства (вкл/выкл)
-        /// </summary>
-        public bool Enabled
+        public BoolActionDeviceEntity(BoolActionDevice device, bool value)
         {
-            get => _enabled;
+            _device = device;
+            _value = value;
+        }
+
+
+        public string SysName => _device.SysName;
+
+        public DeviceStateMode DeviceStateMode => _device.ActivityMode;
+
+
+        private bool _value;
+        public bool Value
+        {
+            get => _value;
             internal set
             {
-                _enabled = value;
-                OnStateChanged?.Invoke(value);
+                bool currentValue = DeviceStateMode.GetTargetValue(_value);
+                bool newValue = DeviceStateMode.GetTargetValue(value);
+                if (newValue != currentValue) OnStateChanged?.Invoke(newValue);
+                _value = value;
             }
         }
 
-        /// <summary>
-        /// Оригинальный объект устройства
-        /// </summary>
-        internal BoolActionDevice Device { get; }
+        
+        public event Action<bool> OnStateChanged;
     }
 }
