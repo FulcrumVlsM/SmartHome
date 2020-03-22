@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using SmartHome.Controller.Values;
 using SmartHome.Data.Models;
 using SmartHome.Data.Store;
 using SmartHome.Controller.Comparators;
-using SmartHome.Common.Enums;
 using SmartHome.Controller.Entities;
 using SmartHome.Data;
 
-namespace SmartHome.Controller
+namespace SmartHome.Controller.Controllers
 {
     public sealed class DeviceController : IDeviceController
-    {        
+    {
         private readonly Dictionary<string, BoolActionDeviceEntity> _boolActionDeviceEntities;
 
         private readonly IRepository<BoolActionDevice> _boolActionDeviceRepository;
@@ -86,25 +84,26 @@ namespace SmartHome.Controller
 
         public bool ThrowEvent(DeviceEventWrapper deviceEvent)
         {
+            var now = DateTime.Now;
             var eventDevice = _eventDeviceRepository.FirstOrDefault(device => device.SysName == deviceEvent.SensorName);
             if (eventDevice != null)
             {
                 var rules = _ruleRepository.Where(rule => rule.Rule2EventDevices.Any(r2ed => r2ed.Device.SysName == deviceEvent.SensorName));
-                var boolActionDevices = eventDevice.BoolDeviceActions.Select(bdea => new { bdea.Device, bdea.TargetStateMode });
+                var boolActionDevicesWithNewState = eventDevice.BoolDeviceActions.Select(bdea => new { bdea.Device, bdea.TargetStateMode });
 
-                if (CheckRules(rules))
+                if (rules.Any(rule => CheckRule(rule)))
                 {
-                    foreach(var device in boolActionDevices)
+                    foreach (var deviceWithNewState in boolActionDevicesWithNewState)
                     {
-                        device.Device.ActivityMode = device.TargetStateMode;
+                        deviceWithNewState.Device.ActivityMode = deviceWithNewState.TargetStateMode;
                     }
                     _eventDeviceRepository.Save();
                 }
-                
+
                 //записать в историю
                 _eventDeviceHistoryRepository.Add(new EventDeviceHistoryItem()
                 {
-                    CreateDate = DateTime.Now,
+                    CreateDate = now,
                     SysName = deviceEvent.SensorName
                 });
                 _eventDeviceHistoryRepository.Save();
@@ -121,11 +120,11 @@ namespace SmartHome.Controller
         /// <returns></returns>
         public bool RegistryBoolActionDeviceHandler(string sysName, Action<bool> eventHadler)
         {
-            if(!_boolActionDeviceEntities.TryGetValue(sysName, out BoolActionDeviceEntity entity))
+            if (!_boolActionDeviceEntities.TryGetValue(sysName, out BoolActionDeviceEntity entity))
             {
                 var device = _boolActionDeviceRepository.FirstOrDefault(device => device.SysName == sysName);
                 if (device == null) return false;
-                
+
                 entity = new BoolActionDeviceEntity(device, false);
                 _boolActionDeviceEntities.Add(sysName, entity);
                 entity.OnStateChanged += eventHadler;
@@ -140,29 +139,35 @@ namespace SmartHome.Controller
 
         public void Refresh()
         {
-            foreach (var device in _boolActionDeviceRepository)
-            {
-                IEnumerable<int> rulesIDList = device.Rule2BoolActionDevices.Select(x => x.RuleID);
-                var rules = _ruleRepository.Where(rule => rulesIDList.Contains(rule.ID));
-
-                if(_boolActionDeviceEntities.TryGetValue(device.SysName, out BoolActionDeviceEntity entity) && entity.DeviceStateMode == DeviceStateMode.Auto)
-                {
-                    entity.Value = CheckRules(rules);
-                }
-            }
+            RefreshBoolActionDevices();
         }
 
-        private bool CheckRules(IEnumerable<Rule> rules)
+        private bool CheckRule(Rule rule)
         {
-            return rules
-                    .Any(rule => rule.Nodes
-                        .All(node =>
-                        {
-                            return node.BoolSensorConditions.All(condition => new BoolSensorConditionComparator(condition).IsRight())
-                                    && node.NumericSensorConditions.All(condition => new NumericSensorConditionComparator(condition).IsRight())
-                                    && node.TimeConditions.All(condition => new TimeConditionComparator(condition).IsRight())
-                                    && node.UserConditions.All(condition => new UserConditionComparator(condition).IsRight());
-                        }));
+            return rule.Nodes.All(node =>
+            {
+                return node.BoolSensorConditions.All(condition => new BoolSensorConditionComparator(condition).IsRight())
+                    && node.NumericSensorConditions.All(condition => new NumericSensorConditionComparator(condition).IsRight())
+                    && node.TimeConditions.All(condition => new TimeConditionComparator(condition).IsRight())
+                    && node.UserConditions.All(condition => new UserConditionComparator(condition).IsRight());
+            });
+        }
+
+        private void RefreshBoolActionDevices()
+        {
+            var now = DateTime.Now;
+            foreach (var device in _boolActionDeviceRepository)
+            {
+                var rulesIDList = device.Rule2BoolActionDevices.Select(r2bad => r2bad.RuleID);
+                var rules = _ruleRepository.Where(rule => rulesIDList.Contains(rule.ID));
+                var value = rules.Any(rule => CheckRule(rule));
+                _boolActionDevicesHistoryRepository.Add(new BoolActionDeviceHistoryItem { CreateDate = now, SysName = device.SysName, Value = value });
+                
+                if(_boolActionDeviceEntities.TryGetValue(device.SysName, out BoolActionDeviceEntity deviceEntity))
+                {
+                    deviceEntity.Value = value;
+                }
+            }
         }
     }
 }

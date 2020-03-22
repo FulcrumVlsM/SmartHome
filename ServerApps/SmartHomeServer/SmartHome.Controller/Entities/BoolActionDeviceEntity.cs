@@ -1,4 +1,5 @@
 ﻿using SmartHome.Common.Enums;
+using SmartHome.Controller.Extensions;
 using SmartHome.Data.Models;
 using System;
 
@@ -26,8 +27,10 @@ namespace SmartHome.Controller.Entities
             get => _value;
             internal set
             {
+                bool currentValue = DeviceStateMode.GetTargetValue(_value);
+                bool newValue = DeviceStateMode.GetTargetValue(value);
+                if (newValue != currentValue) OnStateChanged?.Invoke(newValue);
                 _value = value;
-                OnStateChanged?.Invoke(value);
             }
         }
 
