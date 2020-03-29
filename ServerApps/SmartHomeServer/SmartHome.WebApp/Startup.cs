@@ -28,7 +28,8 @@ namespace SmartHome.WebApp
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddMvc();
+            services.AddControllers().AddNewtonsoftJson();
+
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
@@ -49,12 +50,19 @@ namespace SmartHome.WebApp
                 app.UseSpaStaticFiles();
             }
 
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";
                 if (env.IsDevelopment())
                 {
-                    spa.UseAngularCliServer("start");
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
                 }
             });
         }
