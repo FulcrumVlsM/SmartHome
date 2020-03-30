@@ -26,8 +26,11 @@ namespace SmartHome.Controller.Controllers
         private readonly IHistoryRepository<EventDeviceHistoryItem> _eventDeviceHistoryRepository;
 
 
-        public DeviceController(IDataStore dataStore, IHistoryStore historyStore)
+        public DeviceController(IStoreFactory storeFactory)
         {
+            var dataStore = storeFactory.ControllerDataStore;
+            var historyStore = storeFactory.HistoryStore;
+            
             _boolActionDeviceRepository = dataStore.BoolActionDevices;
             _boolSensorRepository = dataStore.BoolSensors;
             _numericSensorRepository = dataStore.NumericSensors;

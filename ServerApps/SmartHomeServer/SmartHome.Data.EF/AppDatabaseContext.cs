@@ -42,7 +42,7 @@ namespace SmartHome.Data.EF
         public DbSet<UserActionHistoryItem> UserActionHistory { get; set; }
 
 
-        public AppDatabaseContext()
+        public AppDatabaseContext(DbContextOptions options) : base(options)
         {
             Database.EnsureCreated();
         }

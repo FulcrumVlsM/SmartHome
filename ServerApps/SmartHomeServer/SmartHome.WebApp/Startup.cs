@@ -9,6 +9,12 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SmartHome.Controller;
+using SmartHome.Controller.Controllers;
+using SmartHome.Data.Store;
+using SmartHome.Data.Store.Factories;
+using SmartHome.WebApp.Hubs;
+using SmartHome.WebApp.Services;
 
 namespace SmartHome.WebApp
 {
@@ -29,11 +35,17 @@ namespace SmartHome.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddNewtonsoftJson();
+            services.AddSignalR();
+            services.AddHostedService<DeviceControllerBackgroundService>();
 
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+
+            services.AddSingleton<IStoreFactory>(new EFStoreFactory(_configuration.GetConnectionString("MyConnection")));
+            services.AddSingleton<IDeviceController, DeviceController>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +67,8 @@ namespace SmartHome.WebApp
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ActionDeviceHub>("/hub/device/bool");
+                endpoints.MapHub<EventActionDeviceHub>("/hub/event-device/bool");
             });
 
             app.UseSpa(spa =>
@@ -62,7 +76,8 @@ namespace SmartHome.WebApp
                 spa.Options.SourcePath = "ClientApp";
                 if (env.IsDevelopment())
                 {
-                    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
+                    spa.UseAngularCliServer(npmScript: "start");
+                    //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
                 }
             });
         }
