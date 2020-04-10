@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SmartHome.Data.Store;
+using SmartHome.Controller;
+using SmartHome.WebApp.Models;
 
 namespace SmartHome.WebApp.Controllers.Devices
 {
@@ -12,8 +11,26 @@ namespace SmartHome.WebApp.Controllers.Devices
     [ApiController]
     public class BoolSensorController : ControllerBase
     {
+        private readonly IDeviceController _deviceController;
 
+        public BoolSensorController(IDeviceController deviceController)
+        {
+            _deviceController = deviceController;
+        }
 
+        [HttpPost]
+        public IActionResult Post(BoolSensorRequestModel model)
+        {
+            if (!ModelState.IsValid) return BadRequest();
 
+            if (_deviceController.PassValue(model.BoolSensorValue))
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
     }
 }
