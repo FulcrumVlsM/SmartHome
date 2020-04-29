@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using SmartHome.Controller;
-using SmartHome.WebApp.Models;
+using SmartHome.WebApp.Models.Devices;
 
 namespace SmartHome.WebApp.Controllers.Devices
 {

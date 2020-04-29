@@ -14,8 +14,5 @@ namespace SmartHome.Data.Models
         public int UserID { get; set; }
 
         public User User { get; set; }
-
-
-        public ICollection<UserActionHistoryItem> History { get; set; }
     }
 }

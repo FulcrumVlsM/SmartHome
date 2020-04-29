@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using SmartHome.Controller;
-using SmartHome.WebApp.Models;
+using SmartHome.WebApp.Models.Devices;
 
 namespace SmartHome.WebApp.Controllers.Devices
 {
@@ -19,6 +19,7 @@ namespace SmartHome.WebApp.Controllers.Devices
         }
 
 
+        [HttpPost]
         public IActionResult Post(NumericSensorRequestModel model)
         {
             if (!ModelState.IsValid) return BadRequest();

@@ -1,7 +1,7 @@
 ﻿using SmartHome.Controller.Values;
 using Newtonsoft.Json;
 
-namespace SmartHome.WebApp.Models
+namespace SmartHome.WebApp.Models.Devices
 {
     public class BoolSensorRequestModel
     {

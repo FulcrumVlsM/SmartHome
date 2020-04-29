@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using SmartHome.Controller.Values;
 
-namespace SmartHome.WebApp.Models
+namespace SmartHome.WebApp.Models.Devices
 {
     public class NumericSensorRequestModel
     {

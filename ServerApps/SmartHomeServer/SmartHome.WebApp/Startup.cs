@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -37,14 +38,15 @@ namespace SmartHome.WebApp
             services.AddControllers().AddNewtonsoftJson();
             services.AddSignalR();
             services.AddHostedService<DeviceControllerBackgroundService>();
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
             });
 
-
-            services.AddSingleton<IStoreFactory>(new EFStoreFactory(_configuration.GetConnectionString("MyConnection")));
+            var conString = _configuration.GetConnectionString("DbConnection");
+            services.AddSingleton<IStoreFactory>(new EFStoreFactory(conString));
             services.AddSingleton<IDeviceController, DeviceController>();
         }
 
