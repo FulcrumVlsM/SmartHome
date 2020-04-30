@@ -37,6 +37,16 @@
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="ClientApp\src\app\bool_sensor.data.service.ts" />
+    <None Remove="ClientApp\src\app\bool_sensor.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\bool_sensor.data.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\bool_sensor.ts" />
+  </ItemGroup>
+
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod" />

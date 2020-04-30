@@ -37,9 +37,10 @@ namespace SmartHome.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                _sensorRepository.Add(_mapper.Map<BoolSensor>(model));
+                var sensor = _mapper.Map<BoolSensor>(model);
+                _sensorRepository.Add(sensor);
                 _sensorRepository.Save();
-                return Ok(model);
+                return Ok(_mapper.Map<BoolSensorModel>(sensor));
             }
             else return BadRequest(ModelState);
         }
@@ -58,6 +59,7 @@ namespace SmartHome.WebApp.Controllers
         }
 
 
+        [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             if (_sensorRepository.Delete(id)) _sensorRepository.Save();
