@@ -1,9 +1,9 @@
-﻿using SmartHome.Data.Models;
+﻿using SmartHome.Controller.Values;
+using SmartHome.Data.Models;
 using SmartHome.WebApp.Models;
+using SmartHome.WebApp.Models.Devices;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SmartHome.WebApp
 {
@@ -11,8 +11,15 @@ namespace SmartHome.WebApp
     {
         public MapperProfile()
         {
+            //Маппинг для CRUD моделей
             CreateMap<BoolSensor, BoolSensorModel>();
             CreateMap<BoolSensorModel, BoolSensor>();
+
+
+            //Маппинг для моделей API устройств
+            CreateMap<NumericSensorRequestModel, NumericSensorValue>();
+            CreateMap<EventRequestModel, DeviceEventWrapper>();
+            CreateMap<BoolSensorRequestModel, BoolSensorValue>();
         }
     }
 }

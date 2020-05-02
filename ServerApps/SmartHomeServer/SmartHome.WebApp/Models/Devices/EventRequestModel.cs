@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using SmartHome.Controller.Values;
 
 namespace SmartHome.WebApp.Models.Devices
 {
@@ -7,9 +6,5 @@ namespace SmartHome.WebApp.Models.Devices
     {
         [JsonProperty(PropertyName = "name")]
         public string SensorName { get; set; }
-
-
-        [JsonIgnore]
-        public DeviceEventWrapper DeviceEventWrapper => new DeviceEventWrapper(SensorName);
     }
 }

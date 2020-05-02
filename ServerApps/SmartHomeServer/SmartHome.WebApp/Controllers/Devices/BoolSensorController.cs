@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SmartHome.Controller;
+using SmartHome.Controller.Values;
 using SmartHome.WebApp.Models.Devices;
 
 namespace SmartHome.WebApp.Controllers.Devices
@@ -12,10 +12,12 @@ namespace SmartHome.WebApp.Controllers.Devices
     public class BoolSensorController : ControllerBase
     {
         private readonly IDeviceController _deviceController;
+        private readonly IMapper _mapper;
 
-        public BoolSensorController(IDeviceController deviceController)
+        public BoolSensorController(IDeviceController deviceController, IMapper mapper)
         {
             _deviceController = deviceController;
+            _mapper = mapper;
         }
 
         [HttpPost]
@@ -23,7 +25,7 @@ namespace SmartHome.WebApp.Controllers.Devices
         {
             if (!ModelState.IsValid) return BadRequest();
 
-            if (_deviceController.PassValue(model.BoolSensorValue))
+            if (_deviceController.PassValue(_mapper.Map<BoolSensorValue>(model)))
             {
                 return Ok();
             }

@@ -23,7 +23,7 @@ namespace SmartHome.WebApp.Services
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                _controller.Refresh();
+                await _controller.Refresh();
                 await Task.Delay(_delayMilisecond, stoppingToken);
             }
         }

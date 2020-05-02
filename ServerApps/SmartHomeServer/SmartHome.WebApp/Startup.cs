@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using SmartHome.Controller;
 using SmartHome.Controller.Controllers;
@@ -81,6 +83,14 @@ namespace SmartHome.WebApp
                     spa.UseAngularCliServer(npmScript: "start");
                     //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
                 }
+            });
+
+            //Переделать на Grun/Gulp
+            app.UseFileServer(new FileServerOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "ClientApp", "node_modules")),
+                RequestPath = "/node_modules",
+                EnableDirectoryBrowsing = false
             });
         }
     }

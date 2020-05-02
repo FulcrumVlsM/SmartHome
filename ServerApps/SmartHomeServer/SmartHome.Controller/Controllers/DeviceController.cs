@@ -7,6 +7,7 @@ using SmartHome.Data.Store;
 using SmartHome.Controller.Comparators;
 using SmartHome.Controller.Entities;
 using SmartHome.Data;
+using System.Threading.Tasks;
 
 namespace SmartHome.Controller.Controllers
 {
@@ -121,7 +122,7 @@ namespace SmartHome.Controller.Controllers
         /// <param name="sysName">Системное имя устройства</param>
         /// <param name="eventHadler">Функция-обработчик</param>
         /// <returns></returns>
-        public bool RegistryBoolActionDeviceHandler(string sysName, Action<bool> eventHadler)
+        public bool RegistryBoolActionDeviceHandler(string sysName, Func<bool,Task> eventHadler)
         {
             if (!_boolActionDeviceEntities.TryGetValue(sysName, out BoolActionDeviceEntity entity))
             {
@@ -140,9 +141,9 @@ namespace SmartHome.Controller.Controllers
             return true;
         }
 
-        public void Refresh()
+        public async Task Refresh()
         {
-            RefreshBoolActionDevices();
+            await RefreshBoolActionDevices();
         }
 
         private bool CheckRule(Rule rule)
@@ -156,7 +157,7 @@ namespace SmartHome.Controller.Controllers
             });
         }
 
-        private void RefreshBoolActionDevices()
+        private async Task RefreshBoolActionDevices()
         {
             var now = DateTime.Now;
             foreach (var device in _boolActionDeviceRepository)
@@ -168,7 +169,7 @@ namespace SmartHome.Controller.Controllers
                 
                 if(_boolActionDeviceEntities.TryGetValue(device.SysName, out BoolActionDeviceEntity deviceEntity))
                 {
-                    deviceEntity.Value = value;
+                    await deviceEntity.SetValueAsync(value);
                 }
             }
         }

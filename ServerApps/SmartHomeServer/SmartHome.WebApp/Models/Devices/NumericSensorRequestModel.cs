@@ -10,9 +10,5 @@ namespace SmartHome.WebApp.Models.Devices
 
         [JsonProperty(PropertyName = "value", Required = Required.Always)]
         public float Value { get; set; }
-
-
-        [JsonIgnore]
-        public NumericSensorValue NumericSensorValue => new NumericSensorValue { SensorName = SensorName, Value = Value };
     }
 }

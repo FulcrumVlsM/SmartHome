@@ -10,9 +10,5 @@ namespace SmartHome.WebApp.Models.Devices
 
         [JsonProperty(PropertyName = "value", Required = Required.Always)]
         public bool Value { get; set; }
-
-
-        [JsonIgnore]
-        public BoolSensorValue BoolSensorValue => new BoolSensorValue { SensorName = SensorName, Value = Value };
     }
 }

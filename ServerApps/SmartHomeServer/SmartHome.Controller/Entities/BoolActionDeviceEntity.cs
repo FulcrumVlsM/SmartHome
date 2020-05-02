@@ -2,6 +2,7 @@
 using SmartHome.Controller.Extensions;
 using SmartHome.Data.Models;
 using System;
+using System.Threading.Tasks;
 
 namespace SmartHome.Controller.Entities
 {
@@ -22,19 +23,17 @@ namespace SmartHome.Controller.Entities
 
 
         private bool _value;
-        public bool Value
+        public bool Value => _value;
+
+        internal async Task SetValueAsync(bool value)
         {
-            get => _value;
-            internal set
-            {
-                bool currentValue = DeviceStateMode.GetTargetValue(_value);
-                bool newValue = DeviceStateMode.GetTargetValue(value);
-                if (newValue != currentValue) OnStateChanged?.Invoke(newValue);
-                _value = value;
-            }
+            bool currentValue = DeviceStateMode.GetTargetValue(_value);
+            bool newValue = DeviceStateMode.GetTargetValue(value);
+            if (newValue != currentValue && OnStateChanged != null) await OnStateChanged(value);
+            _value = value;
         }
 
         
-        public event Action<bool> OnStateChanged;
+        public event Func<bool,Task> OnStateChanged;
     }
 }
