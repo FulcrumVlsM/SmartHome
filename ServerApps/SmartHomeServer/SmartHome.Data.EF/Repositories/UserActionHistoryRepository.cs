@@ -15,8 +15,7 @@ namespace SmartHome.Data.EF.Repositories
         public UserActionHistoryRepository(AppDatabaseContext context) => _context = context;
 
 
-        private IQueryable<UserActionHistoryItem> History => _context.UserActionHistory.AsNoTracking()
-            .Include(uah => uah.SmartCard).Include(uah => uah.User);
+        private IQueryable<UserActionHistoryItem> History => _context.UserActionHistory.AsNoTracking().Include(uah => uah.User);
 
         public Type ElementType => History.ElementType;
 

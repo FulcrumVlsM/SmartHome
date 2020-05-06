@@ -2,6 +2,7 @@
 using SmartHome.Data.EF.Repositories;
 using SmartHome.Data.EF;
 using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace SmartHome.Data.Store.Stores
 {
@@ -9,7 +10,13 @@ namespace SmartHome.Data.Store.Stores
     {
         private readonly AppDatabaseContext _context;
 
-        internal EFHistoryStore() => _context = new AppDatabaseContext();
+        internal EFHistoryStore(string connectionString)
+        {
+            DbContextOptionsBuilder builder = new DbContextOptionsBuilder();
+            builder.UseSqlServer(connectionString);
+            _context = new AppDatabaseContext(builder.Options);
+
+        }
         
         
         public IHistoryRepository<BoolActionDeviceHistoryItem> BoolActionDeviceHistory =>

@@ -1,5 +1,6 @@
 ﻿using SmartHome.Controller.Values;
 using System;
+using System.Threading.Tasks;
 
 namespace SmartHome.Controller
 {
@@ -11,9 +12,9 @@ namespace SmartHome.Controller
 
         bool ThrowEvent(DeviceEventWrapper deviceEvent);
 
-        bool RegistryBoolActionDeviceHandler(string sysName, Action<bool> eventHadler);
+        bool RegistryBoolActionDeviceHandler(string sysName, Func<bool, Task> eventHadler);
 
 
-        void Refresh();
+        Task Refresh();
     }
 }

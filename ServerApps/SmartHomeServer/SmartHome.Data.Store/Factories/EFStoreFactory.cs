@@ -4,10 +4,15 @@ namespace SmartHome.Data.Store.Factories
 {
     public class EFStoreFactory : IStoreFactory
     {
-        public IDataStore ControllerDataStore => new EFControllerStore();
+        private readonly string _connectionString;
 
-        public IDataStore ConfigurationDataStore => new EFSimpleDataStore();
+        public EFStoreFactory(string connectionString) => _connectionString = connectionString;
+        
+        
+        public IDataStore ControllerDataStore => new EFControllerStore(_connectionString);
 
-        public IHistoryStore HistoryStore => new EFHistoryStore();
+        public IDataStore ConfigurationDataStore => new EFSimpleDataStore(_connectionString);
+
+        public IHistoryStore HistoryStore => new EFHistoryStore(_connectionString);
     }
 }
