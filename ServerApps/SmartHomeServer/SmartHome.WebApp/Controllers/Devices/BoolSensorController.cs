@@ -7,7 +7,7 @@ using SmartHome.WebApp.Models.Devices;
 
 namespace SmartHome.WebApp.Controllers.Devices
 {
-    [Route("api/sensor/bool")]
+    [Route("api/bool-sensor")]
     [ApiController]
     public class BoolSensorController : ControllerBase
     {

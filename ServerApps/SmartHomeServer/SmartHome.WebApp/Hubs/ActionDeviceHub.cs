@@ -19,7 +19,7 @@ namespace SmartHome.WebApp.Hubs
         private const string FAIL_METHOD = "Fail";
         private const string SET_VALUE_METHOD = "SetValue";
 
-        private static ConcurrentDictionary<string, List<string>> _connections;
+        private static ConcurrentDictionary<string, List<string>> _connectionStore;
         private static ReaderWriterLockSlim _locker;
         
         private readonly IDeviceController _controller;
@@ -27,7 +27,7 @@ namespace SmartHome.WebApp.Hubs
 
         static ActionDeviceHub()
         {
-            _connections = new ConcurrentDictionary<string, List<string>>();
+            _connectionStore = new ConcurrentDictionary<string, List<string>>();
             _locker = new ReaderWriterLockSlim();
         }
 
@@ -47,20 +47,20 @@ namespace SmartHome.WebApp.Hubs
                 return;
             }
 
-            if(_connections.TryGetValue(sysName, out List<string> connections))
+            if(_connectionStore.TryGetValue(sysName, out List<string> connections))
             {
                 connections.Add(Context.ConnectionId);
             }
             else
             {
-                _connections.TryAdd(sysName, new List<string>() { Context.ConnectionId });
+                _connectionStore.TryAdd(sysName, new List<string>() { Context.ConnectionId });
                 _controller.RegistryBoolActionDeviceHandler(sysName, async (value) =>
                 {
                     _locker.EnterReadLock();
                     try
                     {
-                        if (_connections.TryGetValue(sysName, out List<string> connectionIdList))
-                            await Clients.Clients(connectionIdList).SendAsync(SET_VALUE_METHOD, value);
+                        if (_connectionStore.TryGetValue(sysName, out List<string> connections))
+                            await Clients.Clients(connections).SendAsync(SET_VALUE_METHOD, value);
                     }
                     finally
                     {
@@ -78,9 +78,9 @@ namespace SmartHome.WebApp.Hubs
             try
             {
                 var connectionId = Context.ConnectionId;
-                var device = _connections.FirstOrDefault(deviceConnections => deviceConnections.Value.Contains(connectionId)).Key;
+                var device = _connectionStore.FirstOrDefault(deviceConnections => deviceConnections.Value.Contains(connectionId)).Key;
 
-                if (_connections.TryGetValue(device, out List<string> connectionIdList))
+                if (_connectionStore.TryGetValue(device, out List<string> connectionIdList))
                     connectionIdList.Remove(connectionId);
 
                 return base.OnDisconnectedAsync(exception);

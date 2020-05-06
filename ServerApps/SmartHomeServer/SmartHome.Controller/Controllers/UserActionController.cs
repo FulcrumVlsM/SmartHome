@@ -3,6 +3,7 @@ using SmartHome.Data;
 using SmartHome.Data.Models;
 using SmartHome.Data.Store;
 using System;
+using System.Threading.Tasks;
 
 namespace SmartHome.Controller.Controllers
 {
@@ -22,7 +23,7 @@ namespace SmartHome.Controller.Controllers
         }
         
         
-        public bool Initiate(SmartCardEventWrapper eventWrapper)
+        public async Task<bool> Initiate(SmartCardEventWrapper eventWrapper)
         {
             if (_validator.TryValidate(eventWrapper.CardKey, out User preUser))
             {
@@ -33,7 +34,7 @@ namespace SmartHome.Controller.Controllers
                 _userRepository.Save();
                 
                 DeviceEventWrapper deviceEventWrapper = new DeviceEventWrapper(eventWrapper.EventDeviceName);
-                return _controller.ThrowEvent(deviceEventWrapper);
+                return await _controller.ThrowEvent(deviceEventWrapper);
             }
             else return false;
         }

@@ -15,7 +15,8 @@ namespace SmartHome.Data.EF.Repositories
 
         protected virtual IQueryable<EventDevice> EventDevices =>
             _context.EventDevices.Include(ed => ed.Rule2EventDevices).ThenInclude(r2ed => r2ed.Rule)
-            .Include(ed => ed.BoolDeviceActions).ThenInclude(bdea => bdea.Device);
+            .Include(ed => ed.BoolDeviceActions).ThenInclude(bdea => bdea.Device)
+            .Include(ed => ed.EventDevice2EventActionDevices).ThenInclude(ed2ead => ed2ead.EventActionDevice);
 
         
         public virtual EventDevice this[int id] => EventDevices.FirstOrDefault(ed => ed.ID == id);

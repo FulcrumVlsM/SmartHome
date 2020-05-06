@@ -14,11 +14,13 @@ namespace SmartHome.Controller.Controllers
     public sealed class DeviceController : IDeviceController
     {
         private readonly Dictionary<string, BoolActionDeviceEntity> _boolActionDeviceEntities;
+        private readonly Dictionary<string, EventActionDeviceEntity> _eventActionDeviceEntities;
 
         private readonly IRepository<BoolActionDevice> _boolActionDeviceRepository;
         private readonly IRepository<BoolSensor> _boolSensorRepository;
         private readonly IRepository<NumericSensor> _numericSensorRepository;
         private readonly IRepository<EventDevice> _eventDeviceRepository;
+        private readonly IRepository<EventActionDevice> _eventActionDeviceRepository;
         private readonly IRepository<Rule> _ruleRepository;
 
         private readonly IHistoryRepository<BoolActionDeviceHistoryItem> _boolActionDevicesHistoryRepository;
@@ -44,6 +46,7 @@ namespace SmartHome.Controller.Controllers
             _eventDeviceHistoryRepository = historyStore.EventDeviceHistory;
 
             _boolActionDeviceEntities = new Dictionary<string, BoolActionDeviceEntity>();
+            _eventActionDeviceEntities = new Dictionary<string, EventActionDeviceEntity>();
         }
 
 
@@ -86,10 +89,10 @@ namespace SmartHome.Controller.Controllers
             else return false;
         }
 
-        public bool ThrowEvent(DeviceEventWrapper deviceEvent)
+        public async Task<bool> ThrowEvent(DeviceEventWrapper deviceEvent)
         {
             var now = DateTime.Now;
-            var eventDevice = _eventDeviceRepository.FirstOrDefault(device => device.SysName == deviceEvent.SensorName);
+            var eventDevice = _eventDeviceRepository[deviceEvent.SensorName];
             if (eventDevice != null)
             {
                 var rules = _ruleRepository.Where(rule => rule.Rule2EventDevices.Any(r2ed => r2ed.Device.SysName == deviceEvent.SensorName));
@@ -102,6 +105,9 @@ namespace SmartHome.Controller.Controllers
                         deviceWithNewState.Device.ActivityMode = deviceWithNewState.TargetStateMode;
                     }
                     _eventDeviceRepository.Save();
+
+                    var eventActionDevices = eventDevice.EventDevice2EventActionDevices.Select(ed2ead => ed2ead.EventActionDevice);
+                    await CallDevices(eventActionDevices);
                 }
 
                 //записать в историю
@@ -120,23 +126,40 @@ namespace SmartHome.Controller.Controllers
         /// Регистрация обработчика для исполнительного устройства
         /// </summary>
         /// <param name="sysName">Системное имя устройства</param>
-        /// <param name="eventHadler">Функция-обработчик</param>
+        /// <param name="eventHadler">Обработчик</param>
         /// <returns></returns>
         public bool RegistryBoolActionDeviceHandler(string sysName, Func<bool,Task> eventHadler)
         {
             if (!_boolActionDeviceEntities.TryGetValue(sysName, out BoolActionDeviceEntity entity))
             {
-                var device = _boolActionDeviceRepository.FirstOrDefault(device => device.SysName == sysName);
+                var device = _boolActionDeviceRepository[sysName];
                 if (device == null) return false;
 
                 entity = new BoolActionDeviceEntity(device, false);
                 _boolActionDeviceEntities.Add(sysName, entity);
-                entity.OnStateChanged += eventHadler;
             }
-            else
+            entity.OnStateChanged += eventHadler;
+
+            return true;
+        }
+
+        /// <summary>
+        /// Регистрация обработчика для событийного исполнительного устройства
+        /// </summary>
+        /// <param name="sysName">Системное имя устройства</param>
+        /// <param name="eventHandler">Обработчик</param>
+        /// <returns></returns>
+        public bool RegistryEventActionDeviceHandler(string sysName, Func<Task> eventHandler)
+        {
+            if(!_eventActionDeviceEntities.TryGetValue(sysName, out EventActionDeviceEntity entity))
             {
-                entity.OnStateChanged += eventHadler;
+                var device = _eventActionDeviceRepository[sysName];
+                if (device == null) return false;
+
+                entity = new EventActionDeviceEntity(device);
+                _eventActionDeviceEntities.Add(sysName, entity);
             }
+            entity.OnCallDevice += eventHandler;
 
             return true;
         }
@@ -171,6 +194,15 @@ namespace SmartHome.Controller.Controllers
                 {
                     await deviceEntity.SetValueAsync(value);
                 }
+            }
+        }
+
+        private async Task CallDevices(IEnumerable<EventActionDevice> devices)
+        {
+            foreach(var device in devices)
+            {
+                if(_eventActionDeviceEntities.TryGetValue(device.SysName, out EventActionDeviceEntity entity))
+                    await entity.CallAsync();
             }
         }
     }

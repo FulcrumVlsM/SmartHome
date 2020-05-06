@@ -10,9 +10,11 @@ namespace SmartHome.Controller
 
         bool PassValue(NumericSensorValue value);
 
-        bool ThrowEvent(DeviceEventWrapper deviceEvent);
+        Task<bool> ThrowEvent(DeviceEventWrapper deviceEvent);
 
         bool RegistryBoolActionDeviceHandler(string sysName, Func<bool, Task> eventHadler);
+
+        bool RegistryEventActionDeviceHandler(string sysName, Func<Task> eventHandler);
 
 
         Task Refresh();

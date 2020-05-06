@@ -71,8 +71,8 @@ namespace SmartHome.WebApp
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<ActionDeviceHub>("/hub/device/bool");
-                endpoints.MapHub<EventActionDeviceHub>("/hub/event-device/bool");
+                endpoints.MapHub<ActionDeviceHub>("/hub/bool-device");
+                endpoints.MapHub<EventActionDeviceHub>("/hub/event-device");
             });
 
             app.UseSpa(spa =>
