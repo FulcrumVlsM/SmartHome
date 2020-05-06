@@ -7,7 +7,7 @@ using SmartHome.WebApp.Models.Devices;
 
 namespace SmartHome.WebApp.Controllers.Devices
 {
-    [Route("api/sensor/numeric")]
+    [Route("api/numeric-sensor")]
     [ApiController]
     public class NumericSensorController : ControllerBase
     {
