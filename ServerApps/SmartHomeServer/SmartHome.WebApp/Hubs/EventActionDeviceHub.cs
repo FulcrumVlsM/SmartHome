@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 using SmartHome.Controller;
+using SmartHome.Data.Models;
 using SmartHome.WebApp.Models.Devices;
 using System;
 using System.Collections.Concurrent;
@@ -23,6 +25,7 @@ namespace SmartHome.WebApp.Hubs
         private static ReaderWriterLockSlim _locker;
 
         private readonly IDeviceController _controller;
+        private readonly ILogger<EventActionDeviceHub> _logger;
 
         static EventActionDeviceHub()
         {
@@ -30,9 +33,10 @@ namespace SmartHome.WebApp.Hubs
             _locker = new ReaderWriterLockSlim();
         }
 
-        public EventActionDeviceHub(IDeviceController controller)
+        public EventActionDeviceHub(IDeviceController controller, ILogger<EventActionDeviceHub> logger)
         {
             _controller = controller;
+            _logger = logger;
         }
 
 

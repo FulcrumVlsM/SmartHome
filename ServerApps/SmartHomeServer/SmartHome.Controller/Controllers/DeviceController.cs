@@ -8,6 +8,7 @@ using SmartHome.Controller.Comparators;
 using SmartHome.Controller.Entities;
 using SmartHome.Data;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace SmartHome.Controller.Controllers
 {
@@ -28,8 +29,10 @@ namespace SmartHome.Controller.Controllers
         private readonly IHistoryRepository<NumericSensorHistoryItem> _numericSensorHistoryRepository;
         private readonly IHistoryRepository<EventDeviceHistoryItem> _eventDeviceHistoryRepository;
 
+        private ILogger<DeviceController> _logger;
 
-        public DeviceController(IStoreFactory storeFactory)
+
+        public DeviceController(IStoreFactory storeFactory, ILogger<DeviceController> logger)
         {
             var dataStore = storeFactory.ControllerDataStore;
             var historyStore = storeFactory.HistoryStore;
@@ -44,6 +47,8 @@ namespace SmartHome.Controller.Controllers
             _boolSensorHistoryRepository = historyStore.BoolSensorHistory;
             _numericSensorHistoryRepository = historyStore.NumericSensorHistory;
             _eventDeviceHistoryRepository = historyStore.EventDeviceHistory;
+
+            _logger = logger;
 
             _boolActionDeviceEntities = new Dictionary<string, BoolActionDeviceEntity>();
             _eventActionDeviceEntities = new Dictionary<string, EventActionDeviceEntity>();
