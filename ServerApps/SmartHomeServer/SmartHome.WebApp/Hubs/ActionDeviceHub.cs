@@ -43,20 +43,23 @@ namespace SmartHome.WebApp.Hubs
 
         public async Task Registry(BoolActionDeviceBindModel bindingDevice)
         {
-            var sysName = bindingDevice.SysName;
+            var sysName = bindingDevice?.SysName;
             if (string.IsNullOrWhiteSpace(sysName))
             {
+                _logger.LogError("При регистрации не было передано имя устройства");
                 await Clients.Caller.SendAsync(FAIL_METHOD);
                 return;
             }
 
             if(_connectionStore.TryGetValue(sysName, out List<string> connections))
             {
+                _logger.LogTrace($"Добавлено подключение '{Context.ConnectionId}' для текущего устройства '{sysName}'");
                 connections.Add(Context.ConnectionId);
             }
             else
             {
                 _connectionStore.TryAdd(sysName, new List<string>() { Context.ConnectionId });
+                _logger.LogInformation($"Добавлено подключение '{Context.ConnectionId}' для нового устройства '{sysName}'");
                 _controller.RegistryBoolActionDeviceHandler(sysName, async (value) =>
                 {
                     _locker.EnterReadLock();
@@ -70,6 +73,7 @@ namespace SmartHome.WebApp.Hubs
                         _locker.ExitReadLock();
                     }
                 });
+                _logger.LogTrace($"Обработчик для устройства '{sysName}' зарегистрирован в контроллере");
             }
             await Clients.Caller.SendAsync(BIND_SUCCESSFUL_METHOD);
         }
@@ -82,6 +86,7 @@ namespace SmartHome.WebApp.Hubs
             {
                 var connectionId = Context.ConnectionId;
                 var device = _connectionStore.FirstOrDefault(deviceConnections => deviceConnections.Value.Contains(connectionId)).Key;
+                _logger.LogInformation($"Закрыто подключение '{connectionId}', привязанное к устройству '{device}'");
 
                 if (_connectionStore.TryGetValue(device, out List<string> connectionIdList))
                     connectionIdList.Remove(connectionId);

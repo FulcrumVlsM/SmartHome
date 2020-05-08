@@ -28,14 +28,20 @@ namespace SmartHome.WebApp.Controllers.Devices
         [HttpPost]
         public async Task<IActionResult> Post(EventRequestModel model)
         {
-            if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid)
+            {
+                _logger.LogWarning($"Невалидный параметр {nameof(EventRequestModel)}");
+                return BadRequest();
+            }
 
             if (await _deviceController.ThrowEvent(_mapper.Map<DeviceEventWrapper>(model)))
             {
+                _logger.LogTrace($"Получен сигнал от {model.SensorName}");
                 return Ok();
             }
             else
             {
+                _logger.LogError($"Не удалось передать сигнал от {model.SensorName}");
                 return BadRequest();
             }
         }

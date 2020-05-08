@@ -69,6 +69,7 @@ namespace SmartHome.Controller.Controllers
                     Value = sensor.Value
                 });
                 _boolSensorHistoryRepository.Save();
+                _logger.LogTrace($"Получено значение '{value.Value}' от устройства '{value.SensorName}'");
                 return true;
             }
             else return false;
@@ -88,6 +89,7 @@ namespace SmartHome.Controller.Controllers
                     CreateDate = DateTime.Now,
                     Value = value.Value
                 });
+                _logger.LogTrace($"Получено значение '{value.Value}' от устройства '{value.SensorName}'");
                 _numericSensorHistoryRepository.Save();
                 return true;
             }
@@ -100,19 +102,23 @@ namespace SmartHome.Controller.Controllers
             var eventDevice = _eventDeviceRepository[deviceEvent.SensorName];
             if (eventDevice != null)
             {
+                _logger.LogTrace($"Устройство '{deviceEvent.SensorName}' найдено");
                 var rules = _ruleRepository.Where(rule => rule.Rule2EventDevices.Any(r2ed => r2ed.Device.SysName == deviceEvent.SensorName));
                 var boolActionDevicesWithNewState = eventDevice.BoolDeviceActions.Select(bdea => new { bdea.Device, bdea.TargetStateMode });
 
                 if (rules.Any(rule => CheckRule(rule)))
                 {
+                    _logger.LogTrace($"Правила для устройства '{deviceEvent.SensorName}' проверены. Действия доступны.");
                     foreach (var deviceWithNewState in boolActionDevicesWithNewState)
                     {
                         deviceWithNewState.Device.ActivityMode = deviceWithNewState.TargetStateMode;
+                        _logger.LogInformation($"Устройству '{deviceWithNewState.Device.SysName}' присвоен режим '{deviceWithNewState.TargetStateMode}' по сигналу от '{deviceEvent.SensorName}'");
                     }
                     _eventDeviceRepository.Save();
 
                     var eventActionDevices = eventDevice.EventDevice2EventActionDevices.Select(ed2ead => ed2ead.EventActionDevice);
                     await CallDevices(eventActionDevices);
+                    _logger.LogTrace($"Сигнал от '{deviceEvent.SensorName}' передан на исполнительные устройства");
                 }
 
                 //записать в историю
@@ -129,6 +135,7 @@ namespace SmartHome.Controller.Controllers
 
         /// <summary>
         /// Регистрация обработчика для исполнительного устройства
+        /// TODO: нет проверки на валидность переданного наименования устройства
         /// </summary>
         /// <param name="sysName">Системное имя устройства</param>
         /// <param name="eventHadler">Обработчик</param>
@@ -142,14 +149,17 @@ namespace SmartHome.Controller.Controllers
 
                 entity = new BoolActionDeviceEntity(device, false);
                 _boolActionDeviceEntities.Add(sysName, entity);
+                _logger.LogInformation($"Зарегистрировано устройство '{sysName}'");
             }
             entity.OnStateChanged += eventHadler;
+            _logger.LogInformation($"Устройству '{sysName}' добавлен обработчик события");
 
             return true;
         }
 
         /// <summary>
         /// Регистрация обработчика для событийного исполнительного устройства
+        /// TODO: нет проверки на валидность переданного наименования устройства
         /// </summary>
         /// <param name="sysName">Системное имя устройства</param>
         /// <param name="eventHandler">Обработчик</param>
@@ -163,14 +173,17 @@ namespace SmartHome.Controller.Controllers
 
                 entity = new EventActionDeviceEntity(device);
                 _eventActionDeviceEntities.Add(sysName, entity);
+                _logger.LogInformation($"Зарегистрировано устройство '{sysName}'");
             }
             entity.OnCallDevice += eventHandler;
+            _logger.LogInformation($"Устройству '{sysName}' добавлен обработчик события");
 
             return true;
         }
 
         public async Task Refresh()
         {
+            _logger.LogTrace("Обновление состояния");
             await RefreshBoolActionDevices();
         }
 

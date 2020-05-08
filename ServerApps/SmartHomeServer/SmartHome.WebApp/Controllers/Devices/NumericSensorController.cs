@@ -27,14 +27,20 @@ namespace SmartHome.WebApp.Controllers.Devices
         [HttpPost]
         public IActionResult Post(NumericSensorRequestModel model)
         {
-            if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid)
+            {
+                _logger.LogWarning($"Невалидный параметр {nameof(NumericSensorRequestModel)}");
+                return BadRequest();
+            }
 
             if (_deviceController.PassValue(_mapper.Map<BoolSensorValue>(model)))
             {
+                _logger.LogTrace($"Получены данные от {model.SensorName}: {model.Value}");
                 return Ok();
             }
             else 
-            { 
+            {
+                _logger.LogError($"Не удалось передать от {model.SensorName} ({model.Value})");
                 return BadRequest(); 
             }
         }
