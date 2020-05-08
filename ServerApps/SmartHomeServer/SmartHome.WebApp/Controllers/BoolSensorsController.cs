@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using SmartHome.Data;
 using SmartHome.Data.Models;
 using SmartHome.Data.Store;
@@ -15,11 +16,13 @@ namespace SmartHome.WebApp.Controllers
     {
         private readonly IRepository<BoolSensor> _sensorRepository;
         private readonly IMapper _mapper;
+        private readonly ILogger<BoolSensorsController> _logger;
 
-        public BoolSensorsController(IStoreFactory storeFactory, IMapper mapper)
+        public BoolSensorsController(IStoreFactory storeFactory, IMapper mapper, ILogger<BoolSensorsController> logger)
         {
             _sensorRepository = storeFactory.ConfigurationDataStore.BoolSensors;
             _mapper = mapper;
+            _logger = logger;
         }
 
 
