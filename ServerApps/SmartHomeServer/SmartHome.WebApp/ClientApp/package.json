@@ -6,7 +6,9 @@
   "scripts": {
     "ng": "ng",
     "start": "echo hello && ng serve",
-    "build": "ng build"
+    "build": "ng build",
+    "development": "echo hello && ng serve --configuration development"
+
   },
   "dependencies": {
     "@angular/common": "~9.0.0",
@@ -16,9 +18,11 @@
     "@angular/platform-browser": "~9.0.0",
     "@angular/platform-browser-dynamic": "~9.0.0",
     "@angular/router": "~9.0.0",
+    "bootstrap": "4.4.1",
+    "jquery": "3.5.1",
+    "popper.js": "^1.16.1",
     "rxjs": "~6.5.4",
-    "zone.js": "~0.10.2",
-    "bootstrap": "4.4.1"
+    "zone.js": "~0.10.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.900.1",

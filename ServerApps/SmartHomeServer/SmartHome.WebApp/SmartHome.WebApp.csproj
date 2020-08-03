@@ -42,11 +42,15 @@
   <ItemGroup>
     <None Remove="ClientApp\src\app\bool_sensor.data.service.ts" />
     <None Remove="ClientApp\src\app\bool_sensor.ts" />
+    <None Remove="ClientApp\src\environments\environment.prod.ts" />
+    <None Remove="ClientApp\src\environments\environment.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\bool_sensor.data.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\bool_sensor.ts" />
+    <TypeScriptCompile Include="ClientApp\src\environments\environment.prod.ts" />
+    <TypeScriptCompile Include="ClientApp\src\environments\environment.ts" />
   </ItemGroup>
 
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
