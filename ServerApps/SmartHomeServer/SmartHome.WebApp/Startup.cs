@@ -16,7 +16,6 @@ using SmartHome.Controller;
 using SmartHome.Controller.Controllers;
 using SmartHome.Data.Store;
 using SmartHome.Data.Store.Factories;
-using SmartHome.WebApp.Hubs;
 using SmartHome.WebApp.Services;
 
 namespace SmartHome.WebApp
