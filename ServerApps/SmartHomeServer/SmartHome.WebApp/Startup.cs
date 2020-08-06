@@ -77,17 +77,9 @@ namespace SmartHome.WebApp
                 spa.Options.SourcePath = "ClientApp";
                 if (env.IsDevelopment())
                 {
-                    spa.UseAngularCliServer(npmScript: "start");
+                    spa.UseAngularCliServer(npmScript: "development");
                     //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
                 }
-            });
-
-            //Переделать на Grun/Gulp
-            app.UseFileServer(new FileServerOptions()
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "ClientApp", "node_modules")),
-                RequestPath = "/node_modules",
-                EnableDirectoryBrowsing = false
             });
         }
     }

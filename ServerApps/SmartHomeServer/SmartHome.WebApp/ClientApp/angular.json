@@ -1,7 +1,7 @@
 {
   "version": 1,
   "projects": {
-    "helloangularapp": {
+    "smarthome": {
       "projectType": "application",
       "root": "",
       "sourceRoot": "src",
@@ -14,27 +14,56 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.json",
-            "aot": true
+            "aot": true,
+            "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+            ],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ]
           },
           "configurations": {
+            "development": {
+              "optimization": false,
+              "outputHashing": "all",
+              "sourceMap": true,
+              "namedChunks": false,
+              "vendorChunk": false,
+              "buildOptimizer": false
+            },
             "production": {
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
               "vendorChunk": false,
-              "buildOptimizer": true
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
             }
           }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "helloangularapp:build"
+            "browserTarget": "smarthome:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "smarthome:build:production"
+            },
+            "development": {
+              "browserTarget": "smarthome:build:development"
+            }
           }
         }
       }
     }
   },
-  "defaultProject": "helloangularapp"
+  "defaultProject": "smarthome"
 }
