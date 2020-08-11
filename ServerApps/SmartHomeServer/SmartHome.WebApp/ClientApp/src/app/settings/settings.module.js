@@ -8,16 +8,17 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { SettingsModule } from './settings/settings.module';
-import { AppComponent } from './app.component';
-let AppModule = class AppModule {
+import { SettingsComponent } from './settings.component';
+import { BoolSensorSettingsComponent } from './bool-sensors.settings.component';
+let SettingsModule = class SettingsModule {
 };
-AppModule = __decorate([
+SettingsModule = __decorate([
     NgModule({
-        imports: [BrowserModule, FormsModule, HttpClientModule, SettingsModule],
-        declarations: [AppComponent],
-        bootstrap: [AppComponent]
+        imports: [BrowserModule, FormsModule, HttpClientModule],
+        declarations: [SettingsComponent, BoolSensorSettingsComponent],
+        bootstrap: [SettingsComponent],
+        exports: [SettingsComponent]
     })
-], AppModule);
-export { AppModule };
-//# sourceMappingURL=app.module.js.map
+], SettingsModule);
+export { SettingsModule };
+//# sourceMappingURL=settings.module.js.map

@@ -4,6 +4,10 @@ import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 if (environment.production) {
     enableProdMode();
+    console.log("prodmode:enable");
+}
+else {
+    console.log("prodmode:disable");
 }
 const platform = platformBrowserDynamic();
 platform.bootstrapModule(AppModule);

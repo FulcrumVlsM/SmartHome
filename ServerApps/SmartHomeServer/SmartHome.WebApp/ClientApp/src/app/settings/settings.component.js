@@ -5,21 +5,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { Component } from '@angular/core';
-let AppComponent = class AppComponent {
-    constructor() {
-        this.isCollapsed = false;
-    }
+let SettingsComponent = class SettingsComponent {
     ngOnInit() {
     }
-    toggle() {
-        this.isCollapsed = !this.isCollapsed;
-    }
 };
-AppComponent = __decorate([
+SettingsComponent = __decorate([
     Component({
-        selector: 'app',
-        templateUrl: './app.component.html'
+        selector: 'settings',
+        templateUrl: './settings.component.html'
     })
-], AppComponent);
-export { AppComponent };
-//# sourceMappingURL=app.component.js.map
+], SettingsComponent);
+export { SettingsComponent };
+//# sourceMappingURL=settings.component.js.map
