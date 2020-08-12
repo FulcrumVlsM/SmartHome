@@ -9,6 +9,7 @@ import { DioxideStateComponent } from './dioxide.state.component'
 @NgModule({
     imports: [BrowserModule, HttpClientModule],
     declarations: [StateComponent, TemperatureStateComponent, HimidityStateComponent, DioxideStateComponent],
-    bootstrap: [StateComponent]
+    bootstrap: [StateComponent],
+    exports: [StateComponent]
 })
 export class StateModule { }

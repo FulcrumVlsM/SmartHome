@@ -17,14 +17,12 @@
             "aot": true,
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles/sb-admin-2.min.css"
+              "src/styles/dashboard.min.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
-              "node_modules/@popperjs/core/dist/umd/popper.js",
-              "src/scripts/jquery.easing.min.js",
-              "src/scripts/sb-admin-2.js"
+              "node_modules/@popperjs/core/dist/umd/popper.js"
             ]
           },
           "configurations": {
