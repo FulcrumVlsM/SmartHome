@@ -223,5 +223,12 @@ namespace SmartHome.Controller.Controllers
                     await entity.CallAsync();
             }
         }
+
+
+        /// <summary>
+        /// Передает системные наименования включенных устройств
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<string> GetActiveBoolActionDeviceNames() => _boolActionDeviceEntities.Where(keyValuePair => keyValuePair.Value.Value).Select(keyValuePair => keyValuePair.Key);
     }
 }

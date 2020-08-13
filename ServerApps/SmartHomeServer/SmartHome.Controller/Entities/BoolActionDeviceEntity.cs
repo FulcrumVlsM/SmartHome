@@ -13,7 +13,7 @@ namespace SmartHome.Controller.Entities
         public BoolActionDeviceEntity(BoolActionDevice device, bool value)
         {
             _device = device;
-            _value = value;
+            Value = value;
         }
 
 
@@ -21,16 +21,14 @@ namespace SmartHome.Controller.Entities
 
         public DeviceStateMode DeviceStateMode => _device.ActivityMode;
 
-
-        private bool _value;
-        public bool Value => _value;
+        public bool Value { get; private set; }
 
         internal async Task SetValueAsync(bool value)
         {
-            bool currentValue = DeviceStateMode.GetTargetValue(_value);
+            bool currentValue = DeviceStateMode.GetTargetValue(Value);
             bool newValue = DeviceStateMode.GetTargetValue(value);
             if (newValue != currentValue && OnStateChanged != null) await OnStateChanged(value);
-            _value = value;
+            Value = value;
         }
 
         
