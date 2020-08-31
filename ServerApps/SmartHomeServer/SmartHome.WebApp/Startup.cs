@@ -40,6 +40,7 @@ namespace SmartHome.WebApp
             services.AddControllers().AddNewtonsoftJson();
             services.AddSignalR();
             services.AddHostedService<DeviceControllerBackgroundService>();
+            services.AddHostedService<StateMonitorBackgroundService>();
             services.AddAutoMapper(typeof(Startup));
 
             services.AddSpaStaticFiles(configuration =>

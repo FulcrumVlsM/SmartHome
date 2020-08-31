@@ -1,4 +1,6 @@
-﻿namespace SmartHome.WebApp.Models.State
+﻿using System.Collections.Generic;
+
+namespace SmartHome.WebApp.Models.State
 {
     /// <summary>
     /// Модель состояния по основным показателям
@@ -14,12 +16,15 @@
         /// Влажность воздуха
         /// </summary>
         public HimidityStateModel HimidityState { get; set; }
-        
+
         /// <summary>
         /// Уровень CO2
         /// </summary>
         public DioxideStateModel DioxideState { get; set; }
 
-        //Коллекция с устройствами с текущим состоянием (только активные)
+        /// <summary>
+        /// Активные устройства
+        /// </summary>
+        public List<BoolActionDeviceModel> ActiveDevices { get; set; }
     }
 }
