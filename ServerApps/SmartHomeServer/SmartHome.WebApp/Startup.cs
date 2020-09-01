@@ -51,6 +51,7 @@ namespace SmartHome.WebApp
             var conString = _configuration.GetConnectionString("DbConnection");
             services.AddSingleton<IStoreFactory>(new EFStoreFactory(conString));
             services.AddSingleton<IDeviceController, DeviceController>();
+            services.AddSingleton<IStateMonitor, StateMonitor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -12,7 +12,7 @@ namespace SmartHome.WebApp.Models.State
         /// <summary>
         /// Текущая средняя температура
         /// </summary>
-        public float Avg => Sensors.Average(sensor => sensor.Value);
+        public float Average => Sensors != null && Sensors.Count > 0 ? Sensors.Average(sensor => sensor.Value) : 0;
 
         /// <summary>
         /// Активные датчики

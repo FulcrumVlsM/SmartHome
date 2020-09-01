@@ -15,7 +15,7 @@ namespace SmartHome.Controller.Controllers
     {
         private readonly IRepository<NumericSensor> _numericSensorRepository;
         private readonly IRepository<BoolActionDevice> _boolActionDeviceRepository;
-        private readonly IHistoryRepository<NumericSensorHistoryItem> _numericSensorHistoryRepository;
+        private readonly IHistoryStore _historyStore;
         private readonly IDeviceController _controller;
         private readonly ILogger<StateMonitor> _logger;
 
@@ -23,7 +23,7 @@ namespace SmartHome.Controller.Controllers
         {
             _numericSensorRepository = storeFactory.ControllerDataStore.NumericSensors;
             _boolActionDeviceRepository = storeFactory.ControllerDataStore.BoolActionDevices;
-            _numericSensorHistoryRepository = storeFactory.HistoryStore.NumericSensorHistory;
+            _historyStore = storeFactory.HistoryStore;
             _controller = controller;
             _logger = logger;
         }
@@ -31,8 +31,9 @@ namespace SmartHome.Controller.Controllers
         
         public Summary GetSummary()
         {
-            _logger.LogTrace("Вызван GetSummary()");
-            
+            _logger.LogTrace("Вызван StateMonitor.GetSummary()");
+            var numericSensorHistoryRepository = _historyStore.NumericSensorHistory;
+
             var now = DateTime.Now;
             var activeTemperatureSensors = _numericSensorRepository.Where(sensor => sensor.ActivityMode && sensor.Category == DeviceCategory.Temperature);
             var activeHimiditySensors = _numericSensorRepository.Where(sensor => sensor.ActivityMode && sensor.Category == DeviceCategory.Humidity);
@@ -47,11 +48,17 @@ namespace SmartHome.Controller.Controllers
                 DioxideSummary = new SensorSummary { Sensors = activeDioxideSensors },
                 ActiveDevices = activeDevices
             };
-            summary.TemperatureSummary.History = _numericSensorHistoryRepository
+            
+            summary.TemperatureSummary.History = numericSensorHistoryRepository
+                .AsEnumerable()
                 .Where(item => activeTemperatureSensors.Any(sensor => sensor.SysName == item.SysName) && item.CreateDate >= now.AddDays(-1));
-            summary.HimiditySummary.History = _numericSensorHistoryRepository
+            
+            summary.HimiditySummary.History = numericSensorHistoryRepository
+                .AsEnumerable()
                 .Where(item => activeHimiditySensors.Any(sensor => sensor.SysName == item.SysName) && item.CreateDate >= now.AddDays(-1));
-            summary.DioxideSummary.History = _numericSensorHistoryRepository
+            
+            summary.DioxideSummary.History = numericSensorHistoryRepository
+                .AsEnumerable()
                 .Where(item => activeDioxideSensors.Any(sensor => sensor.SysName == item.SysName) && item.CreateDate >= now.AddDays(-1));
 
             return summary;

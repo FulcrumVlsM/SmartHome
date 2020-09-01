@@ -1,7 +1,6 @@
 ﻿using SmartHome.Data.Models;
 using SmartHome.Data.EF;
 using SmartHome.Data.EF.Repositories;
-using System;
 using Microsoft.EntityFrameworkCore;
 
 namespace SmartHome.Data.Store.Stores
@@ -40,35 +39,5 @@ namespace SmartHome.Data.Store.Stores
         public IRepository<User> Users => new UntrackingUserRepository(_context);
 
         public IRepository<EventActionDevice> EventActionDevices => new TrackingEventActionDeviceRepository(_context);
-
-        #region IDisposable Support
-        private bool disposedValue = false;
-
-        void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    // TODO: dispose managed state (managed objects).
-                }
-                _context.Dispose();
-                disposedValue = true;
-            }
-        }
-
-
-         ~EFControllerStore()
-        {
-            Dispose(false);
-        }
-
-        public void Dispose()
-        {
-
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-        #endregion
     }
 }

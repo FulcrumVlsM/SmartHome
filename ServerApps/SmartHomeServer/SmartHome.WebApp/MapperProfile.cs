@@ -1,6 +1,7 @@
 ﻿using SmartHome.Controller.Models;
 using SmartHome.Controller.Values;
 using SmartHome.Data.Models;
+using SmartHome.WebApp.Extensions;
 using SmartHome.WebApp.Models;
 using SmartHome.WebApp.Models.Devices;
 using SmartHome.WebApp.Models.State;
@@ -48,8 +49,8 @@ namespace SmartHome.WebApp
             CreateMap<SensorSummary, DioxideStateModel>()
                 .ForMember(state => state.Sensors, x => x.MapFrom(summary => summary.Sensors));
 
-            CreateMap<NumericSensorHistoryItem, KeyValuePair<DateTime, float>>()
-                .ConstructUsing(x => new KeyValuePair<DateTime, float>(x.CreateDate, x.Value));
+            CreateMap<IEnumerable<NumericSensorHistoryItem>, Dictionary<DateTime, float>>()
+                .ConvertUsing<BoolActionDeviceToDictionaryConverter>();
         }
     }
 }

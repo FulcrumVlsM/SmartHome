@@ -11,7 +11,7 @@ namespace SmartHome.WebApp.Models.State
         /// <summary>
         /// Среднее значение влажности
         /// </summary>
-        public float Average => Sensors.Average(sensor => sensor.Value);
+        public float Average => Sensors != null && Sensors.Count > 0 ? Sensors.Average(sensor => sensor.Value) : 0;
 
         /// <summary>
         /// Коллекция активных датчиков

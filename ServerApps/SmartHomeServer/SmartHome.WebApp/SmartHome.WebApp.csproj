@@ -47,9 +47,18 @@
     <None Remove="ClientApp\src\app\settings\settings.module.ts" />
     <None Remove="ClientApp\src\app\state.component.ts" />
     <None Remove="ClientApp\src\app\state.module.ts" />
+    <None Remove="ClientApp\src\app\state\bool_action_device.state.ts" />
     <None Remove="ClientApp\src\app\state\dioxide.state.component.ts" />
+    <None Remove="ClientApp\src\app\state\dioxide.state.ts" />
+    <None Remove="ClientApp\src\app\state\dioxide_sensor.state.ts" />
     <None Remove="ClientApp\src\app\state\himidity.state.component.ts" />
+    <None Remove="ClientApp\src\app\state\humidity.state.ts" />
+    <None Remove="ClientApp\src\app\state\humidity_sensor.state.ts" />
+    <None Remove="ClientApp\src\app\state\state.service.ts" />
+    <None Remove="ClientApp\src\app\state\state.ts" />
     <None Remove="ClientApp\src\app\state\temperature.state.component.ts" />
+    <None Remove="ClientApp\src\app\state\temperature.state.ts" />
+    <None Remove="ClientApp\src\app\state\temperature_sensor.state.ts" />
     <None Remove="ClientApp\src\environments\environment.prod.ts" />
     <None Remove="ClientApp\src\environments\environment.ts" />
   </ItemGroup>
@@ -60,11 +69,20 @@
     <TypeScriptCompile Include="ClientApp\src\app\settings\bool-sensors.settings.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\settings\settings.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\settings\settings.module.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\state\bool_action_device.state.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\state\dioxide.state.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\state\dioxide.state.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\state\dioxide_sensor.state.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\state\himidity.state.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\state\humidity.state.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\state\humidity_sensor.state.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\state\state.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\state\state.module.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\state\state.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\state\state.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\state\temperature.state.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\state\temperature.state.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\state\temperature_sensor.state.ts" />
     <TypeScriptCompile Include="ClientApp\src\environments\environment.prod.ts" />
     <TypeScriptCompile Include="ClientApp\src\environments\environment.ts" />
   </ItemGroup>

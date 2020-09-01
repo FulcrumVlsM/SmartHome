@@ -7,9 +7,19 @@ namespace SmartHome.Data.Store.Factories
         private readonly string _connectionString;
 
         public EFStoreFactory(string connectionString) => _connectionString = connectionString;
-        
-        
-        public IDataStore ControllerDataStore => new EFControllerStore(_connectionString);
+
+        private IDataStore _controllerDataStore = null;
+        public IDataStore ControllerDataStore
+        {
+            get
+            {
+                if(_controllerDataStore == null)
+                {
+                    _controllerDataStore = new EFControllerStore(_connectionString);
+                }
+                return _controllerDataStore;
+            }
+        }
 
         public IDataStore ConfigurationDataStore => new EFSimpleDataStore(_connectionString);
 
