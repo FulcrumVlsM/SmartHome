@@ -1,4 +1,5 @@
 ﻿import { Component, OnInit } from '@angular/core';
+import { StateService } from './state.service';
 
 
 @Component({
@@ -7,9 +8,10 @@
 })
 export class TemperatureStateComponent implements OnInit {
 
+    constructor(private stateService: StateService) { }
 
     ngOnInit(): void {
-        throw new Error("Method not implemented.");
+        
     }
     
 }

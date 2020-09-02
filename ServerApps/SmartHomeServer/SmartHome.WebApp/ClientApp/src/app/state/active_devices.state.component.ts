@@ -3,15 +3,15 @@ import { StateService } from './state.service';
 
 
 @Component({
-    selector: 'dioxide-state',
-    templateUrl: './dioxide.state.component.html'
+    selector: 'active-devices',
+    templateUrl: './active_devices.state.component.html'
 })
-export class DioxideStateComponent implements OnInit {
+export class ActiveDevicesStateComponent implements OnInit {
 
     constructor(private stateService: StateService) { }
 
     ngOnInit(): void {
-        
+
     }
 
 }

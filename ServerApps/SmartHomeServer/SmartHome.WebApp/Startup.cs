@@ -38,7 +38,7 @@ namespace SmartHome.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddNewtonsoftJson();
-            services.AddSignalR();
+            services.AddSignalR().AddNewtonsoftJsonProtocol();
             services.AddHostedService<DeviceControllerBackgroundService>();
             services.AddHostedService<StateMonitorBackgroundService>();
             services.AddAutoMapper(typeof(Startup));

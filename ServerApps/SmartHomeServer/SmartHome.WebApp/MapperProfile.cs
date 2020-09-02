@@ -35,7 +35,7 @@ namespace SmartHome.WebApp
 
             CreateMap<Summary, StateModel>()
                 .ForMember(state => state.TemperatureState, x => x.MapFrom(summary => summary.TemperatureSummary))
-                .ForMember(state => state.HimidityState, x => x.MapFrom(summary => summary.HimiditySummary))
+                .ForMember(state => state.HumidityState, x => x.MapFrom(summary => summary.HimiditySummary))
                 .ForMember(state => state.DioxideState, x => x.MapFrom(summary => summary.DioxideSummary))
                 .ForMember(state => state.ActiveDevices, x => x.MapFrom(summary => summary.ActiveDevices));
 

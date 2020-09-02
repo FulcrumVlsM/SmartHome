@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace SmartHome.WebApp.Models.State
 {
@@ -10,21 +11,25 @@ namespace SmartHome.WebApp.Models.State
         /// <summary>
         /// Температура
         /// </summary>
+        [JsonProperty(PropertyName = "TemperatureState")]
         public TemperatureStateModel TemperatureState { get; set; }
 
         /// <summary>
         /// Влажность воздуха
         /// </summary>
-        public HimidityStateModel HimidityState { get; set; }
+        [JsonProperty(PropertyName = "HumidityState")]
+        public HimidityStateModel HumidityState { get; set; }
 
         /// <summary>
         /// Уровень CO2
         /// </summary>
+        [JsonProperty(PropertyName = "DioxideState")]
         public DioxideStateModel DioxideState { get; set; }
 
         /// <summary>
         /// Активные устройства
         /// </summary>
+        [JsonProperty(PropertyName = "ActiveDevices")]
         public List<BoolActionDeviceModel> ActiveDevices { get; set; }
     }
 }

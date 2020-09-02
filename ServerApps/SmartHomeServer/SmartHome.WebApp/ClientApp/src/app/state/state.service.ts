@@ -1,11 +1,7 @@
-﻿import { Injectable } from '@angular/core';
-import * as signalR from '@aspnet/signalr';
+﻿import * as signalR from '@aspnet/signalr';
 import { State } from "./state";
 
 
-@Injectable({
-    providedIn: 'root'
-})
 export class StateService {
     public data: State;
 
@@ -23,6 +19,7 @@ export class StateService {
     }
 
     public addReceiveDataListener = () => {
+        console.log('StateServiceaddReceiveDataListener()')
         this.hubConnection.on('receiveStateData', (data) => {
             this.data = data;
             console.log(data);

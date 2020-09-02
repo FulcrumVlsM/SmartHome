@@ -3,10 +3,10 @@ import { StateService } from './state.service';
 
 
 @Component({
-    selector: 'dioxide-state',
-    templateUrl: './dioxide.state.component.html'
+    selector: 'humidity-state',
+    templateUrl: './humidity.state.component.html'
 })
-export class DioxideStateComponent implements OnInit {
+export class HumidityStateComponent implements OnInit {
 
     constructor(private stateService: StateService) { }
 
