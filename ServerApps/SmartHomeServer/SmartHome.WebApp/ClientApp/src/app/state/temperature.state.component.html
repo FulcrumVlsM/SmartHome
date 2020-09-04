@@ -2,9 +2,7 @@
     <div class="card-header py-3">Температура</div>
     <div class="card-body">
         <div class="row no-gutters align-items-center">
-            <div class="col">
-                24
-            </div>
+            <div class="col" *ngIf="stateService.data">{{stateService.data.temperatureState.average}}</div>
             <div class="col">
                 Список датчиков
             </div>

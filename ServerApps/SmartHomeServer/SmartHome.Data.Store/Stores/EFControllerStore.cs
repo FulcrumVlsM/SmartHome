@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SmartHome.Data.Store.Stores
 {
+    /// <summary>
+    /// Хранилище данных для использования в контроллере УД
+    /// </summary>
     internal sealed class EFControllerStore : IDataStore
     {
         private readonly AppDatabaseContext _context;
@@ -17,27 +20,98 @@ namespace SmartHome.Data.Store.Stores
         }
 
 
-        public IRepository<BoolActionDevice> BoolActionDevices => new TrackingBoolActionDeviceRepository(_context);
+        private IRepository<BoolActionDevice> _boolActionDevices = null;
+        public IRepository<BoolActionDevice> BoolActionDevices
+        {
+            get
+            {
+                if(_boolActionDevices == null)
+                    _boolActionDevices = new TrackingBoolActionDeviceRepository(_context);
+                return _boolActionDevices;
+            }
+        }
 
 
-        public IRepository<BoolSensor> BoolSensors => new TrackingBoolSensorRepository(_context);
+        private IRepository<BoolSensor> _boolSensors = null;
+        public IRepository<BoolSensor> BoolSensors
+        {
+            get
+            {
+                if(_boolSensors == null)
+                    _boolSensors = new TrackingBoolSensorRepository(_context);
+                return _boolSensors;
+            }
+        }
 
 
+        private IRepository<EventDevice> _eventDevices = null;
+        public IRepository<EventDevice> EventDevices
+        {
+            get
+            {
+                if(_eventDevices == null)
+                    _eventDevices = new TrackingEventDeviceRepository(_context);
+                return _eventDevices;
+            }
+        }
 
-        public IRepository<EventDevice> EventDevices => new TrackingEventDeviceRepository(_context);
+
+        private IRepository<NumericSensor> _numericSensors = null;
+        public IRepository<NumericSensor> NumericSensors
+        {
+            get
+            {
+                if(_numericSensors == null)
+                    _numericSensors = new TrackingNumericSensorRepository(_context);
+                return _numericSensors;
+            }
+        }
 
 
-        public IRepository<NumericSensor> NumericSensors => new TrackingNumericSensorRepository(_context);
+        private IRepository<Rule> _rules = null;
+        public IRepository<Rule> Rules
+        {
+            get
+            {
+                if(_rules == null)
+                    _rules = new UntrackingRuleRepository(_context);
+                return _rules;
+            }
+        }
 
 
-        public IRepository<Rule> Rules => new UntrackingRuleRepository(_context);
+        private IRepository<SmartCard> _smartCards = null;
+        public IRepository<SmartCard> SmartCards
+        {
+            get
+            {
+                if(_smartCards == null)
+                    _smartCards = new UntrackingSmartCardRepository(_context);
+                return _smartCards;
+            }
+        }
 
 
-        public IRepository<SmartCard> SmartCards => new UntrackingSmartCardRepository(_context);
+        private IRepository<User> _users;
+        public IRepository<User> Users
+        {
+            get
+            {
+                if(_users == null)
+                    _users = new UntrackingUserRepository(_context);
+                return _users;
+            }
+        }
 
-
-        public IRepository<User> Users => new UntrackingUserRepository(_context);
-
-        public IRepository<EventActionDevice> EventActionDevices => new TrackingEventActionDeviceRepository(_context);
+        private IRepository<EventActionDevice> _eventActionDevices;
+        public IRepository<EventActionDevice> EventActionDevices
+        {
+            get
+            {
+                if(_eventActionDevices == null)
+                    _eventActionDevices = new TrackingEventActionDeviceRepository(_context);
+                return _eventActionDevices;
+            }
+        }
     }
 }

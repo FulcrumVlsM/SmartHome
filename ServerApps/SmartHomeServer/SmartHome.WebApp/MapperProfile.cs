@@ -1,4 +1,5 @@
-﻿using SmartHome.Controller.Models;
+﻿using SmartHome.Controller.Entities;
+using SmartHome.Controller.Models;
 using SmartHome.Controller.Values;
 using SmartHome.Data.Models;
 using SmartHome.WebApp.Extensions;
@@ -49,7 +50,7 @@ namespace SmartHome.WebApp
             CreateMap<SensorSummary, DioxideStateModel>()
                 .ForMember(state => state.Sensors, x => x.MapFrom(summary => summary.Sensors));
 
-            CreateMap<IEnumerable<NumericSensorHistoryItem>, Dictionary<DateTime, float>>()
+            CreateMap<IEnumerable<NumericSensorGroupedHistoryItem>, Dictionary<DateTime, float>>()
                 .ConvertUsing<BoolActionDeviceToDictionaryConverter>();
         }
     }

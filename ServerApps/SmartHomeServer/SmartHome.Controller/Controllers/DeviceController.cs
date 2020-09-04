@@ -6,7 +6,6 @@ using SmartHome.Data.Models;
 using SmartHome.Data.Store;
 using SmartHome.Controller.Comparators;
 using SmartHome.Controller.Entities;
-using SmartHome.Data;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
@@ -16,59 +15,42 @@ namespace SmartHome.Controller.Controllers
     {
         private readonly Dictionary<string, BoolActionDeviceEntity> _boolActionDeviceEntities;
         private readonly Dictionary<string, EventActionDeviceEntity> _eventActionDeviceEntities;
-
-        private readonly IRepository<BoolActionDevice> _boolActionDeviceRepository;
-        private readonly IRepository<BoolSensor> _boolSensorRepository;
-        private readonly IRepository<NumericSensor> _numericSensorRepository;
-        private readonly IRepository<EventDevice> _eventDeviceRepository;
-        private readonly IRepository<EventActionDevice> _eventActionDeviceRepository;
-        private readonly IRepository<Rule> _ruleRepository;
-
-        private readonly IHistoryRepository<BoolActionDeviceHistoryItem> _boolActionDevicesHistoryRepository;
-        private readonly IHistoryRepository<BoolSensorHistoryItem> _boolSensorHistoryRepository;
-        private readonly IHistoryRepository<NumericSensorHistoryItem> _numericSensorHistoryRepository;
-        private readonly IHistoryRepository<EventDeviceHistoryItem> _eventDeviceHistoryRepository;
-
+        private readonly IStoreFactory _storeFactory;
         private ILogger<DeviceController> _logger;
 
 
         public DeviceController(IStoreFactory storeFactory, ILogger<DeviceController> logger)
         {
-            var dataStore = storeFactory.ControllerDataStore;
-            var historyStore = storeFactory.HistoryStore;
-            
-            _boolActionDeviceRepository = dataStore.BoolActionDevices;
-            _boolSensorRepository = dataStore.BoolSensors;
-            _numericSensorRepository = dataStore.NumericSensors;
-            _eventDeviceRepository = dataStore.EventDevices;
-            _ruleRepository = dataStore.Rules;
-
-            _boolActionDevicesHistoryRepository = historyStore.BoolActionDeviceHistory;
-            _boolSensorHistoryRepository = historyStore.BoolSensorHistory;
-            _numericSensorHistoryRepository = historyStore.NumericSensorHistory;
-            _eventDeviceHistoryRepository = historyStore.EventDeviceHistory;
-
+            _storeFactory = storeFactory;
             _logger = logger;
-
             _boolActionDeviceEntities = new Dictionary<string, BoolActionDeviceEntity>();
             _eventActionDeviceEntities = new Dictionary<string, EventActionDeviceEntity>();
         }
 
 
+
+        private IDataStore DataStore => _storeFactory.ControllerDataStore;
+
+        private IHistoryStore HistoryStore => _storeFactory.HistoryStore;
+
+
         public bool PassValue(BoolSensorValue value)
         {
-            var sensor = _boolSensorRepository[value.SensorName];
+            var boolSensorRepository = DataStore.BoolSensors;
+            var boolSensorHistoryRepository = HistoryStore.BoolSensorHistory;
+            
+            var sensor = boolSensorRepository[value.SensorName];
             if (sensor != null)
             {
                 sensor.Value = value.Value;
-                _boolSensorRepository.Save();
-                _boolSensorHistoryRepository.Add(new BoolSensorHistoryItem()
+                boolSensorRepository.Save();
+                boolSensorHistoryRepository.Add(new BoolSensorHistoryItem()
                 {
                     CreateDate = DateTime.Now,
                     SysName = sensor.SysName,
                     Value = sensor.Value
                 });
-                _boolSensorHistoryRepository.Save();
+                boolSensorHistoryRepository.Save();
                 _logger.LogTrace($"Получено значение '{value.Value}' от устройства '{value.SensorName}'");
                 return true;
             }
@@ -77,20 +59,23 @@ namespace SmartHome.Controller.Controllers
 
         public bool PassValue(NumericSensorValue value)
         {
-            var sensor = _numericSensorRepository[value.SensorName];
+            var numericSensorRepository = DataStore.NumericSensors;
+            var numericSensorHistoryRepository = HistoryStore.NumericSensorHistory;
+
+            var sensor = numericSensorRepository[value.SensorName];
             if (sensor != null)
             {
                 sensor.Value = value.Value;
-                _numericSensorRepository.Save();
+                numericSensorRepository.Save();
 
-                _numericSensorHistoryRepository.Add(new NumericSensorHistoryItem()
+                numericSensorHistoryRepository.Add(new NumericSensorHistoryItem()
                 {
                     SysName = sensor.SysName,
                     CreateDate = DateTime.Now,
                     Value = value.Value
                 });
                 _logger.LogTrace($"Получено значение '{value.Value}' от устройства '{value.SensorName}'");
-                _numericSensorHistoryRepository.Save();
+                numericSensorHistoryRepository.Save();
                 return true;
             }
             else return false;
@@ -98,13 +83,18 @@ namespace SmartHome.Controller.Controllers
 
         public async Task<bool> ThrowEvent(DeviceEventWrapper deviceEvent)
         {
+            var dataStore = DataStore;
+            var eventDeviceRepository = dataStore.EventDevices;
+            var ruleRepository = dataStore.Rules;
+            var eventDeviceHistoryRepository = HistoryStore.EventDeviceHistory;
+            
             var now = DateTime.Now;
-            var eventDevice = _eventDeviceRepository[deviceEvent.SensorName];
+            var eventDevice = eventDeviceRepository[deviceEvent.SensorName];
             if (eventDevice != null)
             {
                 _logger.LogTrace($"Устройство '{deviceEvent.SensorName}' найдено");
-                var rules = _ruleRepository.Where(rule => rule.Rule2EventDevices.Any(r2ed => r2ed.Device.SysName == deviceEvent.SensorName));
-                var boolActionDevicesWithNewState = eventDevice.BoolDeviceActions.Select(bdea => new { bdea.Device, bdea.TargetStateMode });
+                var rules = ruleRepository.Where(rule => rule.Rule2EventDevices.Any(r2ed => r2ed.Device.SysName == deviceEvent.SensorName)).ToList();
+                var boolActionDevicesWithNewState = eventDevice.BoolDeviceActions.Select(bdea => new { bdea.Device, bdea.TargetStateMode }).ToList();
 
                 if (rules.Any(rule => CheckRule(rule)))
                 {
@@ -114,20 +104,20 @@ namespace SmartHome.Controller.Controllers
                         deviceWithNewState.Device.ActivityMode = deviceWithNewState.TargetStateMode;
                         _logger.LogInformation($"Устройству '{deviceWithNewState.Device.SysName}' присвоен режим '{deviceWithNewState.TargetStateMode}' по сигналу от '{deviceEvent.SensorName}'");
                     }
-                    _eventDeviceRepository.Save();
+                    eventDeviceRepository.Save();
 
-                    var eventActionDevices = eventDevice.EventDevice2EventActionDevices.Select(ed2ead => ed2ead.EventActionDevice);
+                    var eventActionDevices = eventDevice.EventDevice2EventActionDevices.Select(ed2ead => ed2ead.EventActionDevice).ToList();
                     await CallDevices(eventActionDevices);
                     _logger.LogTrace($"Сигнал от '{deviceEvent.SensorName}' передан на исполнительные устройства");
                 }
 
                 //записать в историю
-                _eventDeviceHistoryRepository.Add(new EventDeviceHistoryItem()
+                eventDeviceHistoryRepository.Add(new EventDeviceHistoryItem()
                 {
                     CreateDate = now,
                     SysName = deviceEvent.SensorName
                 });
-                _eventDeviceHistoryRepository.Save();
+                eventDeviceHistoryRepository.Save();
                 return true;
             }
             else return false;
@@ -144,7 +134,8 @@ namespace SmartHome.Controller.Controllers
         {
             if (!_boolActionDeviceEntities.TryGetValue(sysName, out BoolActionDeviceEntity entity))
             {
-                var device = _boolActionDeviceRepository[sysName];
+                var boolActionDeviceRepository = DataStore.BoolActionDevices;
+                var device = boolActionDeviceRepository[sysName];
                 if (device == null) return false;
 
                 entity = new BoolActionDeviceEntity(device, false);
@@ -168,7 +159,8 @@ namespace SmartHome.Controller.Controllers
         {
             if(!_eventActionDeviceEntities.TryGetValue(sysName, out EventActionDeviceEntity entity))
             {
-                var device = _eventActionDeviceRepository[sysName];
+                var eventActionDeviceRepository = DataStore.EventActionDevices;
+                var device = eventActionDeviceRepository[sysName];
                 if (device == null) return false;
 
                 entity = new EventActionDeviceEntity(device);
@@ -189,7 +181,7 @@ namespace SmartHome.Controller.Controllers
 
         private bool CheckRule(Rule rule)
         {
-            return rule.Nodes.All(node =>
+            return rule.Nodes.ToList().All(node =>
             {
                 return node.BoolSensorConditions.All(condition => new BoolSensorConditionComparator(condition).IsRight())
                     && node.NumericSensorConditions.All(condition => new NumericSensorConditionComparator(condition).IsRight())
@@ -200,13 +192,17 @@ namespace SmartHome.Controller.Controllers
 
         private async Task RefreshBoolActionDevices()
         {
+            var dataStore = DataStore;
+            var boolActionDeviceRepository = dataStore.BoolActionDevices;
+            var ruleRepository = dataStore.Rules;
+            var boolActionDevicesHistoryRepository = HistoryStore.BoolActionDeviceHistory;
             var now = DateTime.Now;
-            foreach (var device in _boolActionDeviceRepository)
+            foreach (var device in boolActionDeviceRepository)
             {
-                var rulesIDList = device.Rule2BoolActionDevices.Select(r2bad => r2bad.RuleID);
-                var rules = _ruleRepository.Where(rule => rulesIDList.Contains(rule.ID));
+                var rulesIDList = device.Rule2BoolActionDevices.Select(r2bad => r2bad.RuleID).ToList();
+                var rules = ruleRepository.AsEnumerable().Where(rule => rulesIDList.Contains(rule.ID));
                 var value = rules.Any(rule => CheckRule(rule));
-                _boolActionDevicesHistoryRepository.Add(new BoolActionDeviceHistoryItem { CreateDate = now, SysName = device.SysName, Value = value });
+                boolActionDevicesHistoryRepository.Add(new BoolActionDeviceHistoryItem { CreateDate = now, SysName = device.SysName, Value = value });
                 
                 if(_boolActionDeviceEntities.TryGetValue(device.SysName, out BoolActionDeviceEntity deviceEntity))
                 {

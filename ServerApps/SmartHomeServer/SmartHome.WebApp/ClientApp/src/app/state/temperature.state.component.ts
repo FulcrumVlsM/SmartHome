@@ -8,10 +8,11 @@ import { StateService } from './state.service';
 })
 export class TemperatureStateComponent implements OnInit {
 
-    constructor(private stateService: StateService) { }
+    constructor(public stateService: StateService) { }
 
     ngOnInit(): void {
-        
+        console.log('temperaturestatecomponent init');
+        console.log(this.stateService.data);
     }
     
 }
