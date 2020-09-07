@@ -1,7 +1,7 @@
 ﻿export class BoolActionDevice {
     constructor(
-        public ID?: number,
-        public SysName?: string,
-        public Name?: string
+        public id?: number,
+        public sysName?: string,
+        public name?: string
     ) { }
 }

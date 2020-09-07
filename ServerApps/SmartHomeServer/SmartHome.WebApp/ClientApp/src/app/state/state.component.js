@@ -5,18 +5,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { Component } from '@angular/core';
-let HumidityStateComponent = class HumidityStateComponent {
+let StateComponent = class StateComponent {
     constructor(stateService) {
         this.stateService = stateService;
     }
     ngOnInit() {
+        this.stateService.startConnection();
+        this.stateService.addReceiveDataListener();
+        console.log('StateComponent OnInit(). stateService connection started.');
     }
 };
-HumidityStateComponent = __decorate([
+StateComponent = __decorate([
     Component({
-        selector: 'humidity-state',
-        templateUrl: './humidity.state.component.html'
+        selector: 'state',
+        templateUrl: './state.component.html'
     })
-], HumidityStateComponent);
-export { HumidityStateComponent };
-//# sourceMappingURL=humidity.state.component.js.map
+], StateComponent);
+export { StateComponent };
+//# sourceMappingURL=state.component.js.map

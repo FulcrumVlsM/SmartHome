@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var State = /** @class */ (function () {
-    function State(TemperatureState, HumidityState, DioxideState, ActiveDevices) {
-        this.TemperatureState = TemperatureState;
-        this.HumidityState = HumidityState;
-        this.DioxideState = DioxideState;
-        this.ActiveDevices = ActiveDevices;
+    function State(temperatureState, humidityState, dioxideState, activeDevices) {
+        this.temperatureState = temperatureState;
+        this.humidityState = humidityState;
+        this.dioxideState = dioxideState;
+        this.activeDevices = activeDevices;
     }
     return State;
 }());

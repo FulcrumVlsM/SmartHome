@@ -1,7 +1,7 @@
 ﻿export class HumiditySensor {
     constructor(
-        public SysName?: string,
-        public Name?: string,
-        public Value?: number
+        public sysName?: string,
+        public name?: string,
+        public value?: number
     ) { }
 }

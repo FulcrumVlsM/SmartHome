@@ -2,8 +2,8 @@
 
 export class TemperatureState {
     constructor(
-        public Average?: number,
-        public Sensors?: Array<TemperatureSensor>,
-        public History?: Array<[Date, number]>
+        public average?: number,
+        public sensors?: Array<TemperatureSensor>,
+        public history?: Array<[Date, number]>
     ) { }
 }

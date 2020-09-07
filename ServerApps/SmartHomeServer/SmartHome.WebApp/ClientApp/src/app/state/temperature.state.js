@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var TemperatureState = /** @class */ (function () {
-    function TemperatureState(Average, Sensors, History) {
-        this.Average = Average;
-        this.Sensors = Sensors;
-        this.History = History;
+    function TemperatureState(average, sensors, history) {
+        this.average = average;
+        this.sensors = sensors;
+        this.history = history;
     }
     return TemperatureState;
 }());

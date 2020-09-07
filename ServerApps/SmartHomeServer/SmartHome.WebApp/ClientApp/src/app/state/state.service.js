@@ -1,27 +1,33 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var signalR = require("@aspnet/signalr");
-var StateService = /** @class */ (function () {
-    function StateService() {
-        var _this = this;
-        this.startConnection = function () {
-            _this.hubConnection = new signalR.HubConnectionBuilder()
+import * as signalR from '@aspnet/signalr';
+export class StateService {
+    constructor() {
+        this.handlers = [];
+        this.startConnection = () => {
+            this.hubConnection = new signalR.HubConnectionBuilder()
                 .withUrl('http://localhost:2133/api/state')
                 .build();
-            _this.hubConnection
+            this.hubConnection
                 .start()
-                .then(function () { return console.log('Connection started'); })
-                .catch(function (err) { return console.log('Error while starting connection ' + err); });
+                .then(() => console.log('Connection started'))
+                .catch(err => console.log('Error while starting connection ' + err));
         };
-        this.addReceiveDataListener = function () {
+        this.addReceiveDataListener = () => {
             console.log('StateServiceaddReceiveDataListener()');
-            _this.hubConnection.on('receiveStateData', function (data) {
-                _this.data = data;
-                console.log(data);
+            this.hubConnection.on('receiveStateData', (data) => {
+                const state = data;
+                console.log(state);
+                this.trigger(state);
             });
         };
     }
-    return StateService;
-}());
-exports.StateService = StateService;
+    addReceiveDataHandler(handler) {
+        this.handlers.push(handler);
+    }
+    removeReceiveDataHandler(handler) {
+        this.handlers = this.handlers.filter(h => h !== handler);
+    }
+    trigger(state) {
+        this.handlers.forEach(handler => handler(state));
+    }
+}
 //# sourceMappingURL=state.service.js.map

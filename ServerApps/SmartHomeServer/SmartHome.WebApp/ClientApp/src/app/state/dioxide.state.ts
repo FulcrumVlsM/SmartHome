@@ -2,7 +2,7 @@
 
 export class DioxideState {
     constructor(
-        public Average?: number,
-        public Sensors?: Array<DioxideSensor>
+        public average?: number,
+        public sensors?: Array<DioxideSensor>
     ) { }
 }

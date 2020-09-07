@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var HumidityState = /** @class */ (function () {
-    function HumidityState(Average, Sensors) {
-        this.Average = Average;
-        this.Sensors = Sensors;
+    function HumidityState(average, sensors) {
+        this.average = average;
+        this.sensors = sensors;
     }
     return HumidityState;
 }());

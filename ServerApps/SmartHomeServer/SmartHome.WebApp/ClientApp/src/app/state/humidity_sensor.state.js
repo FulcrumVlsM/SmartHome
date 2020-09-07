@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var HumiditySensor = /** @class */ (function () {
-    function HumiditySensor(SysName, Name, Value) {
-        this.SysName = SysName;
-        this.Name = Name;
-        this.Value = Value;
+    function HumiditySensor(sysName, name, value) {
+        this.sysName = sysName;
+        this.name = name;
+        this.value = value;
     }
     return HumiditySensor;
 }());

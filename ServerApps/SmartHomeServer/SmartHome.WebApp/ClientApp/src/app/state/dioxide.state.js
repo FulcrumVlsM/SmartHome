@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var DioxideState = /** @class */ (function () {
-    function DioxideState(Average, Sensors) {
-        this.Average = Average;
-        this.Sensors = Sensors;
+    function DioxideState(average, sensors) {
+        this.average = average;
+        this.sensors = sensors;
     }
     return DioxideState;
 }());

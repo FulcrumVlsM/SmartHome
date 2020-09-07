@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var TemperatureSensor = /** @class */ (function () {
-    function TemperatureSensor(SysName, Name, Value) {
-        this.SysName = SysName;
-        this.Name = Name;
-        this.Value = Value;
+    function TemperatureSensor(sysName, name, value) {
+        this.sysName = sysName;
+        this.name = name;
+        this.value = value;
     }
     return TemperatureSensor;
 }());

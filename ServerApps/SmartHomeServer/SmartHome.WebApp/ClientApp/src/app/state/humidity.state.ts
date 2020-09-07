@@ -2,7 +2,7 @@
 
 export class HumidityState {
     constructor(
-        public Average?: number,
-        public Sensors?: Array<HumiditySensor>
+        public average?: number,
+        public sensors?: Array<HumiditySensor>
     ) { }
 }

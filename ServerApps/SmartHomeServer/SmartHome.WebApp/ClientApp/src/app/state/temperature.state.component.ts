@@ -1,5 +1,7 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { StateService } from './state.service';
+import { State } from './state';
+import { TemperatureSensor } from './temperature_sensor.state';
 
 
 @Component({
@@ -7,12 +9,23 @@ import { StateService } from './state.service';
     templateUrl: './temperature.state.component.html'
 })
 export class TemperatureStateComponent implements OnInit {
+    public averageTemp: number = 0;
+    public sensors: TemperatureSensor[] = [];
+    public history: [Date, number][] = [];
 
     constructor(public stateService: StateService) { }
 
     ngOnInit(): void {
         console.log('temperaturestatecomponent init');
-        console.log(this.stateService.data);
+        this.stateService.addReceiveDataHandler(this.updateState);
+    }
+
+
+    private updateState = (state: State) => {
+        console.log(state.temperatureState);
+        this.averageTemp = state.temperatureState.average;
+        this.sensors = state.temperatureState.sensors;
+        this.history = state.temperatureState.history;
     }
     
 }

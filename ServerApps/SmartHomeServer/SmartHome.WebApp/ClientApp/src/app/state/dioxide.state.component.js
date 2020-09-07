@@ -5,18 +5,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { Component } from '@angular/core';
-let HumidityStateComponent = class HumidityStateComponent {
+let DioxideStateComponent = class DioxideStateComponent {
     constructor(stateService) {
         this.stateService = stateService;
     }
     ngOnInit() {
     }
 };
-HumidityStateComponent = __decorate([
+DioxideStateComponent = __decorate([
     Component({
-        selector: 'humidity-state',
-        templateUrl: './humidity.state.component.html'
+        selector: 'dioxide-state',
+        templateUrl: './dioxide.state.component.html'
     })
-], HumidityStateComponent);
-export { HumidityStateComponent };
-//# sourceMappingURL=humidity.state.component.js.map
+], DioxideStateComponent);
+export { DioxideStateComponent };
+//# sourceMappingURL=dioxide.state.component.js.map

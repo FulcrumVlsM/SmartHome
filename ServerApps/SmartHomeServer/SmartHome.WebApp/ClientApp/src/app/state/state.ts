@@ -5,9 +5,9 @@ import { BoolActionDevice } from "./bool_action_device.state";
 
 export class State {
     constructor(
-        public TemperatureState?: TemperatureState,
-        public HumidityState?: HumidityState,
-        public DioxideState?: DioxideState,
-        public ActiveDevices?: Array<BoolActionDevice>
+        public temperatureState?: TemperatureState,
+        public humidityState?: HumidityState,
+        public dioxideState?: DioxideState,
+        public activeDevices?: Array<BoolActionDevice>
     ) { }
 }

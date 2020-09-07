@@ -11,14 +11,17 @@ import { StateComponent } from './state.component';
 import { TemperatureStateComponent } from './temperature.state.component';
 import { HumidityStateComponent } from './humidity.state.component';
 import { DioxideStateComponent } from './dioxide.state.component';
+import { ActiveDevicesStateComponent } from './active_devices.state.component';
+import { StateService } from './state.service';
 let StateModule = class StateModule {
 };
 StateModule = __decorate([
     NgModule({
         imports: [BrowserModule, HttpClientModule],
-        declarations: [StateComponent, TemperatureStateComponent, HumidityStateComponent, DioxideStateComponent],
+        declarations: [StateComponent, TemperatureStateComponent, HumidityStateComponent, DioxideStateComponent, ActiveDevicesStateComponent],
         bootstrap: [StateComponent],
-        exports: [StateComponent]
+        exports: [StateComponent],
+        providers: [StateService]
     })
 ], StateModule);
 export { StateModule };
