@@ -3,10 +3,20 @@
     <div class="card-body">
         <div class="row no-gutters align-items-center">
             <div class="col">
-                0
+                <span class="h1"
+                      [ngClass]="{'text-primary': false, 'text-info': false, 'text-success': true, 'text-warning': false, 'text-danger': false}">
+                    {{averageLevel}}ppm
+                </span>
             </div>
             <div class="col">
-                Список датчиков
+                <ul class="list-group">
+                    <li class="list-group-item" *ngFor="let sensor of sensors">
+                        <div class="row">
+                            <div class="col-8">{{sensor.name}}</div>
+                            <div class="col-4">{{sensor.value}}</div>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>

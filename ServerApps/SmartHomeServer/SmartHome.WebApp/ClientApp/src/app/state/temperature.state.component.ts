@@ -16,13 +16,11 @@ export class TemperatureStateComponent implements OnInit {
     constructor(public stateService: StateService) { }
 
     ngOnInit(): void {
-        console.log('temperaturestatecomponent init');
         this.stateService.addReceiveDataHandler(this.updateState);
     }
 
 
     private updateState = (state: State) => {
-        console.log(state.temperatureState);
         this.averageTemp = state.temperatureState.average;
         this.sensors = state.temperatureState.sensors;
         this.history = state.temperatureState.history;

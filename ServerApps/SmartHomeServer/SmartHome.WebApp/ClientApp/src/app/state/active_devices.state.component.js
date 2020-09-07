@@ -8,8 +8,13 @@ import { Component } from '@angular/core';
 let ActiveDevicesStateComponent = class ActiveDevicesStateComponent {
     constructor(stateService) {
         this.stateService = stateService;
+        this.activeDevices = [];
+        this.updateState = (state) => {
+            this.activeDevices = state.activeDevices;
+        };
     }
     ngOnInit() {
+        this.stateService.addReceiveDataHandler(this.updateState);
     }
 };
 ActiveDevicesStateComponent = __decorate([

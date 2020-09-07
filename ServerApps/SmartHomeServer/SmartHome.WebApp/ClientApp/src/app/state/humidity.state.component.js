@@ -8,8 +8,15 @@ import { Component } from '@angular/core';
 let HumidityStateComponent = class HumidityStateComponent {
     constructor(stateService) {
         this.stateService = stateService;
+        this.averageHumid = 0;
+        this.sensors = [];
+        this.updateState = (state) => {
+            this.averageHumid = state.humidityState.average;
+            this.sensors = state.humidityState.sensors;
+        };
     }
     ngOnInit() {
+        this.stateService.addReceiveDataHandler(this.updateState);
     }
 };
 HumidityStateComponent = __decorate([

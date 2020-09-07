@@ -12,14 +12,12 @@ let TemperatureStateComponent = class TemperatureStateComponent {
         this.sensors = [];
         this.history = [];
         this.updateState = (state) => {
-            console.log(state.temperatureState);
             this.averageTemp = state.temperatureState.average;
             this.sensors = state.temperatureState.sensors;
             this.history = state.temperatureState.history;
         };
     }
     ngOnInit() {
-        console.log('temperaturestatecomponent init');
         this.stateService.addReceiveDataHandler(this.updateState);
     }
 };

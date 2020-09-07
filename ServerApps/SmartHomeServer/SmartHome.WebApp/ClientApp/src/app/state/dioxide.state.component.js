@@ -8,8 +8,15 @@ import { Component } from '@angular/core';
 let DioxideStateComponent = class DioxideStateComponent {
     constructor(stateService) {
         this.stateService = stateService;
+        this.averageLevel = 0;
+        this.sensors = [];
+        this.updateState = (state) => {
+            this.averageLevel = state.dioxideState.average;
+            this.sensors = state.dioxideState.sensors;
+        };
     }
     ngOnInit() {
+        this.stateService.addReceiveDataHandler(this.updateState);
     }
 };
 DioxideStateComponent = __decorate([
