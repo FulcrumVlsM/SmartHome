@@ -1,0 +1,14 @@
+﻿<div class="card border-left-success shadow h-100">
+    <div class="card-header py-3">Активные устройства</div>
+    <div class="card-body">
+        <div class="row no-gutters align-items-center">
+            <table class="table table-hover">
+                <tbody>
+                    <tr *ngFor="let device of activeDevices">
+                        <th>{{device.name}}</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -7,13 +7,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { Component } from '@angular/core';
 let AppComponent = class AppComponent {
     constructor() {
-        this.name = '';
+        this.isCollapsed = false;
+    }
+    ngOnInit() {
+    }
+    toggle() {
+        this.isCollapsed = !this.isCollapsed;
     }
 };
 AppComponent = __decorate([
     Component({
         selector: 'app',
-        template: `<h2>Добро пожаловать!</h2>`
+        templateUrl: './app.component.html'
     })
 ], AppComponent);
 export { AppComponent };

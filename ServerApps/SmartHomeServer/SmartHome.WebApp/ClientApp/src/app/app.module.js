@@ -7,12 +7,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { StateModule } from './state/state.module';
+import { SettingsModule } from './settings/settings.module';
 import { AppComponent } from './app.component';
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     NgModule({
-        imports: [BrowserModule, FormsModule],
+        imports: [BrowserModule, FormsModule, HttpClientModule, StateModule, SettingsModule],
         declarations: [AppComponent],
         bootstrap: [AppComponent]
     })

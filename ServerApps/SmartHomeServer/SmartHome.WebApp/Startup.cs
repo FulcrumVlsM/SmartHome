@@ -16,6 +16,7 @@ using SmartHome.Controller;
 using SmartHome.Controller.Controllers;
 using SmartHome.Data.Store;
 using SmartHome.Data.Store.Factories;
+using SmartHome.WebApp.Hubs;
 using SmartHome.WebApp.Services;
 
 namespace SmartHome.WebApp
@@ -37,8 +38,9 @@ namespace SmartHome.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddNewtonsoftJson();
-            services.AddSignalR();
+            services.AddSignalR().AddNewtonsoftJsonProtocol();
             services.AddHostedService<DeviceControllerBackgroundService>();
+            services.AddHostedService<StateMonitorBackgroundService>();
             services.AddAutoMapper(typeof(Startup));
 
             services.AddSpaStaticFiles(configuration =>
@@ -49,6 +51,7 @@ namespace SmartHome.WebApp
             var conString = _configuration.GetConnectionString("DbConnection");
             services.AddSingleton<IStoreFactory>(new EFStoreFactory(conString));
             services.AddSingleton<IDeviceController, DeviceController>();
+            services.AddSingleton<IStateMonitor, StateMonitor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,6 +73,7 @@ namespace SmartHome.WebApp
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<StateHub>("/api/state");
             });
 
             app.UseSpa(spa =>
