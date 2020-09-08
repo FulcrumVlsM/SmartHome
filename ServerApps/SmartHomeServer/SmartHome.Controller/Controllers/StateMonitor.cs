@@ -40,7 +40,7 @@ namespace SmartHome.Controller.Controllers
             var activeHimiditySensors = numericSensorRepository.Where(sensor => sensor.ActivityMode && sensor.Category == DeviceCategory.Humidity);
             var activeDioxideSensors = numericSensorRepository.Where(sensor => sensor.ActivityMode && sensor.Category == DeviceCategory.Dioxide);
 
-            var deviceNames = _controller.GetActiveBoolActionDeviceNames();
+            var deviceNames = _controller.ActiveBoolActionDevices.Select(device => device.SysName);
             var activeDevices = boolActionDeviceRepository.Where(device => deviceNames.Contains(device.SysName));
             
             var summary = new Summary()

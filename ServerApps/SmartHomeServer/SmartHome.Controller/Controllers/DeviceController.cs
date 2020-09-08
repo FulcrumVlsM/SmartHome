@@ -8,13 +8,14 @@ using SmartHome.Controller.Comparators;
 using SmartHome.Controller.Entities;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using System.Collections.Concurrent;
 
 namespace SmartHome.Controller.Controllers
 {
     public sealed class DeviceController : IDeviceController
     {
-        private readonly Dictionary<string, BoolActionDeviceEntity> _boolActionDeviceEntities;
-        private readonly Dictionary<string, EventActionDeviceEntity> _eventActionDeviceEntities;
+        private readonly ConcurrentDictionary<string, BoolActionDeviceEntity> _boolActionDeviceEntities;
+        private readonly ConcurrentDictionary<string, EventActionDeviceEntity> _eventActionDeviceEntities;
         private readonly IStoreFactory _storeFactory;
         private ILogger<DeviceController> _logger;
 
@@ -23,8 +24,8 @@ namespace SmartHome.Controller.Controllers
         {
             _storeFactory = storeFactory;
             _logger = logger;
-            _boolActionDeviceEntities = new Dictionary<string, BoolActionDeviceEntity>();
-            _eventActionDeviceEntities = new Dictionary<string, EventActionDeviceEntity>();
+            _boolActionDeviceEntities = new ConcurrentDictionary<string, BoolActionDeviceEntity>();
+            _eventActionDeviceEntities = new ConcurrentDictionary<string, EventActionDeviceEntity>();
         }
 
 
@@ -33,6 +34,10 @@ namespace SmartHome.Controller.Controllers
 
         private IHistoryStore HistoryStore => _storeFactory.HistoryStore;
 
+        public IReadOnlyCollection<BoolActionDeviceEntity> ActiveBoolActionDevices => _boolActionDeviceEntities
+            .Where(keyValuePair => keyValuePair.Value.Value)
+            .Select(pair => pair.Value)
+            .ToList();
 
         public bool PassValue(BoolSensorValue value)
         {
@@ -123,56 +128,6 @@ namespace SmartHome.Controller.Controllers
             else return false;
         }
 
-        /// <summary>
-        /// Регистрация обработчика для исполнительного устройства
-        /// TODO: нет проверки на валидность переданного наименования устройства
-        /// </summary>
-        /// <param name="sysName">Системное имя устройства</param>
-        /// <param name="eventHadler">Обработчик</param>
-        /// <returns></returns>
-        public bool RegistryBoolActionDeviceHandler(string sysName, Func<bool,Task> eventHadler)
-        {
-            if (!_boolActionDeviceEntities.TryGetValue(sysName, out BoolActionDeviceEntity entity))
-            {
-                var boolActionDeviceRepository = DataStore.BoolActionDevices;
-                var device = boolActionDeviceRepository[sysName];
-                if (device == null) return false;
-
-                entity = new BoolActionDeviceEntity(device, false);
-                _boolActionDeviceEntities.Add(sysName, entity);
-                _logger.LogInformation($"Зарегистрировано устройство '{sysName}'");
-            }
-            entity.OnStateChanged += eventHadler;
-            _logger.LogInformation($"Устройству '{sysName}' добавлен обработчик события");
-
-            return true;
-        }
-
-        /// <summary>
-        /// Регистрация обработчика для событийного исполнительного устройства
-        /// TODO: нет проверки на валидность переданного наименования устройства
-        /// </summary>
-        /// <param name="sysName">Системное имя устройства</param>
-        /// <param name="eventHandler">Обработчик</param>
-        /// <returns></returns>
-        public bool RegistryEventActionDeviceHandler(string sysName, Func<Task> eventHandler)
-        {
-            if(!_eventActionDeviceEntities.TryGetValue(sysName, out EventActionDeviceEntity entity))
-            {
-                var eventActionDeviceRepository = DataStore.EventActionDevices;
-                var device = eventActionDeviceRepository[sysName];
-                if (device == null) return false;
-
-                entity = new EventActionDeviceEntity(device);
-                _eventActionDeviceEntities.Add(sysName, entity);
-                _logger.LogInformation($"Зарегистрировано устройство '{sysName}'");
-            }
-            entity.OnCallDevice += eventHandler;
-            _logger.LogInformation($"Устройству '{sysName}' добавлен обработчик события");
-
-            return true;
-        }
-
         public async Task Refresh()
         {
             _logger.LogTrace("Обновление состояния");
@@ -220,11 +175,62 @@ namespace SmartHome.Controller.Controllers
             }
         }
 
+        public bool TryGetBoolActionDeviceEntity(string sysName, out BoolActionDeviceEntity entity)
+        {
+            if (_boolActionDeviceEntities.TryGetValue(sysName, out entity))
+            {
+                return true;
+            }
+            else
+            {
+                var device = DataStore.BoolActionDevices[sysName];
+                if(device != null)
+                {
+                    entity = new BoolActionDeviceEntity(device, false);
+                    if(_boolActionDeviceEntities.TryAdd(sysName, entity))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        entity = null;
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
 
-        /// <summary>
-        /// Передает системные наименования включенных устройств
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<string> GetActiveBoolActionDeviceNames() => _boolActionDeviceEntities.Where(keyValuePair => keyValuePair.Value.Value).Select(keyValuePair => keyValuePair.Key);
+        public bool TryGetEventActionDeviceEntity(string sysName, out EventActionDeviceEntity entity)
+        {
+            if (_eventActionDeviceEntities.TryGetValue(sysName, out entity))
+            {
+                return true;
+            }
+            else
+            {
+                var device = DataStore.EventActionDevices[sysName];
+                if (device != null)
+                {
+                    entity = new EventActionDeviceEntity(device);
+                    if (_eventActionDeviceEntities.TryAdd(sysName, entity))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        entity = null;
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
     }
 }
