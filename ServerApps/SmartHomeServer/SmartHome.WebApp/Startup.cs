@@ -69,6 +69,7 @@ namespace SmartHome.WebApp
             }
 
             app.UseRouting();
+            app.UseWebSockets();
 
             app.UseEndpoints(endpoints =>
             {

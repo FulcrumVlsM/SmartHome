@@ -22,6 +22,6 @@ namespace SmartHome.Controller.Entities
         }
 
 
-        internal event Func<Task> OnCallDevice;
+        public event Func<Task> OnCallDevice;
     }
 }

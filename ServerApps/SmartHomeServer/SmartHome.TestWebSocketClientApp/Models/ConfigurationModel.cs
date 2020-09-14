@@ -1,8 +1,11 @@
 ﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace SmartHome.WebSocket.Models
+namespace SmartHome.TestWebSocketClientApp.Models
 {
-    internal class DeviceConfigurationModel
+    public class ConfigurationModel
     {
         [JsonProperty(PropertyName = "device_type")]
         public DeviceType DeviceType { get; set; }

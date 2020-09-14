@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace SmartHome.WebSocket.Models
+namespace SmartHome.TestWebSocketClientApp.Models
 {
-    public class BoolActionDeviceModel
+    class BoolDeviceModel
     {
         [JsonProperty(PropertyName = "date")]
         public DateTime DateTime { get; set; }
