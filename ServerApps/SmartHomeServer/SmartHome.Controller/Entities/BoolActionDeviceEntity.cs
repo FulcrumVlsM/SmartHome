@@ -27,11 +27,11 @@ namespace SmartHome.Controller.Entities
         {
             bool currentValue = DeviceStateMode.GetTargetValue(Value);
             bool newValue = DeviceStateMode.GetTargetValue(value);
-            if (newValue != currentValue && OnStateChanged != null) await OnStateChanged(value);
+            if (newValue != currentValue && OnStateChanged != null) await OnStateChanged(SysName, value);
             Value = value;
         }
 
         
-        public event Func<bool,Task> OnStateChanged;
+        public event Func<string,bool,Task> OnStateChanged;
     }
 }

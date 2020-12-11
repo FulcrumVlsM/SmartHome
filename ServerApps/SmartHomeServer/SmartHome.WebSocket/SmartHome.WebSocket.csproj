@@ -13,8 +13,4 @@
     <ProjectReference Include="..\SmartHome.Controller\SmartHome.Controller.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
 </Project>

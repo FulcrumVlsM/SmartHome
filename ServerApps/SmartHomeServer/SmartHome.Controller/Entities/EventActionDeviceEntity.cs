@@ -18,10 +18,10 @@ namespace SmartHome.Controller.Entities
 
         internal async Task CallAsync()
         {
-            if (OnCallDevice != null) await OnCallDevice();
+            if (OnCallDevice != null) await OnCallDevice(SysName);
         }
 
 
-        public event Func<Task> OnCallDevice;
+        public event Func<string,Task> OnCallDevice;
     }
 }
