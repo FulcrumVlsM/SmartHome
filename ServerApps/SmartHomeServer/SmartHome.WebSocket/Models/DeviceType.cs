@@ -10,6 +10,11 @@ namespace SmartHome.WebSocket.Models
     public enum DeviceType
     {
         /// <summary>
+        /// Отсутствует
+        /// </summary>
+        None = 0,
+
+        /// <summary>
         /// Логическое устройство
         /// </summary>
         BoolActionDevice = 1,

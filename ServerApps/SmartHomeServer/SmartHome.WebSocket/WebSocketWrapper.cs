@@ -11,23 +11,25 @@ namespace SmartHome.WebSocket
     {
         private readonly System.Net.WebSockets.WebSocket _webSocket;
         private readonly SemaphoreSlim _semaphore;
+        private CancellationToken _cancellationToken;
         private bool disposedValue;
 
-        public WebSocketWrapper(System.Net.WebSockets.WebSocket webSocket)
+        internal WebSocketWrapper(System.Net.WebSockets.WebSocket webSocket, CancellationToken cancellationToken)
         {
             _webSocket = webSocket;
+            _cancellationToken = cancellationToken;
             _semaphore = new SemaphoreSlim(1, 1);
         }
 
-        public async Task<T2> SendAndReceive(T1 message)
+
+        internal bool ClosedStatus => _webSocket.CloseStatus.HasValue;
+
+        internal async Task<T2> SendAndReceive(T1 message)
         {
             _semaphore.Wait();
             try
             {
-                var serializedMessage = JsonConvert.SerializeObject(message);
-                var buffer = Encoding.Unicode.GetBytes(serializedMessage);
-                await _webSocket.SendAsync(new ArraySegment<byte>(buffer), System.Net.WebSockets.WebSocketMessageType.Text, true, CancellationToken.None);
-
+                await Send(message);
                 return await Receive();
             }
             finally
@@ -36,27 +38,30 @@ namespace SmartHome.WebSocket
             }
         }
 
-        public async Task<T2> Receive()
+        internal async Task Send(T1 message)
         {
-            _semaphore.Wait();
-            try
-            {
-                var inputBuffer = new byte[1024 * 4];
-                await _webSocket.ReceiveAsync(new ArraySegment<byte>(inputBuffer), CancellationToken.None);
-                string receiveMessage = Encoding.Unicode.GetString(inputBuffer);
-                var deserializedMessage = JsonConvert.DeserializeObject<T2>(receiveMessage);
-                return deserializedMessage;
-            }
-            finally
-            {
-                _semaphore.Release();
-            }
+            var serializedMessage = JsonConvert.SerializeObject(message);
+            var buffer = Encoding.Unicode.GetBytes(serializedMessage);
+            await _webSocket.SendAsync(new ArraySegment<byte>(buffer), System.Net.WebSockets.WebSocketMessageType.Text, true, _cancellationToken);
         }
 
-        public async Task Close()
+        internal async Task<T2> Receive()
         {
+            var inputBuffer = new byte[1024 * 4];
+            var result = await _webSocket.ReceiveAsync(new ArraySegment<byte>(inputBuffer), _cancellationToken);
+            string receiveMessage = Encoding.Unicode.GetString(inputBuffer);
+            var deserializedMessage = JsonConvert.DeserializeObject<T2>(receiveMessage);
 
+            if (result.CloseStatus.HasValue)
+            {
+                //CloseOutputAsync если бу
+                await _webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, _cancellationToken);
+            }
+
+            return deserializedMessage;
         }
+
+        internal async Task Close() => await _webSocket.CloseOutputAsync(System.Net.WebSockets.WebSocketCloseStatus.NormalClosure, "NormalClosure", _cancellationToken);
 
 
 
@@ -68,7 +73,6 @@ namespace SmartHome.WebSocket
                 if (disposing)
                 {
                     _semaphore.Dispose();
-                    _webSocket.Dispose();
                 }
                 disposedValue = true;
             }

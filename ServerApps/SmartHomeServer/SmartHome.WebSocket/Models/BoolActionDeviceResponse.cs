@@ -2,7 +2,7 @@
 
 namespace SmartHome.WebSocket.Models
 {
-    public class BoolActionDeviceResponse
+    public class DeviceResponse
     {
         [JsonProperty(PropertyName = "response-type")]
         public ResponseType ResponseType { get; set; }
@@ -12,5 +12,8 @@ namespace SmartHome.WebSocket.Models
 
         [JsonProperty(PropertyName = "sysname")]
         public string SysName { get; set; }
+
+        [JsonProperty(PropertyName = "value")]
+        public bool Value { get; set; }
     }
 }
