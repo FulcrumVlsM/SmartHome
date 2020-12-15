@@ -6,7 +6,7 @@ namespace SmartHome.WebSocket.Models
     /// <summary>
     /// Модель запроса при подключении к контроллеру
     /// </summary>
-    public class DeviceRequest
+    public class DeviceConnectionRequest
     {
         [JsonProperty(PropertyName = "configurations")]
         public List<Configuration> Configurations { get; set; }

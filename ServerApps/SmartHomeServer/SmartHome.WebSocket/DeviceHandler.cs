@@ -6,6 +6,7 @@ using SmartHome.Controller.Entities;
 using System.Threading.Tasks;
 using SmartHome.WebSocket.Models;
 using System.Threading;
+using Microsoft.Extensions.Logging;
 
 namespace SmartHome.WebSocket
 {
@@ -14,17 +15,20 @@ namespace SmartHome.WebSocket
     /// </summary>
     public class DeviceHandler : IDisposable
     {
-        private readonly WebSocketWrapper<DeviceResponse, object> _webSocketWrapper;
+        private readonly WebSocketWrapper<DeviceResponse, DeviceInformationMessage> _webSocketWrapper;
         private readonly IEnumerable<BoolActionDeviceEntity> _entities;
+        private readonly ILogger _logger;
         private bool disposedValue;
 
-        public DeviceHandler(System.Net.WebSockets.WebSocket webSocket, IEnumerable<BoolActionDeviceEntity> actionDeviceEntities, CancellationToken cancellationToken)
+        public DeviceHandler(System.Net.WebSockets.WebSocket webSocket, IEnumerable<BoolActionDeviceEntity> actionDeviceEntities, CancellationToken cancellationToken, ILogger logger)
         {
             if (webSocket is null) throw new ArgumentNullException(nameof(webSocket));
             if (actionDeviceEntities is null) throw new ArgumentNullException(nameof(actionDeviceEntities));
+            if (logger is null) throw new ArgumentNullException(nameof(logger));
 
-            _webSocketWrapper = new WebSocketWrapper<DeviceResponse, object>(webSocket, cancellationToken);
+            _webSocketWrapper = new WebSocketWrapper<DeviceResponse, DeviceInformationMessage>(webSocket, cancellationToken);
             _entities = actionDeviceEntities;
+            _logger = logger;
         }
 
 
@@ -36,12 +40,13 @@ namespace SmartHome.WebSocket
         /// <summary>
         /// Связать подключения с контроллером
         /// </summary>
-        public void Open()
+        public async Task Open()
         {
-            foreach(var entity in _entities)
-            {
-                entity.OnStateChanged += Send;
-            }
+            //foreach(var entity in _entities)
+            //{                
+            //    entity.OnStateChanged += Send;
+            //}
+            await Task.Run(Fake);
         }
 
         /// <summary>
@@ -55,7 +60,11 @@ namespace SmartHome.WebSocket
                 DeviceType = DeviceType.EventActionDevice,
                 SysName = sysName
             };
-            await _webSocketWrapper.SendAndReceive(message);
+            var responseMessage = await _webSocketWrapper.SendAndReceive(message);
+            if(responseMessage?.Configuration?.SysName != sysName)
+            {
+                //Запись в лог сообщения о некорректном сообщении от устройства
+            }
         }
 
         /// <summary>
@@ -91,20 +100,30 @@ namespace SmartHome.WebSocket
         /// <summary>
         /// Закрыть подключение
         /// </summary>
-        private async Task Close()
+        public async Task Close()
         {
-            foreach (var entity in _entities)
-            {
-                try
-                {
-                    entity.OnStateChanged -= Send;
-                }
-                catch(Exception e)
-                {
-                    //TODO: Add log
-                }
-            }
+            //foreach (var entity in _entities)
+            //{
+            //    try
+            //    {
+            //        entity.OnStateChanged -= Send;
+            //    }
+            //    catch(Exception e)
+            //    {
+            //        //TODO: Add log
+            //    }
+            //}
             await _webSocketWrapper.Close();
+        }
+
+
+        private async Task Fake()
+        {
+            while (IsConnected)
+            {
+                await Send("bool_device1", true);
+                await Task.Delay(1000);
+            }
         }
 
         protected virtual void Dispose(bool disposing)

@@ -39,12 +39,13 @@ namespace SmartHome.WebApp.Controllers.Devices
             if (HttpContext.WebSockets.IsWebSocketRequest)
             {
                 var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-                var initializer = new ConnectionInitializeWorker(webSocket, _controller, _hostApplicationLifetime.ApplicationStopping);
+                var initializer = new ConnectionInitializeWorker(webSocket, _controller, _hostApplicationLifetime.ApplicationStopping, _logger);
                 await Echo(initializer);
             }
             else
             {
                 HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                _logger.LogWarning("Запрос к api/action-device/connect заблокирован, т.к. не являлся web socket запросом");
             }
         }
 
@@ -54,12 +55,16 @@ namespace SmartHome.WebApp.Controllers.Devices
         {
             using (var deviceHandler = await initializer.Initialize())
             {
-                deviceHandler.Open();
+                await deviceHandler.Open();
+                _logger.LogInformation($"Открыто web socket подключение c клиентом {HttpContext.Connection.RemoteIpAddress}");
 
                 while(!_hostApplicationLifetime.ApplicationStopping.IsCancellationRequested && deviceHandler.IsConnected)
                 {
                     await Task.Delay(10000);
                 }
+
+                await deviceHandler.Close();
+                _logger.LogInformation($"Закрыто web socket подключение c клиентом {HttpContext.Connection.RemoteIpAddress}");
             }
         }
     }

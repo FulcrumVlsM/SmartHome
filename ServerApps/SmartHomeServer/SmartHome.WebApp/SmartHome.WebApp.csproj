@@ -91,10 +91,6 @@
     <TypeScriptCompile Include="ClientApp\src\environments\environment.ts" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="WebSocket\" />
-  </ItemGroup>
-
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod" />
@@ -124,5 +120,7 @@
     <TypeScriptMapRoot />
     <TypeScriptSourceRoot />
   </PropertyGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>
